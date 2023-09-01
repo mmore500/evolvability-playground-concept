@@ -24,3 +24,7 @@ class State:
         self.vy = np.zeros((height, width))
 
         # self.pe = np.zeros((height, width))
+
+    @property
+    def ncells(self: "State") -> int:
+        return self.px.size

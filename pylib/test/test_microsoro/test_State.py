@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from pylib.microsoro import State
 
@@ -23,3 +24,10 @@ def test_init():
     assert isinstance(state.vy, np.ndarray)
     assert state.vy.shape == (8, 10)
     assert len({*state.vy.flat}) == 1
+
+
+@pytest.mark.parametrize("height", range(1, 10))
+@pytest.mark.parametrize("width", range(1, 10))
+def test_ncells(height: int, width: int):
+    state = State(height=height, width=width)
+    assert state.ncells == height * width
