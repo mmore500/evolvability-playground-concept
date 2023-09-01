@@ -14,7 +14,7 @@ class State:
     # potential energy
     # pe: np.ndarray
 
-    def __init__(self: "State", height: int, width: int) -> None:
+    def __init__(self: "State", height: int = 8, width: int = 8) -> None:
         self.px = np.tile(np.linspace(0, float(width - 1), width), (height, 1))
         self.py = np.tile(
             np.linspace(0, float(height - 1), height), (width, 1)

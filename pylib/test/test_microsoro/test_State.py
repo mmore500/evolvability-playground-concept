@@ -5,6 +5,7 @@ from pylib.microsoro import State
 
 
 def test_init():
+    State()  # test default params
     state = State(height=8, width=10)
 
     assert isinstance(state.px, np.ndarray)
