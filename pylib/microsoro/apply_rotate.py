@@ -3,7 +3,7 @@ import numpy as np
 from .State import State
 
 
-def apply_rotate(state: State, angle_degrees: float = 45.0) -> State:
+def apply_rotate(state: State, angle_degrees: float = 45.0) -> None:
     """Rotate the points in the state by angle_degrees around the center."""
 
     # Convert the angle to radians
@@ -27,5 +27,3 @@ def apply_rotate(state: State, angle_degrees: float = 45.0) -> State:
 
     state.px = x_rotated
     state.py = y_rotated
-
-    return state

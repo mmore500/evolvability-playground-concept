@@ -3,7 +3,7 @@ import numpy as np
 from .State import State
 
 
-def apply_spin(state: State, omega: float = 1.0) -> State:
+def apply_spin(state: State, omega: float = 1.0) -> None:
     """Adjust velocities to impart angular momentum."""
 
     # Compute the center of rotation
@@ -13,5 +13,3 @@ def apply_spin(state: State, omega: float = 1.0) -> State:
     # Compute the radial velocities
     state.vx += -omega * (state.py - cy)
     state.vy += omega * (state.px - cx)
-
-    return state
