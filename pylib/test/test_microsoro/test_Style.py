@@ -14,11 +14,13 @@ def test_custom_init():
         cell_alpha=0.5,
         cell_color_palette=custom_palette,
         cell_radius=0.6,
+        scale=42.0,
         xlim=(0, 30),
         ylim=(0, 30),
     )
     assert s.cell_alpha == 0.5
     assert s.cell_radius == 0.6
+    assert s.scale == 42.0
     assert s.xlim == (0, 30)
     assert s.ylim == (0, 30)
     assert s.cell_color_palette == custom_palette
@@ -34,3 +36,8 @@ def test_invalid_alpha():
 def test_invalid_radius():
     with pytest.raises(ValueError, match="cell_radius=-0.1 is negative"):
         Style(cell_radius=-0.1)
+
+
+def test_invalid_scale():
+    with pytest.raises(ValueError, match="scale=-1 is negative"):
+        Style(scale=-1)
