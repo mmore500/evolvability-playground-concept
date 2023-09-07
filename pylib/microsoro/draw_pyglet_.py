@@ -19,7 +19,9 @@ def draw_pyglet(
     state : State
         The state object with current positions of cells.
     style : Style, optional
-        The style settings for drawing. Defaults to a new Style object if not provided.
+        The style settings for drawing.
+
+        Defaults to a new Style object if not provided.
 
     Returns
     -------
