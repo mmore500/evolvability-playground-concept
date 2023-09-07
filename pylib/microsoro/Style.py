@@ -68,12 +68,6 @@ class Style:
             If `cell_alpha` is not between 0.0 and 1.0 or if `cell_radius` is
             negative.
         """
-        if scale < 0.0:
-            raise ValueError(f"{scale=} is negative")
-        self.scale = scale
-        self.xlim = xlim
-        self.ylim = ylim
-
         if not 0.0 <= cell_alpha <= 1.0:
             raise ValueError(f"{cell_alpha=} not between 0.0 and 1.0")
         self.cell_alpha = cell_alpha
@@ -83,3 +77,9 @@ class Style:
         if cell_radius < 0.0:
             raise ValueError(f"{cell_radius=} is negative")
         self.cell_radius = cell_radius
+
+        if scale < 0.0:
+            raise ValueError(f"{scale=} is negative")
+        self.scale = scale
+        self.xlim = xlim
+        self.ylim = ylim
