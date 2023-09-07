@@ -10,8 +10,8 @@ class Style:
     ----------
     cell_alpha : float
         The alpha level of each cell. Must be between 0.0 and 1.0.
-    cell_color_palette : list of tuple
-        A list of color tuples. Interoperable with seaborn color palettes.
+    cell_color_palette : tuple of tuple
+        A tuple of color tuples. Interoperable with seaborn color palettes.
     cell_radius : float
         The radius of each cell. Must be non-negative.
     scale : float
@@ -24,7 +24,8 @@ class Style:
 
     cell_alpha: float
     # cell_color_palette interops with seaborn color_palette
-    cell_color_palette: typing.List[typing.Tuple]
+    # tuple instead of list to allow for cached palette resampling
+    cell_color_palette: typing.Tuple[typing.Tuple]
     cell_radius: float
 
     scale: float
@@ -78,7 +79,7 @@ class Style:
         self.cell_alpha = cell_alpha
         if cell_color_palette is None:
             cell_color_palette = sns.color_palette("husl", 8)
-        self.cell_color_palette = cell_color_palette
+        self.cell_color_palette = tuple(cell_color_palette)
         if cell_radius < 0.0:
             raise ValueError(f"{cell_radius=} is negative")
         self.cell_radius = cell_radius
