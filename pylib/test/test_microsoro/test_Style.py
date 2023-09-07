@@ -23,7 +23,7 @@ def test_custom_init():
     assert s.scale == 42.0
     assert s.xlim == (0, 30)
     assert s.ylim == (0, 30)
-    assert s.cell_color_palette == custom_palette
+    assert s.cell_color_palette == tuple(custom_palette)
 
 
 def test_invalid_alpha():
