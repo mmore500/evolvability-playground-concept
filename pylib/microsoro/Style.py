@@ -73,6 +73,12 @@ class Style:
         self.cell_alpha = cell_alpha
         if cell_color_palette is None:
             cell_color_palette = sns.color_palette("husl", 8)
+        for rgb_tup in cell_color_palette:
+            if not all(0.0 <= rgb_val <= 1.0 for rgb_val in rgb_tup):
+                raise ValueError(
+                    f"{rgb_tup=} in cell_color_palette "
+                    "has value not between 0.0 and 1.0",
+                )
         self.cell_color_palette = tuple(cell_color_palette)
         if cell_radius < 0.0:
             raise ValueError(f"{cell_radius=} is negative")

@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 import seaborn as sns
 
@@ -31,6 +32,15 @@ def test_invalid_alpha():
         ValueError, match="cell_alpha=1.5 not between 0.0 and 1.0"
     ):
         Style(cell_alpha=1.5)
+
+
+def test_invalid_cell_color_palette():
+    with pytest.raises(ValueError):
+        Style(cell_color_palette=[(0.0, 1.0, 0.5), (np.nan, 0.0, 0.0)])
+    with pytest.raises(ValueError):
+        Style(cell_color_palette=[(0.0, 1.0, -0.5), (0.5, 0.0, 0.0)])
+    with pytest.raises(ValueError):
+        Style(cell_color_palette=[(0.0, 1.5, 0.5), (0.5, 0.0, 0.0)])
 
 
 def test_invalid_radius():
