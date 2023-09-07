@@ -5,6 +5,7 @@ from .apply_translate import apply_translate
 from .apply_velocity import apply_velocity
 from .Params import Params
 from .State import State
+from .Style import Style
 
 
 __all__ = [
@@ -15,4 +16,5 @@ __all__ = [
     "apply_velocity",
     "Params",
     "State",
+    "Style",
 ]
