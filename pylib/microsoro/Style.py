@@ -50,6 +50,8 @@ class Style:
             The alpha level for each cell.
         cell_color_palette : list of tuple, optional
             The color palette for cells, default is seaborn's 'husl' palette.
+
+            Can be generated from `sns.color_palette()`.
         cell_radius : float, default 0.4
             The radius for each cell.
         scale : float, default 10.0
