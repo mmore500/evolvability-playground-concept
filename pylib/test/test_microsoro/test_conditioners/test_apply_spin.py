@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from pylib.microsoro import State
-from pylib.microsoro.components import apply_spin
+from pylib.microsoro.conditioners import apply_spin
 
 
 @pytest.mark.parametrize("random_seed", range(1, 40))

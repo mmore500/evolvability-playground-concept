@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from pylib.microsoro import State
-from pylib.microsoro.components import apply_rotate
+from pylib.microsoro.conditioners import apply_rotate
 
 
 @pytest.mark.parametrize(

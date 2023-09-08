@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from pylib.microsoro import State
-from pylib.microsoro.components import apply_translate
+from pylib.microsoro.conditioners import apply_translate
 
 
 def test_pairwise_distance_null():
