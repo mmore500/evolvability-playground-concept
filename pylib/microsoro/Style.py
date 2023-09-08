@@ -75,6 +75,11 @@ class Style:
         if cell_color_palette is None:
             cell_color_palette = sns.color_palette("husl", 8)
         for rgb_tup in cell_color_palette:
+            if not len(rgb_tup) in (3, 4):
+                raise ValueError(
+                    f"{rgb_tup=} in cell_color_palette "
+                    "must be 3-value RGB or 4-value RGBA",
+                )
             if not all(0.0 <= rgb_val <= 1.0 for rgb_val in rgb_tup):
                 raise ValueError(
                     f"{rgb_tup=} in cell_color_palette "
