@@ -1,5 +1,6 @@
 import typing
 
+from is_sorted import is_sorted
 import seaborn as sns
 
 
@@ -87,5 +88,13 @@ class Style:
         if scale < 0.0:
             raise ValueError(f"{scale=} is negative")
         self.scale = scale
+        if not len(xlim) == 2:
+            raise ValueError(f"{xlim=} must have two values")
+        if not is_sorted(xlim):
+            raise ValueError(f"{xlim=} values must be in ascending order")
         self.xlim = xlim
+        if not len(ylim) == 2:
+            raise ValueError(f"{ylim=} must have two values")
+        if not is_sorted(ylim):
+            raise ValueError(f"{ylim=} values must be in ascending order")
         self.ylim = ylim
