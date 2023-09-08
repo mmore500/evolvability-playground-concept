@@ -52,11 +52,13 @@ def test_invalid_scale():
     with pytest.raises(ValueError, match="scale=-1 is negative"):
         Style(scale=-1)
 
+
 def test_invalid_xlim():
     with pytest.raises(ValueError):
         Style(xlim=[0.0])
         Style(xlim=[0.0, 0.0, 0.0])
         Style(xlim=[50.0, -0.5])
+
 
 def test_invalid_ylim():
     with pytest.raises(ValueError):
