@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from pylib.microsoro import State
-from pylib.microsoro.conditioners import apply_rotate
+from pylib.microsoro.conditioners import ApplyRotate
 
 
 @pytest.mark.parametrize(
@@ -16,7 +16,7 @@ def test_wraparound(rotate_angle: int):
 
     cur_angle = 0
     for __ in range(20):
-        apply_rotate(state, rotate_angle)
+        ApplyRotate(rotate_angle)(state)
         cur_angle += rotate_angle
         cur_angle %= 360
         for mata, matb in [(state.px, state_.px), (state.py, state_.py)]:
@@ -28,7 +28,7 @@ def test_pairwise_distance():
 
     distances = []
     for i in range(20):
-        apply_rotate(state, i)
+        ApplyRotate(angle_degrees=i)(state)
         pxa, *__, pxb = state.px.flat
         pya, *__, pyb = state.py.flat
 

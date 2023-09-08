@@ -1,10 +1,10 @@
-from .apply_rotate import apply_rotate
-from .apply_spin import apply_spin
-from .apply_translate import apply_translate
+from .ApplyRotate import ApplyRotate
+from .ApplySpin import ApplySpin
+from .ApplyTranslate import ApplyTranslate
 
 
 __all__ = [
-    "apply_rotate",
-    "apply_spin",
-    "apply_translate",
+    "ApplyRotate",
+    "ApplySpin",
+    "ApplyTranslate",
 ]

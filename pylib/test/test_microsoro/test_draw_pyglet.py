@@ -5,7 +5,7 @@ import pyglet as pyg
 from unittest.mock import patch, Mock
 
 from pylib.microsoro import draw_pyglet, State, Style
-from pylib.microsoro.components import apply_translate
+from pylib.microsoro.conditioners import ApplyTranslate
 
 
 def test_draw_pyglet_mock():
@@ -16,7 +16,7 @@ def test_draw_pyglet_mock():
         width=3,
     )
 
-    apply_translate(state, dx=1, dy=4)
+    ApplyTranslate(dx=1, dy=4)(state)
 
     style = Style(
         background_color=(1.0, 1.0, 1.0),
@@ -69,7 +69,7 @@ def test_draw_pyglet_mock():
 def test_draw_pyglet_image():
 
     state = State(height=1, width=3)
-    apply_translate(state, dx=1, dy=4)
+    ApplyTranslate(dx=1, dy=4)(state)
 
     style = Style(
         background_color=(1.0, 1.0, 0.0),

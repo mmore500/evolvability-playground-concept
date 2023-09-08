@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from pylib.microsoro import State
-from pylib.microsoro.conditioners import apply_spin
+from pylib.microsoro.conditioners import ApplySpin
 
 
 @pytest.mark.parametrize("random_seed", range(1, 40))
@@ -21,7 +21,7 @@ def test_pairwise_distance(random_seed: int):
     expected_dist = (px_a - px_b) ** 2 - (py_a - py_b) ** 2
 
     # calculate spin velocities and apply them
-    apply_spin(state, random.uniform(-10, 10))
+    ApplySpin(omega=random.uniform(-10, 10))(state)
     assert (state.vx != 0).any() and (state.vy != 0).any()
     state.px += state.vx
     state.py += state.vy
