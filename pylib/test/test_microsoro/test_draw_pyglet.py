@@ -2,7 +2,6 @@ import contextlib
 import os
 
 import pyglet as pyg
-import pytest
 from unittest.mock import patch, Mock
 
 from pylib.microsoro import apply_translate, draw_pyglet, State, Style
