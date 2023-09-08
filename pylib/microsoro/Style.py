@@ -9,6 +9,8 @@ class Style:
 
     Attributes
     ----------
+    background_color : tuple of floats
+        Background color as RGB. Tuple values ust be between 0.0 and 1.0.
     cell_alpha : float
         The alpha level of each cell. Must be between 0.0 and 1.0.
     cell_color_palette : tuple of tuple
@@ -30,6 +32,8 @@ class Style:
         Difference between upper and lower ylim.
     """
 
+    background_color: typing.Tuple[float, float, float]
+
     cell_alpha: float
     # cell_color_palette interops with seaborn color_palette
     # tuple instead of list to allow for cached palette resampling
@@ -44,6 +48,7 @@ class Style:
     def __init__(
         self: "Style",
         *,
+        background_color: typing.Tuple[float, float, float] = (1.0, 1.0, 1.0),
         cell_alpha: float = 0.8,
         cell_color_palette: typing.Optional[typing.List[typing.Tuple]] = None,
         cell_radius: float = 0.4,
@@ -55,6 +60,10 @@ class Style:
 
         Parameters
         ----------
+        background_color : typle of float
+            Background color as float RGB tuple.
+
+            Tuple values ust be between 0.0 and 1.0.
         cell_alpha : float, default 0.8
             The alpha level for each cell.
         cell_color_palette : list of tuple, optional
@@ -76,6 +85,15 @@ class Style:
             If `cell_alpha` is not between 0.0 and 1.0 or if `cell_radius` is
             negative.
         """
+        if not len(background_color) in (3, 4):
+            raise ValueError(
+                f"{background_color=} must be 3-value RGB or 4-value RGBA",
+            )
+        if not all(0.0 <= rgb_val <= 1.0 for rgb_val in background_color):
+            raise ValueError(
+                f"{background_color=} has value not between 0.0 and 1.0",
+            )
+        self.background_color = tuple(background_color[:3])
         if not 0.0 <= cell_alpha <= 1.0:
             raise ValueError(f"{cell_alpha=} not between 0.0 and 1.0")
         self.cell_alpha = cell_alpha

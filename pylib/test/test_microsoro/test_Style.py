@@ -12,6 +12,7 @@ def test_default_init():
 def test_custom_init():
     custom_palette = sns.color_palette("rocket")
     s = Style(
+        background_color=(0.5, 0.5, 0.4),
         cell_alpha=0.5,
         cell_color_palette=custom_palette,
         cell_radius=0.6,
@@ -19,6 +20,7 @@ def test_custom_init():
         xlim=(0, 30),
         ylim=(0, 30),
     )
+    assert s.background_color == (0.5, 0.5, 0.4)
     assert s.cell_alpha == 0.5
     assert s.cell_radius == 0.6
     assert s.scale == 42.0
@@ -40,6 +42,15 @@ def test_invalid_alpha():
         ValueError, match="cell_alpha=1.5 not between 0.0 and 1.0"
     ):
         Style(cell_alpha=1.5)
+
+
+def test_invalid_background_color():
+    with pytest.raises(ValueError):
+        Style(background_color=(np.nan, 0.0, 0.0))
+    with pytest.raises(ValueError):
+        Style(background_color=(0.0, 1.0, -0.5))
+    with pytest.raises(ValueError):
+        Style(background_color=(0.0, 15, 0.5))
 
 
 def test_invalid_cell_color_palette():

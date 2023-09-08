@@ -1,6 +1,7 @@
 import typing
 
 from pyglet.shapes import Circle as pyg_Circle
+from pyglet.shapes import Rectangle as pyg_Rectangle
 from pyglet.graphics import Batch as pyg_Batch
 
 from ..auxlib import resample_color_palette, rgb_reformat_float_to_char
@@ -25,24 +26,35 @@ def draw_pyglet(
 
     Returns
     -------
-    pyg_Batch
+    tuple of pyg_Batch and list of pyglet shapes
         Collection of objects to render.
+
+        Shape objects must be passed to prevent deletion when moving out of
+        scope.
     """
     if style is None:
         style = Style()
 
     batch = pyg_Batch()
-    # prevent batched shapes from going out of scope
-    # see https://stackoverflow.com/q/68109538/17332200
-    assert not hasattr(batch, "_handles")
-    batch._handles = []
+    batch_handles = []
+
+    batch_handles.append(
+        pyg_Rectangle(
+            x=style.xlim[0] * style.scale,
+            y=style.ylim[0] * style.scale,
+            width=style.xlim_length * style.scale,
+            height=style.ylim_length * style.scale,
+            batch=batch,
+            color=rgb_reformat_float_to_char(style.background_color),
+        ),
+    )
 
     palette = style.cell_color_palette
     if len(palette) != state.ncells:
         palette = resample_color_palette(palette, state.ncells)
 
     for x, y, color in zip(state.px.flat, state.py.flat, palette):
-        batch._handles.append(
+        batch_handles.append(
             pyg_Circle(
                 x * style.scale,
                 y * style.scale,
@@ -52,4 +64,8 @@ def draw_pyglet(
             ),
         )
 
-    return batch
+    # prevent batched shapes from going out of scope
+    # see https://stackoverflow.com/q/68109538/17332200
+    # note: adding attribute to batch causes opengl crash
+
+    return batch, batch_handles

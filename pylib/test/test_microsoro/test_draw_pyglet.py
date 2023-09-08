@@ -16,15 +16,29 @@ def test_draw_pyglet_mock():
     apply_translate(state, dx=1, dy=4)
 
     style = Style(
+        background_color=(1.0, 1.0, 1.0),
         scale=2.0,
         cell_color_palette=[(1, 1, 1, 1), (0, 0, 0, 1)],
         cell_radius=1.0,
+        xlim=(0, 10),
+        ylim=(0, 10),
     )
 
     # Mocking pyglet's Circle constructor
-    with patch("pylib.microsoro.draw_pyglet_.pyg_Circle") as MockCircle:
-        batch = draw_pyglet(state, style)
+    with patch("pylib.microsoro.draw_pyglet_.pyg_Circle") as MockCircle, patch(
+        "pylib.microsoro.draw_pyglet_.pyg_Rectangle"
+    ) as MockRectangle:
+        batch, __ = draw_pyglet(state, style)
 
+    # Check that pyg_Rectangle is called with expected parameters
+    MockRectangle.assert_any_call(
+        x=0.0,
+        y=0.0,
+        width=20.0,
+        height=20.0,
+        color=(255, 255, 255),
+        batch=batch,
+    )
     # Check that pyg_Circle is called with expected parameters
     MockCircle.assert_any_call(
         2.0,
@@ -55,6 +69,7 @@ def test_draw_pyglet_image():
     apply_translate(state, dx=1, dy=4)
 
     style = Style(
+        background_color=(1.0, 1.0, 0.0),
         scale=20.0,
         cell_color_palette=[(1.0, 0, 0, 1.0), (0, 0, 1.0, 0)],
         cell_radius=1.0,
@@ -69,7 +84,7 @@ def test_draw_pyglet_image():
         visible=False,
     )
 
-    batch = draw_pyglet(state, style)
+    batch, __ = draw_pyglet(state, style)
 
     temp_path = "/tmp/test_draw_pyglet.png"
 
@@ -84,4 +99,3 @@ def test_draw_pyglet_image():
     pyg.app.run()
 
     print(f"saved test_draw_pyglet render to file {temp_path}")
-    # TODO add background color
