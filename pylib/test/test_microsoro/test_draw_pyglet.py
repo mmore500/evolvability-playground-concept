@@ -4,7 +4,8 @@ import os
 import pyglet as pyg
 from unittest.mock import patch, Mock
 
-from pylib.microsoro import apply_translate, draw_pyglet, State, Style
+from pylib.microsoro import draw_pyglet, State, Style
+from pylib.microsoro.components import apply_translate
 
 
 def test_draw_pyglet_mock():

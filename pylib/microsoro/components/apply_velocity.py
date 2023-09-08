@@ -1,5 +1,5 @@
-from .State import State
-from .Params import Params
+from ..State import State
+from ..Params import Params
 
 
 def apply_velocity(state: State, params: Params) -> State:

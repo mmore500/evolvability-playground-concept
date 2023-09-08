@@ -1,6 +1,6 @@
 import numpy as np
 
-from .State import State
+from ..State import State
 
 
 def apply_rotate(state: State, angle_degrees: float = 45.0) -> None:

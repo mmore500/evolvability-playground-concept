@@ -3,7 +3,8 @@ import copy
 import numpy as np
 import pytest
 
-from pylib.microsoro import apply_velocity, Params, State
+from pylib.microsoro import Params, State
+from pylib.microsoro.components import apply_velocity
 
 
 @pytest.mark.parametrize("vx", [-1, 0, 1])

@@ -1,6 +1,6 @@
 import numpy as np
 
-from .State import State
+from ..State import State
 
 
 def apply_spin(state: State, omega: float = 1.0) -> None:

@@ -1,6 +1,7 @@
 import copy
 
-from pylib.microsoro import apply_gravity, Params, State
+from pylib.microsoro import Params, State
+from pylib.microsoro.components import apply_gravity
 
 
 def test_apply_gravity():
