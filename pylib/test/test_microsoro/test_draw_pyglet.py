@@ -80,7 +80,6 @@ def test_draw_pyglet_image():
 
     xlim_width = style.xlim[1] - style.xlim[0]
     ylim_height = style.ylim[1] - style.ylim[0]
-    print(xlim_width, ylim_height)
     window = pyg.window.Window(
         width=int(xlim_width * style.scale),
         height=int(ylim_height * style.scale),
