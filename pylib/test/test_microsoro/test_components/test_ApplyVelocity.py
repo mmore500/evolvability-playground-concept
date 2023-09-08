@@ -1,5 +1,6 @@
 import copy
 
+from iterpop import iterpop as ip
 import numpy as np
 import pytest
 
@@ -20,10 +21,18 @@ def test_update(vx: int, vy: int):
     ApplyVelocity(params1)(state1)
     ApplyVelocity(params2)(state2)
 
-    assert (np.sign(state1.px - state_.px) == np.sign(vx)).all()
-    assert (np.sign(state1.py - state_.py) == np.sign(vy)).all()
-    assert (np.sign(state2.px - state_.px) == np.sign(vx)).all()
-    assert (np.sign(state2.py - state_.py) == np.sign(vy)).all()
+    assert np.sign(vx) == ip.pophomogeneous(
+        np.sign(state1.px - state_.px).flat
+    )
+    assert np.sign(vy) == ip.pophomogeneous(
+        np.sign(state1.py - state_.py).flat
+    )
+    assert np.sign(vx) == ip.pophomogeneous(
+        np.sign(state2.px - state_.px).flat
+    )
+    assert np.sign(vy) == ip.pophomogeneous(
+        np.sign(state2.py - state_.py).flat
+    )
 
     if vx:
         assert (abs(state2.px - state_.px) < abs(state1.px - state_.px)).all()

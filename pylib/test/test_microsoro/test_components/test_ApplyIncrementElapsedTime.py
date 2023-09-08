@@ -10,8 +10,8 @@ def test_ApplyIncrementElapsedTime():
     state_ = copy.deepcopy(state)
 
     ApplyIncrementElapsedTime(params)(state)
-    assert (state.px == state_.px).all() and (state.py == state_.py).all()
-    assert (state.vx == state_.vx).all() and (state.vy == state_.vy).all()
+    assert State.same_position_as(state, state_)
+    assert State.same_velocity_as(state, state_)
     assert state.t == state_.t + params.dt
 
 

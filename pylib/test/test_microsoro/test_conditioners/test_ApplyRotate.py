@@ -20,7 +20,7 @@ def test_wraparound(rotate_angle: int):
         cur_angle += rotate_angle
         cur_angle %= 360
         for mata, matb in [(state.px, state_.px), (state.py, state_.py)]:
-            assert (cur_angle == 0) == np.isclose(mata, matb).all()
+            assert bool(cur_angle) == (not np.allclose(mata, matb))
 
 
 def test_pairwise_distance():
@@ -35,4 +35,4 @@ def test_pairwise_distance():
         distance = (pxa - pxb) ** 2 + (pya - pyb) ** 2
         distances.append(distance)
 
-    assert np.isclose(distances[:-1], distances[1:]).all()
+    assert np.allclose(distances[:-1], distances[1:])
