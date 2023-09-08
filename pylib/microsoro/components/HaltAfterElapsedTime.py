@@ -5,6 +5,8 @@ from ..Params import Params
 
 
 class HaltAfterElapsedTime:
+    """Inspects simulation and triggers simulation halt by returning non-None
+    value when `target_duration` simulation time has elapsed."""
 
     _target_duration: float
 
