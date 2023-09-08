@@ -1,4 +1,5 @@
 import contextlib
+import os
 import subprocess
 import typing
 
@@ -45,6 +46,9 @@ class ffmpegVideoRenderWorker:
         """
         if not output_path.endswith(".mp4"):
             raise ValueError("{output_path=} must have .mp4 extension")
+        # ensure no pre-existing file deceviengly persists in case of failure
+        with contextlib.suppress(FileNotFoundError):
+            os.remove(output_path)
 
         _check_ffmpeg_installed()
 
