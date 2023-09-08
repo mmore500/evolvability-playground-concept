@@ -29,3 +29,7 @@ def test_update(vx: int, vy: int):
         assert (abs(state2.px - state_.px) < abs(state1.px - state_.px)).all()
     if vy:
         assert (abs(state2.py - state_.py) < abs(state1.py - state_.py)).all()
+
+
+def test_ApplyVelocity_default_ctor():
+    assert ApplyVelocity()._params == Params()

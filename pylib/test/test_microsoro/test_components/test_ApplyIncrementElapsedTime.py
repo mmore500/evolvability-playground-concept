@@ -13,3 +13,7 @@ def test_ApplyIncrementElapsedTime():
     assert (state.px == state_.px).all() and (state.py == state_.py).all()
     assert (state.vx == state_.vx).all() and (state.vy == state_.vy).all()
     assert state.t == state_.t + params.dt
+
+
+def test_ApplyIncrementElapsedTime_default_ctor():
+    assert ApplyIncrementElapsedTime()._params == Params()

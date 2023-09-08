@@ -13,3 +13,7 @@ def test_ApplyGravity():
     assert (state.px == state_.px).all() and (state.py == state_.py).all()
     assert (state.vx == state_.vx).all()
     assert (state.vy == state_.vy - params.dt * params.g).all()
+
+
+def test_ApplyGravity_default_ctor():
+    assert ApplyGravity()._params == Params()

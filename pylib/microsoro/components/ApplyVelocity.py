@@ -1,3 +1,5 @@
+import typing
+
 from ..State import State
 from ..Params import Params
 
@@ -7,7 +9,12 @@ class ApplyVelocity:
 
     _params: Params
 
-    def __init__(self: "ApplyVelocity", params: Params) -> None:
+    def __init__(
+        self: "ApplyVelocity",
+        params: typing.Optional[Params] = None,
+    ) -> None:
+        if params is None:
+            params = Params()
         self._params = params
 
     def __call__(self: "ApplyVelocity", state: State) -> None:

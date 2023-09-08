@@ -1,3 +1,5 @@
+import typing
+
 from ..State import State
 from ..Params import Params
 
@@ -6,7 +8,12 @@ class ApplyIncrementElapsedTime:
 
     _params: Params
 
-    def __init__(self: "ApplyIncrementElapsedTime", params: Params) -> None:
+    def __init__(
+        self: "ApplyIncrementElapsedTime",
+        params: typing.Optional[Params] = None,
+    ) -> None:
+        if params is None:
+            params = Params()
         self._params = params
 
     def __call__(self: "ApplyIncrementElapsedTime", state: State) -> None:
