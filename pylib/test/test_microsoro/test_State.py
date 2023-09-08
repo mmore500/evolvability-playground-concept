@@ -26,6 +26,9 @@ def test_init():
     assert state.vy.shape == (8, 10)
     assert len({*state.vy.flat}) == 1
 
+    assert isinstance(state.t, float)
+    assert state.t == 0
+
 
 @pytest.mark.parametrize("height", range(1, 10))
 @pytest.mark.parametrize("width", range(1, 10))

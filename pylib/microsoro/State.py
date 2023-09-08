@@ -14,6 +14,9 @@ class State:
     # potential energy
     # pe: np.ndarray
 
+    # elapsed time
+    t: float
+
     def __init__(self: "State", height: int = 8, width: int = 8) -> None:
         self.px = np.tile(np.linspace(0, float(width - 1), width), (height, 1))
         self.py = np.tile(
@@ -24,6 +27,8 @@ class State:
         self.vy = np.zeros((height, width))
 
         # self.pe = np.zeros((height, width))
+
+        self.t = 0.0
 
     @property
     def ncells(self: "State") -> int:
