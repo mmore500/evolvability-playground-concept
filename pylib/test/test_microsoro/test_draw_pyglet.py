@@ -1,3 +1,6 @@
+import contextlib
+import os
+
 import pyglet as pyg
 import pytest
 from unittest.mock import patch, Mock
@@ -86,16 +89,18 @@ def test_draw_pyglet_image():
 
     batch, __ = draw_pyglet(state, style)
 
-    temp_path = "/tmp/test_draw_pyglet.png"
+    outpath = "/tmp/test_draw_pyglet.png"
+    with contextlib.suppress(FileNotFoundError):
+        os.remove(outpath)
 
     def save_and_close(dt):
         window.clear()
         batch.draw()
-        pyg.image.get_buffer_manager().get_color_buffer().save(temp_path)
+        pyg.image.get_buffer_manager().get_color_buffer().save(outpath)
         pyg.app.exit()
 
     pyg.clock.schedule_once(save_and_close, 0)
 
     pyg.app.run()
 
-    print(f"saved test_draw_pyglet render to file {temp_path}")
+    print(f"saved test_draw_pyglet render to file {outpath}")
