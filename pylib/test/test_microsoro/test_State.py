@@ -35,3 +35,37 @@ def test_init():
 def test_ncells(height: int, width: int):
     state = State(height=height, width=width)
     assert state.ncells == height * width
+
+
+def test_same_position_as():
+    # Create two state instances
+    s1 = State()
+    s2 = State()
+
+    # Check if they have the same position
+    assert s1.same_position_as(s2)
+    assert State.same_position_as(s1, s2)
+
+    # Modify the position of s2
+    s2.px[0, 0] = 100
+
+    # Now they should not have the same position
+    assert not s1.same_position_as(s2)
+    assert not State.same_position_as(s1, s2)
+
+
+def test_same_velocity_as():
+    # Create two state instances
+    s1 = State()
+    s2 = State()
+
+    # Check if they have the same velocity
+    assert s1.same_velocity_as(s2)
+    assert State.same_velocity_as(s1, s2)
+
+    # Modify the velocity of s2
+    s2.vx[0, 0] = 1.0
+
+    # Now they should not have the same velocity
+    assert not s1.same_velocity_as(s2)
+    assert not State.same_velocity_as(s1, s2)

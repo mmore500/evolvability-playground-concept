@@ -33,3 +33,13 @@ class State:
     @property
     def ncells(self: "State") -> int:
         return self.px.size
+
+    def same_position_as(self: "State", other: "State") -> bool:
+        return np.allclose(self.px, other.px, equal_nan=True) and np.allclose(
+            self.py, other.py, equal_nan=True
+        )
+
+    def same_velocity_as(self: "State", other: "State") -> bool:
+        return np.allclose(self.vx, other.vx, equal_nan=True) and np.allclose(
+            self.vy, other.vy, equal_nan=True
+        )
