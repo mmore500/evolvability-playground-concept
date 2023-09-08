@@ -31,3 +31,6 @@ class Params:
 
         assert m > 0
         self.m = m
+
+    def __eq__(self: "Params", other: "Params") -> bool:
+        return type(self) == type(other) and self.__dict__ == other.__dict__
