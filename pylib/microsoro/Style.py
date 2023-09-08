@@ -21,6 +21,13 @@ class Style:
         The x-axis limits.
     ylim : tuple of float
         The y-axis limits.
+
+    Properties
+    ----------
+    xlim_length : float
+        Difference between upper and lower xlim.
+    ylim_length : float
+        Difference between upper and lower ylim.
     """
 
     cell_alpha: float
@@ -103,3 +110,11 @@ class Style:
         if not is_sorted(ylim):
             raise ValueError(f"{ylim=} values must be in ascending order")
         self.ylim = ylim
+
+    @property
+    def xlim_length(self: "Style") -> float:
+        return self.xlim[1] - self.xlim[0]
+
+    @property
+    def ylim_length(self: "Style") -> float:
+        return self.ylim[1] - self.ylim[0]

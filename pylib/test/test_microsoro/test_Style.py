@@ -27,6 +27,14 @@ def test_custom_init():
     assert s.cell_color_palette == tuple(custom_palette)
 
 
+def test_xlim_length():
+    assert Style(xlim=(5, 30)).xlim_length == 25.0
+
+
+def test_ylim_length():
+    assert Style(ylim=(5, 30)).ylim_length == 25.0
+
+
 def test_invalid_alpha():
     with pytest.raises(
         ValueError, match="cell_alpha=1.5 not between 0.0 and 1.0"
