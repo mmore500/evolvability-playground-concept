@@ -104,12 +104,12 @@ class Style:
             raise ValueError(f"{xlim=} must have two values")
         if not is_sorted(xlim):
             raise ValueError(f"{xlim=} values must be in ascending order")
-        self.xlim = xlim
+        self.xlim = tuple(xlim)
         if not len(ylim) == 2:
             raise ValueError(f"{ylim=} must have two values")
         if not is_sorted(ylim):
             raise ValueError(f"{ylim=} values must be in ascending order")
-        self.ylim = ylim
+        self.ylim = tuple(ylim)
 
     @property
     def xlim_length(self: "Style") -> float:
