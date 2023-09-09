@@ -78,16 +78,16 @@ class ffmpegVideoRenderWorker:
 
     def write_frame(
         self: "ffmpegVideoRenderWorker",
-        bytes: typing.Union[bytes, bytearray],
+        data: typing.Union[bytes, bytearray],
     ) -> None:
         """Write a frame to the video.
 
         Parameters
         ----------
-        bytes : Union[bytes, bytearray]
+        data : Union[bytes, bytearray]
             Bytes of the frame.
         """
-        self._worker_process.stdin.write(bytes)
+        self._worker_process.stdin.write(data)
 
     def close(self: "ffmpegVideoRenderWorker") -> None:
         """Close the worker process."""
