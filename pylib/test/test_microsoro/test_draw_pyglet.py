@@ -92,14 +92,9 @@ def test_draw_pyglet_image():
     with contextlib.suppress(FileNotFoundError):
         os.remove(outpath)
 
-    def save_and_close(dt):
-        window.clear()
-        batch.draw()
-        pyg.image.get_buffer_manager().get_color_buffer().save(outpath)
-        pyg.app.exit()
-
-    pyg.clock.schedule_once(save_and_close, 0)
-
-    pyg.app.run()
+    window.switch_to()
+    window.clear()
+    batch.draw()
+    pyg.image.get_buffer_manager().get_color_buffer().save(outpath)
 
     print(f"saved test_draw_pyglet render to file {outpath}")
