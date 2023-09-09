@@ -10,15 +10,18 @@ from .ignore_unhashable import ignore_unhashable
 @ignore_unhashable
 @functools.lru_cache()
 def resample_color_palette(
-    palette: typing.List[typing.Tuple[float, float, float, float]],
+    palette: typing.List[typing.Tuple],
     n: int,
 ) -> typing.List[typing.Tuple[float, float, float, float]]:
     """Interpolate n entries from a given color palette.
 
     Parameters
     ----------
-    palette : List[Tuple[float, float, float, float]]
-        The original color palette represented as a list of RGBA tuples.
+    palette : Union[
+        List[Tuple[float, float, float]],
+        List[Tuple[float, float, float, float]],
+    ]
+        The original color palette represented as a list of RGB or RGBA tuples.
 
         Each tuple contains four float values ranging from 0 to 1.
     n : int
@@ -61,10 +64,13 @@ def resample_color_palette(
         np.linspace(0, 1, len(orig_palette)),
         orig_palette[:, 2],
     )
-    a = np.interp(
-        new_palette,
-        np.linspace(0, 1, len(orig_palette)),
-        orig_palette[:, 3],
-    )
+    try:
+        a = np.interp(
+            new_palette,
+            np.linspace(0, 1, len(orig_palette)),
+            orig_palette[:, 3],
+        )
+    except IndexError:
+        a = np.ones(n)
 
     return [(r[i], g[i], b[i], a[i]) for i in range(len(r))]
