@@ -1,6 +1,7 @@
 import contextlib
 import os
 import subprocess
+import tempfile
 import typing
 
 
@@ -22,6 +23,8 @@ class ffmpegVideoRenderWorker:
     """
 
     _worker_process: subprocess.Popen
+    _stderr_log: typing.IO[str]
+    _stdout_log: typing.IO[str]
 
     def __init__(
         self: "ffmpegVideoRenderWorker",
@@ -70,7 +73,14 @@ class ffmpegVideoRenderWorker:
             str(output_path),  # output file
         ]
         # fmt: on
-        self._worker_process = subprocess.Popen(command, stdin=subprocess.PIPE)
+        self._stderr_log = tempfile.TemporaryFile("w+t")
+        self._stdout_log = tempfile.TemporaryFile("w+t")
+        self._worker_process = subprocess.Popen(
+            command,
+            stdin=subprocess.PIPE,
+            stderr=self._stderr_log,
+            stdout=self._stdout_log,
+        )
 
     def __del__(self: "ffmpegVideoRenderWorker") -> None:
         """Cleanup on destruction, closes worker process."""
@@ -87,11 +97,31 @@ class ffmpegVideoRenderWorker:
         data : Union[bytes, bytearray]
             Bytes of the frame.
         """
-        self._worker_process.stdin.write(data)
+        if self._worker_process.returncode is None:
+            self._worker_process.stdin.write(data)
 
     def close(self: "ffmpegVideoRenderWorker") -> None:
         """Close the worker process."""
         with contextlib.suppress(Exception):
             self._worker_process.stdin.close()
             self._worker_process.wait()
+
+        with contextlib.suppress(Exception):
+            returncode = self._worker_process.returncode
+
+            if returncode != 0:
+                print(f"ffmpegVideoRenderWorker {returncode=}")
+                self._stderr_log.seek(0)
+                print(
+                    f"""ffmpegVideoRenderWorker stderr={
+                    self._stderr_log.readlines()
+                }"""
+                )
+                self._stdout_log.seek(0)
+                print(
+                    f"""ffmpegVideoRenderWorker stdout={
+                    self._stdout_log.readlines()
+                }"""
+                )
+
             self._worker_process.terminate()
