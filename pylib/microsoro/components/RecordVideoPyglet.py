@@ -1,6 +1,7 @@
+import typing
+
 import pyglet as pyg
 from pyglet.window import Window as pyg_Window
-import typing
 
 from ...auxlib import ffmpegVideoRenderWorker
 from ..draw_pyglet_ import draw_pyglet
