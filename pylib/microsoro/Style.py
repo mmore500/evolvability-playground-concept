@@ -45,6 +45,8 @@ class Style:
     xlim: typing.Tuple[float, float]
     ylim: typing.Tuple[float, float]
 
+    time_dilation: float
+
     def __init__(
         self: "Style",
         *,
@@ -53,6 +55,7 @@ class Style:
         cell_color_palette: typing.Optional[typing.List[typing.Tuple]] = None,
         cell_radius: float = 0.4,
         scale: float = 10.0,
+        time_dilation: float = 1.0,
         xlim: typing.Tuple[float, float] = (0, 20),
         ylim: typing.Tuple[float, float] = (0, 20),
     ) -> None:
@@ -74,6 +77,9 @@ class Style:
             The radius for each cell.
         scale : float, default 10.0
             How many pixels per unit distance?
+        time_dilation : float, default 1.0
+            In animations, how much slower should the simulation run relative
+            to real time?
         xlim : tuple of float, default (0, 20)
             The x-axis limits.
         ylim : tuple of float, default (0, 20)
@@ -115,6 +121,9 @@ class Style:
             raise ValueError(f"{cell_radius=} is negative")
         self.cell_radius = cell_radius
 
+        if time_dilation < 0.0:
+            raise ValueError(f"{time_dilation=} is negative")
+        self.time_dilation = time_dilation
         if scale < 0.0:
             raise ValueError(f"{scale=} is negative")
         self.scale = scale

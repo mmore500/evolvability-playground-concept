@@ -17,6 +17,7 @@ def test_custom_init():
         cell_color_palette=custom_palette,
         cell_radius=0.6,
         scale=42.0,
+        time_dilation=82.0,
         xlim=(0, 30),
         ylim=(0, 30),
     )
@@ -24,6 +25,7 @@ def test_custom_init():
     assert s.cell_alpha == 0.5
     assert s.cell_radius == 0.6
     assert s.scale == 42.0
+    assert s.time_dilation == 82.0
     assert s.xlim == (0, 30)
     assert s.ylim == (0, 30)
     assert s.cell_color_palette == tuple(custom_palette)
@@ -70,6 +72,11 @@ def test_invalid_radius():
 def test_invalid_scale():
     with pytest.raises(ValueError, match="scale=-1 is negative"):
         Style(scale=-1)
+
+
+def test_invalid_time_dilation():
+    with pytest.raises(ValueError, match="time_dilation=-1 is negative"):
+        Style(time_dilation=-1)
 
 
 def test_invalid_xlim():
