@@ -43,7 +43,7 @@ class _ShowAnimationPygletRenderJob(mp_Process):
         self._style = style
         self._queue = queue
         self._window = None
-        frame_width = int(style.ylim_length * style.scale)
+        frame_width = int(style.xlim_length * style.scale)
         frame_height = int(style.ylim_length * style.scale)
         self._window = pyg_Window(
             width=frame_width, height=frame_height, visible=True

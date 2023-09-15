@@ -39,7 +39,7 @@ class ShowAnimationPyglet:
 
         self._next_frame_walltime = datetime.now()
 
-        frame_width = int(style.ylim_length * style.scale)
+        frame_width = int(style.xlim_length * style.scale)
         frame_height = int(style.ylim_length * style.scale)
         self._window = pyg_Window(
             width=frame_width, height=frame_height, visible=True

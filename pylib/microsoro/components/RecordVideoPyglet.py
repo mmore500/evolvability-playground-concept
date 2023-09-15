@@ -45,7 +45,7 @@ class RecordVideoPyglet:
             style = Style()
         self._style = style
 
-        frame_width = int(style.ylim_length * style.scale)
+        frame_width = int(style.xlim_length * style.scale)
         frame_height = int(style.ylim_length * style.scale)
 
         self._window = pyg.window.Window(
