@@ -11,7 +11,8 @@ def test_ApplyGravity():
     params = Params()
     state_ = copy.deepcopy(state)
 
-    ApplyGravity(params)(state)
+    res = ApplyGravity(params)(state)
+    assert res is None
     assert State.same_position_as(state, state_)
     assert np.allclose(state.vx, state_.vx)
     assert np.allclose(state.vy, state_.vy - params.dt * params.g)

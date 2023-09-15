@@ -22,9 +22,11 @@ def test_ShowAnimationIpycanvas():
     pace_walltime_component = PaceToWalltime()
     apply_velocity_component = ApplyVelocity()
     incr_time_component = ApplyIncrementElapsedTime()
-    show_animation_component(state)
+    res = show_animation_component(state)
+    assert res is None
     for _frame in range(100):
         apply_velocity_component(state)
-        show_animation_component(state)
+        res = show_animation_component(state)
+        assert res is None
         pace_walltime_component(state)
         incr_time_component(state)

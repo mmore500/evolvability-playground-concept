@@ -22,7 +22,8 @@ def test_ShowAnimationPygletAsync():
     pace_walltime_component = PaceToWalltime()
     apply_velocity_component = ApplyVelocity()
     incr_time_component = ApplyIncrementElapsedTime()
-    show_animation_component(state)
+    res = show_animation_component(state)
+    assert res is None
     for _frame in range(10000):
         apply_velocity_component(state)
         show_animation_component(state)
@@ -41,10 +42,12 @@ def test_ShowAnimationPygletAsync_slow():
     pace_walltime_component = PaceToWalltime()
     apply_velocity_component = ApplyVelocity()
     incr_time_component = ApplyIncrementElapsedTime()
-    show_animation_component(state)
+    res = show_animation_component(state)
+    assert res is None
     for _frame in range(100):
         apply_velocity_component(state)
-        show_animation_component(state)
+        res = show_animation_component(state)
+        assert res is None
         pace_walltime_component(state)
         incr_time_component(state)
         pause.seconds(0.1)

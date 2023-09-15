@@ -68,7 +68,8 @@ def test_call_not_first_time_without_catchup(
         # note that time is frozen
         expected_until_time = datetime.datetime.now() + onesec
 
-        functor(state)
+        res = functor(state)
+        assert res is None
 
         mocked_pause.assert_called_with(datetime.datetime(2023, 2, 2))
         assert functor._until_time == expected_until_time
@@ -87,7 +88,8 @@ def test_call_not_first_time_with_catchup(
         onesec = datetime.timedelta(seconds=1.0)
         expected_until_time = datetime.datetime(2023, 2, 2) + onesec
 
-        functor(state)
+        res = functor(state)
+        assert res is None
 
         mocked_pause.assert_called_with(datetime.datetime(2023, 2, 2))
         assert functor._until_time == expected_until_time
