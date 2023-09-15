@@ -5,7 +5,11 @@ import pytest
 
 from pylib.microsoro import State
 from pylib.microsoro.conditioners import ApplySpin, ApplyPropel
-from pylib.microsoro.components import ApplyVelocity, RecordVideoPyglet
+from pylib.microsoro.components import (
+    ApplyIncrementElapsedTime,
+    ApplyVelocity,
+    RecordVideoPyglet,
+)
 
 
 @pytest.mark.heavy
@@ -20,8 +24,10 @@ def test_RecordVideoPyglet():
 
     record_video_component = RecordVideoPyglet(outpath)
     apply_velocity_component = ApplyVelocity()
+    apply_increment_elapsed_time_component = ApplyIncrementElapsedTime()
     record_video_component(state)
     for _frame in range(1000):
+        apply_increment_elapsed_time_component(state)
         apply_velocity_component(state)
         record_video_component(state)
 

@@ -18,10 +18,13 @@ class RecordVideoPyglet:
     _worker: ffmpegVideoRenderWorker
     _style: Style
 
+    _last_frame_simtime: float
+    _seconds_per_frame: float
+
     def __init__(
         self: "RecordVideoPyglet",
         output_path: str,
-        fps: typing.Optional[typing.Union[float, Params]] = None,
+        fps: float = 20,
         style: typing.Optional[Style] = None,
     ) -> None:
         """Initialize functor.
@@ -30,10 +33,9 @@ class RecordVideoPyglet:
         ----------
         output_path : str
             Path to save the output video.
-        fps : Optional[Union[float, Params]], default=None
+        fps : float, default 20
             Frames per second for the video.
 
-            If Params object is passed, fps is set to inverse its dt attribute If None, default-initialized Params object is used.
         style : Optional[Style], default=None
             Styling configuration to render state frames.
 
@@ -42,11 +44,6 @@ class RecordVideoPyglet:
         if style is None:
             style = Style()
         self._style = style
-
-        if fps is None:
-            fps = Params()
-        if isinstance(fps, Params):
-            fps = 1 / fps.dt
 
         frame_width = int(style.ylim_length * style.scale)
         frame_height = int(style.ylim_length * style.scale)
@@ -69,7 +66,7 @@ class RecordVideoPyglet:
         self._last_frame_simtime = 0.0
         self._seconds_per_frame = 1.0 / fps
 
-    def __call__(self: "RecordVideoPyglet", state: State) -> None:
+    def _render_frame(self: "RecordVideoPyglet", state: State) -> None:
         """Append video frame depicting current state."""
         batch, __ = draw_pyglet(state, self._style)
 
@@ -87,3 +84,13 @@ class RecordVideoPyglet:
             .get_data()
         )
         self._worker.write_frame(data)
+
+    def __call__(self: "RecordVideoPyglet", state: State) -> None:
+        """Render frame if scheduled under fps and time dilation settings."""
+        time_dilation = self._style.time_dilation
+        simtime_since_last_frame = state.t - self._last_frame_simtime
+        walltime_since_last_frame = simtime_since_last_frame * time_dilation
+        if walltime_since_last_frame >= self._seconds_per_frame:
+            self._render_frame(state)
+            simtime_step_size = self._seconds_per_frame / time_dilation
+            self._last_frame_simtime += simtime_step_size
