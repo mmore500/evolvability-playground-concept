@@ -61,6 +61,14 @@ class RecordVideoPyglet:
             frame_height=frame_height,
         )
 
+        # ensure at least one frame written to worker
+        # to prevent corrupt video files
+        self._window.switch_to()
+        self._write_frame()
+
+        self._last_frame_simtime = 0.0
+        self._seconds_per_frame = 1.0 / fps
+
     def __call__(self: "RecordVideoPyglet", state: State) -> None:
         """Append video frame depicting current state."""
         batch, __ = draw_pyglet(state, self._style)
@@ -69,6 +77,9 @@ class RecordVideoPyglet:
         window.switch_to()
         window.clear()
         batch.draw()
+        self._write_frame()
+
+    def _write_frame(self: "RecordVideoPyglet") -> None:
         data = (
             pyg.image.get_buffer_manager()
             .get_color_buffer()
