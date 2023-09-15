@@ -7,7 +7,6 @@ import pause
 import pyglet as pyg
 from pyglet.window import Window as pyg_Window
 
-from ...auxlib import HaltToken
 from ..draw_pyglet_ import draw_pyglet
 from ..State import State
 from ..Style import Style
