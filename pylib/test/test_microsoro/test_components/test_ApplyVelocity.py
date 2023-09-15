@@ -18,8 +18,10 @@ def test_update(vx: int, vy: int):
     params1 = Params(dt=1.0)
     params2 = Params(dt=0.1)
 
-    ApplyVelocity(params1)(state1)
-    ApplyVelocity(params2)(state2)
+    res = ApplyVelocity(params1)(state1)
+    assert res is None
+    res = ApplyVelocity(params2)(state2)
+    assert res is None
 
     assert np.sign(vx) == ip.pophomogeneous(
         np.sign(state1.px - state_.px).flat

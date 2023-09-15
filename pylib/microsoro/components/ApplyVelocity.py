@@ -21,4 +21,3 @@ class ApplyVelocity:
         params = self._params
         state.px += state.vx * params.dt
         state.py += state.vy * params.dt
-        return state
