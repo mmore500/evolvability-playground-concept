@@ -43,10 +43,9 @@ def draw_ipycanvas(
     if style is None:
         style = Style()
     if canvas is None:
-        canvas = ipy_Canvas(
-            height=style.ylim_length * style.scale,
-            width=style.xlim_length * style.scale,
-        )
+        frame_width = int(style.xlim_length * style.scale)
+        frame_height = int(style.ylim_length * style.scale)
+        canvas = ipy_Canvas(height=frame_height, width=frame_width)
 
     canvas.clear()
 
