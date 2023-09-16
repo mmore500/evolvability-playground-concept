@@ -30,10 +30,10 @@ def get_default_update_regimen(
 
     return [
         components.ApplyGravity(params),
-        # TODO apply_springs_col
-        # TODO apply_springs_row
-        # TODO apply_springs_diag_asc
-        # TODO apply_springs_diag_desc
+        components.ApplySpringsCol(params),
+        components.ApplySpringsRow(params),
+        components.ApplySpringsDiagAsc(params),
+        components.ApplySpringsDiagDesc(params),
         # TODO apply_floor_bounce_naive
         components.ApplyVelocity(params),
         components.ApplyIncrementElapsedTime(params),
