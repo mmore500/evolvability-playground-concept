@@ -28,7 +28,7 @@ def test_pairwise_distance():
 
     distances = []
     for i in range(20):
-        ApplyRotate(angle_degrees=i)(state)
+        ApplyRotate(theta_degrees=i)(state)
         pxa, *__, pxb = state.px.flat
         pya, *__, pyb = state.py.flat
 

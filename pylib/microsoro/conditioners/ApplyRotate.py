@@ -4,31 +4,31 @@ from ..State import State
 
 
 class ApplyRotate:
-    """Rotate the points in the state by angle_degrees around the center."""
+    """Rotate the points in the state by theta_degrees clockwise around the
+    center."""
 
-    _angle_degrees: float
+    _theta_radians: float
 
-    def __init__(self: "ApplyRotate", angle_degrees: float = 45.0) -> None:
-        self._angle_degrees = angle_degrees
+    def __init__(self: "ApplyRotate", theta_degrees: float = 45.0) -> None:
+        # Convert the angle to radians
+        self._theta_radians = np.radians(theta_degrees)
 
     def __call__(self: "ApplyRotate", state: State) -> None:
-
-        # Convert the angle to radians
-        angle_radians = np.radians(self._angle_degrees)
 
         # Compute the center of rotation
         cx = (state.px.max() + state.px.min()) / 2.0
         cy = (state.py.max() + state.py.min()) / 2.0
 
         # Perform the rotation
+        theta = self._theta_radians
         x_rotated = (
-            (state.px - cx) * np.cos(angle_radians)
-            - (state.py - cy) * np.sin(angle_radians)
+            (state.px - cx) * np.cos(theta)
+            - (state.py - cy) * np.sin(theta)
             + cx
         )
         y_rotated = (
-            (state.px - cx) * np.sin(angle_radians)
-            + (state.py - cy) * np.cos(angle_radians)
+            (state.px - cx) * np.sin(theta)
+            + (state.py - cy) * np.cos(theta)
             + cy
         )
 
