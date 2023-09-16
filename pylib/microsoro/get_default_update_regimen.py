@@ -34,7 +34,7 @@ def get_default_update_regimen(
         components.ApplySpringsRow(params),
         components.ApplySpringsDiagAsc(params),
         components.ApplySpringsDiagDesc(params),
-        # TODO apply_floor_bounce_naive
         components.ApplyVelocity(params),
+        components.ApplyFloorBounce(),
         components.ApplyIncrementElapsedTime(params),
     ]

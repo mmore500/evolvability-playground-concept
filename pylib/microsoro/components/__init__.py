@@ -1,3 +1,4 @@
+from .ApplyFloorBounce import ApplyFloorBounce
 from .ApplyGravity import ApplyGravity
 from .ApplyIncrementElapsedTime import ApplyIncrementElapsedTime
 from .ApplySpringsCol import ApplySpringsCol
@@ -14,6 +15,7 @@ from .ShowAnimationPyglet import ShowAnimationPyglet
 
 
 __all__ = [
+    "ApplyFloorBounce",
     "ApplyGravity",
     "ApplyIncrementElapsedTime",
     "ApplySpringsCol",
