@@ -1,6 +1,7 @@
 from .ApplyGravity import ApplyGravity
 from .ApplyIncrementElapsedTime import ApplyIncrementElapsedTime
 from .ApplySpringsCol import ApplySpringsCol
+from .ApplySpringsDiagAsc import ApplySpringsDiagAsc
 from .ApplySpringsDiagDesc import ApplySpringsDiagDesc
 from .ApplySpringsRow import ApplySpringsRow
 from .ApplyVelocity import ApplyVelocity
@@ -16,6 +17,7 @@ __all__ = [
     "ApplyGravity",
     "ApplyIncrementElapsedTime",
     "ApplySpringsCol",
+    "ApplySpringsDiagAsc",
     "ApplySpringsDiagDesc",
     "ApplySpringsRow",
     "ApplyVelocity",
