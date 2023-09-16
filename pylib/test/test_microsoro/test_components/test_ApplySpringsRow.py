@@ -59,13 +59,7 @@ def test_px_stretched_mixed_vx():
     assert np.all(state.vy == 0)
 
     assert all_rows_equivalent(state.vx)
-    assert np.all(
-        state.vx[
-            :,
-            0,
-        ]
-        > 0
-    )
+    assert np.all(state.vx[:, 0] > 0)
     assert np.all(state.vx[:, -1] < 0)
 
 
