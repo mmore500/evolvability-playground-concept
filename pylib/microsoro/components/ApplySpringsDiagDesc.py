@@ -47,14 +47,14 @@ class ApplySpringsDiagDesc:
 
         # horizontal components of acceleration
         ax = np.zeros_like(state.vx)
-        ax[:-1, 1:] -= fx[:, :]  # down-right facing forces
-        ax[1:, :-1] += fx[:, :]  # up-left facing forces
+        ax[:-1, 1:] -= fx[:, :]  # up-left facing forces
+        ax[1:, :-1] += fx[:, :]  # down-right facing forces
         # apply acceleration to state
         state.vx += ax * self._params.dt
 
         # vertical components of acceleration
         ay = np.zeros_like(state.vy)
-        ay[:-1, 1:] -= fy[:, :]  # down-right facing forces
-        ay[1:, :-1] += fy[:, :]  # up-left facing forces
+        ay[:-1, 1:] -= fy[:, :]  # up-left facing forces
+        ay[1:, :-1] += fy[:, :]  # down-right facing forces
         # apply acceleration to state
         state.vy += ay * self._params.dt

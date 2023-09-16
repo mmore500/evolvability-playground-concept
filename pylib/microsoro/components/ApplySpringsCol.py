@@ -46,14 +46,14 @@ class ApplySpringsCol:
 
         # horizontal components of acceleration
         ax = np.zeros_like(state.vx)
-        ax[:-1, :] += fx[:, :]  # down-facing forces
-        ax[1:, :] -= fx[:, :]  # up-facing forces
+        ax[:-1, :] += fx[:, :]  # up-facing forces
+        ax[1:, :] -= fx[:, :]  # down-facing forces
         # apply acceleration to state
         state.vx += ax * self._params.dt
 
         # vertical components of acceleration
         ay = np.zeros_like(state.vy)
-        ay[:-1, :] += fy[:, :]  # down-facing forces
-        ay[1:, :] -= fy[:, :]  # up-facing forces
+        ay[:-1, :] += fy[:, :]  # up-facing forces
+        ay[1:, :] -= fy[:, :]  # down-facing forces
         # apply acceleration to state
         state.vy += ay * self._params.dt
