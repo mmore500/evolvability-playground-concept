@@ -20,7 +20,7 @@ class ApplyRotate:
         cy = (state.py.max() + state.py.min()) / 2.0
 
         # Perform the rotation
-        theta = self._theta_radians
+        theta = self._theta_radians * -1  # make clockwise not counterclockwise
         x_rotated = (
             (state.px - cx) * np.cos(theta)
             - (state.py - cy) * np.sin(theta)
