@@ -32,7 +32,7 @@ def test_no_stretch_no_v():
 
 
 @pytest.mark.parametrize(
-    "rotate_degrees", [-10.0, 0.0, 30.0, 42.0, 45.0, 90.0, 91.0],
+    "rotate_degrees", [-10.0, 0.0, 30.0, 42.0, 45.0, 90.0, 91.0]
 )
 @pytest.mark.parametrize("stretch_factor", [0.5, 2.0])
 def test_px_stretched_no_v(rotate_degrees: float, stretch_factor: float):
