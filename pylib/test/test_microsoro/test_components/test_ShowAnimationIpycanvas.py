@@ -14,7 +14,7 @@ from pylib.microsoro.components import (
 # stub test, ipycanvas does nothing outside notebook contextext
 def test_ShowAnimationIpycanvas():
     state = State()
-    ApplySpin(omega=1.0)(state)
+    ApplySpin(omega_degrees=90.0)(state)
     ApplyPropel(dvx=0.5, dvy=1.0)(state)
 
     style = Style(time_dilation=5.0)

@@ -14,7 +14,7 @@ from pylib.microsoro.components import (
 @pytest.mark.skip(reason="broken --- second launched subprocess crashes")
 def test_ShowAnimationPygletAsync():
     state = State()
-    ApplySpin(omega=1.0)(state)
+    ApplySpin(omega_degrees=90.0)(state)
     ApplyPropel(dvx=0.5, dvy=1.0)(state)
 
     style = Style(time_dilation=5.0)
@@ -34,7 +34,7 @@ def test_ShowAnimationPygletAsync():
 @pytest.mark.skip(reason="broken --- second launched subprocess crashes")
 def test_ShowAnimationPygletAsync_slow():
     state = State()
-    ApplySpin(omega=1.0)(state)
+    ApplySpin(omega_degrees=90.0)(state)
     ApplyPropel(dvx=0.5, dvy=1.0)(state)
 
     style = Style(time_dilation=5.0)

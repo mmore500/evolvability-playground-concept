@@ -19,7 +19,7 @@ def test_RecordVideoPyglet():
         os.remove(outpath)
 
     state = State()
-    ApplySpin(omega=1.0)(state)
+    ApplySpin(omega_degrees=90.0)(state)
     ApplyPropel(dvx=0.5, dvy=1.0)(state)
 
     record_video_component = RecordVideoPyglet(outpath)
