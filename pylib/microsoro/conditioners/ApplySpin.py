@@ -4,7 +4,7 @@ from ..State import State
 
 
 class ApplySpin:
-    """Adjust velocities to impart angular momentum."""
+    """Adjust velocities to impart clockwise angular momentum."""
 
     _omega: float
 
@@ -18,5 +18,5 @@ class ApplySpin:
 
         omega = self._omega
         # Compute the radial velocities
-        state.vx += -omega * (state.py - cy)
-        state.vy += omega * (state.px - cx)
+        state.vx += omega * (state.py - cy)
+        state.vy += -omega * (state.px - cx)

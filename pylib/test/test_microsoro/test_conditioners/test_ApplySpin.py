@@ -32,3 +32,47 @@ def test_pairwise_distance(random_seed: int):
     actual_dist = (px_a - px_b) ** 2 - (py_a - py_b) ** 2
 
     assert np.isclose(expected_dist, actual_dist)
+
+
+def test_clockwise():
+    state = State()
+    prestate = copy.deepcopy(state)
+
+    ftor = ApplySpin(omega=1.0)
+    res = ftor(state)
+    assert res is None
+
+    assert State.same_position_as(state, prestate)
+    assert not State.same_velocity_as(state, prestate)
+
+    assert state.vx[0, 0] < 0
+    assert state.vx[-1, 0] > 0
+    assert state.vx[-1, -1] > 0
+    assert state.vx[0, -1] < 0
+
+    assert state.vy[0, 0] > 0
+    assert state.vy[-1, 0] > 0
+    assert state.vy[-1, -1] < 0
+    assert state.vy[0, -1] < 0
+
+
+def test_counterclockwise():
+    state = State()
+    prestate = copy.deepcopy(state)
+
+    ftor = ApplySpin(omega=-1.0)
+    res = ftor(state)
+    assert res is None
+
+    assert State.same_position_as(state, prestate)
+    assert not State.same_velocity_as(state, prestate)
+
+    assert state.vx[0, 0] > 0
+    assert state.vx[-1, 0] < 0
+    assert state.vx[-1, -1] < 0
+    assert state.vx[0, -1] > 0
+
+    assert state.vy[0, 0] < 0
+    assert state.vy[-1, 0] < 0
+    assert state.vy[-1, -1] > 0
+    assert state.vy[0, -1] > 0
