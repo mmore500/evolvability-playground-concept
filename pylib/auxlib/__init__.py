@@ -1,3 +1,4 @@
+from .all_rows_equivalent import all_rows_equivalent
 from .decorate_with_context import decorate_with_context
 from .ffmpegVideoRenderWorker_ import ffmpegVideoRenderWorker
 from .HaltToken import HaltToken
@@ -7,6 +8,7 @@ from .rgb_reformat_float_to_char import rgb_reformat_float_to_char
 
 
 __all__ = [
+    "all_rows_equivalent",
     "decorate_with_context",
     "ffmpegVideoRenderWorker",
     "HaltToken",
