@@ -1,3 +1,5 @@
+import typing
+
 from hstrat import _auxiliary_lib as hstrat_aux
 import numpy as np
 import pytest
@@ -8,6 +10,7 @@ from pylib.microsoro.components import ApplySpringsCol
 from pylib.microsoro.conditioners import (
     ApplyRotate,
     ApplyStretch,
+    ApplyTorsion,
     ApplyTranslate,
 )
 
@@ -76,11 +79,20 @@ def test_diagonal_stretched_mixed_v():
     assert np.any(state.vy < 0) and np.any(state.vy > 0)
 
 
-def test_py_stretched_rotation_invariants():
+@pytest.mark.parametrize(
+    "conditioner",
+    [
+        ApplyStretch(mx=1.5, my=2.0),
+        ApplyTorsion(),
+    ],
+)
+def test_py_stretched_rotation_invariants(
+    conditioner: typing.Callable,
+):
     sum_speeds = []
     for rotate_degrees in range(360):
         state = State()
-        ApplyStretch(mx=1.5, my=2.0)(state)
+        conditioner(state)
         ApplyRotate(rotate_degrees)(state)
         ApplyTranslate(rotate_degrees, -rotate_degrees)(state)
         res = ApplySpringsCol()(state)
@@ -117,11 +129,18 @@ def test_stretch_scaling():
     assert hstrat_aux.is_strictly_increasing(sum_speeds)
 
 
-def test_param_k():
+@pytest.mark.parametrize(
+    "conditioner",
+    [
+        ApplyStretch(mx=1.5, my=2.0),
+        ApplyTorsion(),
+    ],
+)
+def test_param_k(conditioner: typing.Callable):
     sum_speeds = []
     for k in range(10):
         state = State()
-        ApplyStretch(my=2.0)(state)
+        conditioner(state)
         params = Params()
         params.k = k
         res = ApplySpringsCol(params=params)(state)
