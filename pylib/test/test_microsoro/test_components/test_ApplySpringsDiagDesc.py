@@ -31,12 +31,13 @@ def test_no_stretch_no_v():
 
 
 @pytest.mark.parametrize(
-    "rotate_degrees", [-10.0, 0.0, 30.0, 42.0, 45.0, 90.0, 91.0]
+    "rotate_degrees", [-10.0, 0.0, 30.0, 42.0, 45.0, 90.0, 91.0],
 )
-def test_diagasc_stretched_no_v(rotate_degrees: float):
+@pytest.mark.parametrize("stretch_factor", [0.5, 2.0])
+def test_diagasc_stretched_no_v(rotate_degrees: float, stretch_factor: float):
     state = State()
     ApplyRotate(theta_degrees=45.0)(state)
-    ApplyStretch(mx=2.0)(state)
+    ApplyStretch(mx=stretch_factor)(state)
     ApplyRotate(theta_degrees=-45.0)(state)
     ApplyRotate(theta_degrees=rotate_degrees)(state)
 
@@ -62,6 +63,24 @@ def test_diagdesc_stretched_mixed_vy():
 
     assert state.vy[-1, 0] < 0.0
     assert state.vy[0, -1] > 0.0
+    assert np.isclose(state.vy[0, 0], 0.0)
+    assert np.isclose(state.vy[-1, -1], 0.0)
+
+
+def test_diagdesc_compressed_mixed_vy():
+    state = State()
+    ApplyRotate(theta_degrees=45.0)(state)
+    ApplyStretch(my=0.5)(state)
+
+    ftor = ApplySpringsDiagDesc()
+    res = ftor(state)
+    assert res is None
+
+    assert np.allclose(state.vx, 0.0)
+    assert not np.all(state.vy == 0)
+
+    assert state.vy[-1, 0] > 0.0
+    assert state.vy[0, -1] < 0.0
     assert np.isclose(state.vy[0, 0], 0.0)
     assert np.isclose(state.vy[-1, -1], 0.0)
 
