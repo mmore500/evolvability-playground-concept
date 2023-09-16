@@ -33,7 +33,8 @@ class ApplySpringsCol:
         normed_col_dists_vert = col_dists_vert / col_dists
 
         # net forces: negative is repulsion, positive is attraction
-        f = self._params.k * (col_dists - 1)  # 1 is natural length of springs
+        l_naught = 1  # natural length of springs
+        f = self._params.k * (col_dists - l_naught)
 
         # decompose force into horizontal and vertical components
         fx = f * normed_col_dists_horiz

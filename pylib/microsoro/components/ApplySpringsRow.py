@@ -33,7 +33,8 @@ class ApplySpringsRow:
         normed_row_dists_vert = row_dists_vert / row_dists
 
         # net forces: negative is repulsion, positive is attraction
-        f = self._params.k * (row_dists - 1)  # 1 is natural length of springs
+        l_naught = 1  # natural length of springs
+        f = self._params.k * (row_dists - l_naught)
 
         # decompose force into horizontal and vertical components
         fx = f * normed_row_dists_horiz
