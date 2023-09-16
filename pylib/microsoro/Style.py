@@ -19,6 +19,9 @@ class Style:
         The radius of each cell. Must be non-negative.
     scale : float
         Number pixels per unit distance.
+    time_dilation : float
+        How much slower should the simulation be paced in recordings and real
+        time animations?
     xlim : tuple of float
         The x-axis limits.
     ylim : tuple of float
@@ -78,8 +81,8 @@ class Style:
         scale : float, default 10.0
             How many pixels per unit distance?
         time_dilation : float, default 1.0
-            In animations, how much slower should the simulation run relative
-            to real time?
+            How much slower should the simulation be paced in recordings and
+            real time animations?
         xlim : tuple of float, default (0, 20)
             The x-axis limits.
         ylim : tuple of float, default (0, 20)
