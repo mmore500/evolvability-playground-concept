@@ -33,7 +33,7 @@ def perform_simulation(
         simulation.
 
         These conditioners are called only once, before the main siimulation loop. If not specified, default behavior will apply a translation of
-        `dy=-5.0`.
+        `dpy=-5.0`.
 
     update_regimen_components : list[Callable], optional
         Sequence of callable components or string identifiers to be applied to
@@ -66,7 +66,7 @@ def perform_simulation(
 
     # setup defaults as necessary
     if setup_regimen_conditioners is None:
-        setup_regimen_conditioners = [ApplyTranslate(dy=-5.0)]
+        setup_regimen_conditioners = [ApplyTranslate(dpy=-5.0)]
 
     if update_regimen_components is None:
         update_regimen_components = [

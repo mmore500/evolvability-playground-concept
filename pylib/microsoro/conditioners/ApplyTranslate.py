@@ -6,13 +6,13 @@ from ..State import State
 class ApplyTranslate:
     """Adjust position."""
 
-    _dx: float
-    _dy: float
+    _dpx: float
+    _dpy: float
 
-    def __init__(self: "ApplySpin", dx: float = 0.0, dy: float = 0.0) -> None:
-        self._dx = dx
-        self._dy = dy
+    def __init__(self: "ApplySpin", dpx: float = 0.0, dpy: float = 0.0) -> None:
+        self._dpx = dpx
+        self._dpy = dpy
 
     def __call__(self: "ApplySpin", state: State) -> None:
-        state.px += self._dx
-        state.py += self._dy
+        state.px += self._dpx
+        state.py += self._dpy

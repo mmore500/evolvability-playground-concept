@@ -16,7 +16,7 @@ def test_draw_pyglet_mock():
         width=3,
     )
 
-    ApplyTranslate(dx=1, dy=4)(state)
+    ApplyTranslate(dpx=1, dpy=4)(state)
 
     style = Style(
         background_color=(1.0, 1.0, 1.0),
@@ -69,7 +69,7 @@ def test_draw_pyglet_mock():
 def test_draw_pyglet_image():
 
     state = State(height=1, width=3)
-    ApplyTranslate(dx=1, dy=4)(state)
+    ApplyTranslate(dpx=1, dpy=4)(state)
 
     style = Style(
         background_color=(1.0, 1.0, 0.0),
