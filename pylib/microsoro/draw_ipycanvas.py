@@ -50,9 +50,7 @@ def draw_ipycanvas(
     canvas.clear()
 
     # add background color
-    canvas.fill_style = "white"
-    canvas.stroke_style = "white"
-    canvas.fill_rect(0, 0, canvas.width, canvas.height)
+    canvas.stroke_style = "gray"
 
     # prep palette
     palette = [*map(rgb_reformat_float_to_char, style.cell_color_palette)]
