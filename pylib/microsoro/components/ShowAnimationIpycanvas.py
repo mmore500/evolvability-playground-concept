@@ -5,9 +5,13 @@ import typing
 
 import pause
 from ipycanvas import Canvas as ipy_Canvas
+from ipycanvas import hold_canvas as ipy_hold_canvas
 from IPython.display import display as IPy_display
 
+from ...auxlib import decorate_with_context
 from ..draw_ipycanvas import draw_ipycanvas
+from ..events import EventBuffer, RenderFloorEvent
+from ..DrawIpycanvasFloor import DrawIpycanvasFloor
 from ..State import State
 from ..Style import Style
 
@@ -51,10 +55,25 @@ class ShowAnimationIpycanvas:
 
         self._next_frame_walltime = datetime.now()
 
+    @decorate_with_context(ipy_hold_canvas, idempotify_decorated_context=True)
+    def _draw_frame(
+        self: "ShowAnimationIpycanvas",
+        state: State,
+        event_buffer: typing.Optional[EventBuffer],
+    ) -> None:
+        # self._canvas.clear()
+        draw_ipycanvas(state, self._canvas, self._style)
+        if event_buffer is not None:
+            event_buffer.consume(
+                RenderFloorEvent,
+                DrawIpycanvasFloor(canvas=self._canvas, style=self._style),
+                skip_duplicates=True,
+            )
+
     def __call__(
         self: "ShowAnimationIpycanvas",
         state: State,
-        event_buffer: typing.Optional = None,
+        event_buffer: typing.Optional[EventBuffer] = None,
     ) -> None:
         """Draw an animation frame."""
         # draw frames at most 20fps ---
@@ -64,6 +83,6 @@ class ShowAnimationIpycanvas:
             self._next_frame_walltime = datetime.now() + timedelta(
                 seconds=0.05
             )
-            draw_ipycanvas(state, self._canvas, self._style)
+            self._draw_frame(state, event_buffer)
         else:
             logging.debug("ShowAnimationIpycanvas passing on draw")

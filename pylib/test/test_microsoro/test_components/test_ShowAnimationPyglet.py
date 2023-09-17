@@ -4,8 +4,9 @@ import pause
 import pytest
 
 from pylib.microsoro import State, Style
-from pylib.microsoro.conditioners import ApplySpin, ApplyPropel
+from pylib.microsoro.conditioners import ApplyPropel, ApplySpin, ApplyTranslate
 from pylib.microsoro.components import (
+    ApplyFloorBounce,
     ApplyIncrementElapsedTime,
     ApplyVelocity,
     PaceToWalltime,
@@ -45,16 +46,20 @@ def test_ShowAnimationPyglet_slow(event_buffer: typing.Optional[EventBuffer]):
     state = State()
     ApplySpin(omega_degrees=90.0)(state)
     ApplyPropel(dvx=0.5, dvy=1.0)(state)
+    ApplyTranslate(dpy=5.0)(state)
 
     style = Style(time_dilation=5.0)
+    style.ylim = (-2, 20)
     show_animation_component = ShowAnimationPyglet()
     pace_walltime_component = PaceToWalltime()
     apply_velocity_component = ApplyVelocity()
+    apply_floor_bounce_component = ApplyFloorBounce(b=1.0)
     incr_time_component = ApplyIncrementElapsedTime()
     res = show_animation_component(state)
     assert res is None
     for _frame in range(100):
         apply_velocity_component(state)
+        apply_floor_bounce_component(state, event_buffer)
         res = show_animation_component(state, event_buffer)
         assert res is None
         pace_walltime_component(state)

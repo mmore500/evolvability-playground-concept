@@ -5,6 +5,8 @@ from pyglet.window import Window as pyg_Window
 
 from ...auxlib import ffmpegVideoRenderWorker
 from ..draw_pyglet_ import draw_pyglet
+from ..DrawPygletFloor import DrawPygletFloor
+from ..events import EventBuffer, RenderFloorEvent
 from ..Params import Params
 from ..State import State
 from ..Style import Style
@@ -66,14 +68,27 @@ class RecordVideoPyglet:
         self._last_frame_simtime = 0.0
         self._seconds_per_frame = 1.0 / fps
 
-    def _render_frame(self: "RecordVideoPyglet", state: State) -> None:
+    def _render_frame(
+        self: "RecordVideoPyglet",
+        state: State,
+        event_buffer: typing.Optional[EventBuffer],
+    ) -> None:
         """Append video frame depicting current state."""
-        batch, __ = draw_pyglet(state, self._style)
+        batch_packets = []
+        batch_packets.append(draw_pyglet(state, self._style))
+        if event_buffer is not None:
+            batch_packets.extend(
+                event_buffer.consume(
+                    RenderFloorEvent,
+                    DrawPygletFloor(style=self._style),
+                    skip_duplicates=True,
+                ),
+            )
 
-        window = self._window
-        window.switch_to()
-        window.clear()
-        batch.draw()
+        self._window.switch_to()
+        self._window.clear()
+        for batch, __ in batch_packets:
+            batch.draw()
         self._write_frame()
 
     def _write_frame(self: "RecordVideoPyglet") -> None:
@@ -88,13 +103,13 @@ class RecordVideoPyglet:
     def __call__(
         self: "RecordVideoPyglet",
         state: State,
-        event_buffer: typing.Optional = None,
+        event_buffer: typing.Optional[EventBuffer] = None,
     ) -> None:
         """Render frame if scheduled under fps and time dilation settings."""
         time_dilation = self._style.time_dilation
         simtime_since_last_frame = state.t - self._last_frame_simtime
         walltime_since_last_frame = simtime_since_last_frame * time_dilation
         if walltime_since_last_frame >= self._seconds_per_frame:
-            self._render_frame(state)
+            self._render_frame(state, event_buffer)
             simtime_step_size = self._seconds_per_frame / time_dilation
             self._last_frame_simtime += simtime_step_size

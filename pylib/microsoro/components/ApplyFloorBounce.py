@@ -3,6 +3,7 @@ import typing
 import numpy as np
 
 from ..State import State
+from ..events import EventBuffer, RenderFloorEvent
 
 
 class ApplyFloorBounce:
@@ -43,13 +44,15 @@ class ApplyFloorBounce:
     def __call__(
         self: "ApplyFloorBounce",
         state: State,
-        event_buffer: typing.Optional = None,
+        event_buffer: typing.Optional[EventBuffer] = None,
     ) -> None:
         """If any tresspass past floor boundaries has occurred, correct cell
         positions (i.e., retroactively) and reflect cell velocities off
         surface."""
         m = self._slope
         b = self._intercept
+        if event_buffer is not None:
+            event_buffer.enqueue(RenderFloorEvent(m=m, b=b))
 
         # Get the floor y-values for all x-positions
         y_floor = m * state.px + b

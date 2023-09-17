@@ -8,6 +8,8 @@ import pyglet as pyg
 from pyglet.window import Window as pyg_Window
 
 from ..draw_pyglet_ import draw_pyglet
+from ..DrawPygletFloor import DrawPygletFloor
+from ..events import EventBuffer, RenderFloorEvent
 from ..State import State
 from ..Style import Style
 
@@ -48,7 +50,7 @@ class ShowAnimationPyglet:
     def __call__(
         self: "ShowAnimationPyglet",
         state: State,
-        event_buffer: typing.Optional = None,
+        event_buffer: typing.Optional[EventBuffer] = None,
     ) -> None:
         """Draw an animation frame."""
         # draw frames at most 20fps ---
@@ -58,10 +60,22 @@ class ShowAnimationPyglet:
             self._next_frame_walltime = datetime.now() + timedelta(
                 seconds=0.05
             )
-            batch, __ = draw_pyglet(state, self._style)
+            batch_packets = []
+            batch_packets.append(draw_pyglet(state, self._style))
+            if event_buffer is not None:
+                batch_packets.extend(
+                    event_buffer.consume(
+                        RenderFloorEvent,
+                        DrawPygletFloor(style=self._style),
+                        skip_duplicates=True,
+                    ),
+                )
+                print(batch_packets)
+
             self._window.switch_to()
             self._window.clear()
-            batch.draw()
+            for batch, __ in batch_packets:
+                batch.draw()
             self._window.flip()
 
         else:

@@ -6,6 +6,7 @@ from .ApplySpringsDiagAsc import ApplySpringsDiagAsc
 from .ApplySpringsDiagDesc import ApplySpringsDiagDesc
 from .ApplySpringsRow import ApplySpringsRow
 from .ApplyVelocity import ApplyVelocity
+from .ClearEventBuffer import ClearEventBuffer
 from .HaltAfterElapsedTime import HaltAfterElapsedTime
 from .PaceToWalltime_ import PaceToWalltime
 from .RecordVideoPyglet import RecordVideoPyglet
@@ -23,6 +24,7 @@ __all__ = [
     "ApplySpringsDiagDesc",
     "ApplySpringsRow",
     "ApplyVelocity",
+    "ClearEventBuffer",
     "HaltAfterElapsedTime",
     "PaceToWalltime",
     "RecordVideoPyglet",

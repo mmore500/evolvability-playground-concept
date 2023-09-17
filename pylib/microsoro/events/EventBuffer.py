@@ -32,7 +32,7 @@ class EventBuffer:
         event_type: typing.Type,
         handler: typing.Callable,
         skip_duplicates: bool = False,
-    ) -> None:
+    ) -> typing.List:
         """Process events of specified type, removing them from the buffer.
 
         Events that do not match the specified type are left in the buffer.
@@ -49,23 +49,35 @@ class EventBuffer:
 
             All equivalent events will still be discarded.
 
+        Returns
+        -------
+        list
+            Results of handler invocations.
+
         Notes
         -----
         The skip_duplicates option is implemented using an lru_cache, so .
         """
+
+        results = []
+        appending_handler = lambda event: results.append(handler(event))
+
         if skip_duplicates:
             if not issubclass(event_type, abc.Hashable):
                 raise ValueError(
                     f"to use {skip_duplicates=}, "
                     f"{event_type=} must be hashable"
                 )
-            handler = functools.lru_cache(maxsize=None)(handler)
+            appending_handler = functools.lru_cache(maxsize=None)(
+                appending_handler,
+            )
 
         remaining_events = []
         for event in self._buffer:
             if isinstance(event, event_type):
-                handler(event)
+                appending_handler(event)
             else:
                 remaining_events.append(event)
 
         self._buffer = remaining_events
+        return results
