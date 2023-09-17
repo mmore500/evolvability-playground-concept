@@ -17,7 +17,7 @@ from .Style import Style
 @decorate_with_context(ipy_hold_canvas)
 def draw_ipycanvas(
     state: State,
-    canvas: ipy_Canvas = None,
+    canvas: typing.Optional[ipy_Canvas] = None,
     style: typing.Optional[Style] = None,
 ) -> ipy_Canvas:
     """Render state to ipycanvas Canvas.

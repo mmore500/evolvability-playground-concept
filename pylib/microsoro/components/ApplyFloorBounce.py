@@ -7,7 +7,7 @@ class ApplyFloorBounce:
     """Bounce cells off a sloped floor."""
 
     def __init__(
-        self: "ApplyPlaneBounce",
+        self: "ApplyFloorBounce",
         e: float = 1.0,
         m: float = 0.0,
         b: float = 0.0,
@@ -38,7 +38,10 @@ class ApplyFloorBounce:
         self._intercept = b
         self._slope = m
 
-    def __call__(self, state: State) -> None:
+    def __call__(
+        self: "ApplyFloorBounce",
+        state: State,
+    ) -> None:
         """If any tresspass past floor boundaries has occurred, correct cell
         positions (i.e., retroactively) and reflect cell velocities off
         surface."""
