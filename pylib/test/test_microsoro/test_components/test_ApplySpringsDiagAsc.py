@@ -13,13 +13,19 @@ from pylib.microsoro.conditioners import (
     ApplyTorsion,
     ApplyTranslate,
 )
+from pylib.microsoro.events import EventBuffer
 
 
-def test_no_stretch_no_v():
+@pytest.fixture(params=[EventBuffer(), None])
+def event_buffer(request: pytest.FixtureRequest):
+    return request.param
+
+
+def test_no_stretch_no_v(event_buffer: typing.Optional[EventBuffer]):
     state = State()
 
     ftor = ApplySpringsDiagAsc()
-    res = ftor(state)
+    res = ftor(state, event_buffer)
     assert res is None
 
     assert np.allclose(state.vy, 0.0)
@@ -35,7 +41,11 @@ def test_no_stretch_no_v():
     [-10.0, 0.0, 30.0, 42.0, 45.0, 90.0, 91.0],
 )
 @pytest.mark.parametrize("stretch_factor", [0.5, 2.0])
-def test_diagdesc_stretched_no_v(rotate_degrees: float, stretch_factor: float):
+def test_diagdesc_stretched_no_v(
+    event_buffer: typing.Optional[EventBuffer],
+    rotate_degrees: float,
+    stretch_factor: float,
+):
     state = State()
     ApplyRotate(theta_degrees=45.0)(state)
     ApplyStretch(my=stretch_factor)(state)
@@ -43,20 +53,22 @@ def test_diagdesc_stretched_no_v(rotate_degrees: float, stretch_factor: float):
     ApplyRotate(theta_degrees=rotate_degrees)(state)
 
     ftor = ApplySpringsDiagAsc()
-    res = ftor(state)
+    res = ftor(state, event_buffer)
     assert res is None
 
     assert np.allclose(state.vy, 0.0)
     assert np.allclose(state.vx, 0.0)
 
 
-def test_diagasc_stretched_mixed_vx():
+def test_diagasc_stretched_mixed_vx(
+    event_buffer: typing.Optional[EventBuffer],
+):
     state = State()
     ApplyRotate(theta_degrees=45.0)(state)
     ApplyStretch(mx=2.0)(state)
 
     ftor = ApplySpringsDiagAsc()
-    res = ftor(state)
+    res = ftor(state, event_buffer)
     assert res is None
 
     assert np.allclose(state.vy, 0.0)
@@ -68,13 +80,15 @@ def test_diagasc_stretched_mixed_vx():
     assert np.isclose(state.vx[-1, 0], 0.0)
 
 
-def test_diagasc_compressed_mixed_vx():
+def test_diagasc_compressed_mixed_vx(
+    event_buffer: typing.Optional[EventBuffer],
+):
     state = State()
     ApplyRotate(theta_degrees=45.0)(state)
     ApplyStretch(mx=0.5)(state)
 
     ftor = ApplySpringsDiagAsc()
-    res = ftor(state)
+    res = ftor(state, event_buffer)
     assert res is None
 
     assert np.allclose(state.vy, 0.0)
@@ -90,12 +104,15 @@ def test_diagasc_compressed_mixed_vx():
     "stretch_conditioner",
     [ApplyStretch(mx=2.0, my=2.0), ApplyStretch(my=2.0), ApplyStretch(mx=2.0)],
 )
-def test_stretched_mixed_v(stretch_conditioner: typing.Callable):
+def test_stretched_mixed_v(
+    event_buffer: typing.Optional[EventBuffer],
+    stretch_conditioner: typing.Callable,
+):
     state = State()
     stretch_conditioner(state)
 
     ftor = ApplySpringsDiagAsc()
-    res = ftor(state)
+    res = ftor(state, event_buffer)
     assert res is None
 
     assert not np.allclose(state.vx, 0.0)
@@ -116,6 +133,7 @@ def test_stretched_mixed_v(stretch_conditioner: typing.Callable):
 )
 def test_stretched_rotation_invariants(
     conditioner: typing.Callable,
+    event_buffer: typing.Optional[EventBuffer],
 ):
     sum_speeds = []
     for rotate_degrees in range(360):
@@ -123,7 +141,7 @@ def test_stretched_rotation_invariants(
         conditioner(state)
         ApplyRotate(rotate_degrees)(state)
         ApplyTranslate(rotate_degrees, -rotate_degrees)(state)
-        res = ApplySpringsDiagAsc()(state)
+        res = ApplySpringsDiagAsc()(state, event_buffer)
         assert res is None
 
         # ensure springs having effect
@@ -140,12 +158,12 @@ def test_stretched_rotation_invariants(
     assert np.allclose(sum_speeds, sum_speeds[0])
 
 
-def test_stretch_scaling():
+def test_stretch_scaling(event_buffer: typing.Optional[EventBuffer]):
     sum_speeds = []
     for stretch_factor in range(1, 10):
         state = State()
         ApplyStretch(mx=stretch_factor)(state)
-        res = ApplySpringsDiagAsc()(state)
+        res = ApplySpringsDiagAsc()(state, event_buffer)
         assert res is None
         speeds = np.sqrt(state.vx**2 + state.vy**2)
         sum_speeds.append(np.sum(speeds))
@@ -164,14 +182,17 @@ def test_stretch_scaling():
         ApplyTorsion(),
     ],
 )
-def test_param_k(conditioner: typing.Callable):
+def test_param_k(
+    conditioner: typing.Callable,
+    event_buffer: typing.Optional[EventBuffer],
+):
     sum_speeds = []
     for k in range(10):
         state = State()
         conditioner(state)
         params = Params()
         params.k = k
-        res = ApplySpringsDiagAsc(params=params)(state)
+        res = ApplySpringsDiagAsc(params=params)(state, event_buffer)
         assert res is None
 
         speeds = np.sqrt(state.vx**2 + state.vy**2)

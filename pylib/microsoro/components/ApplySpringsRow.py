@@ -20,7 +20,11 @@ class ApplySpringsRow:
             params = Params()
         self._params = params
 
-    def __call__(self: "ApplySpringsRow", state: State) -> None:
+    def __call__(
+        self: "ApplySpringsRow",
+        state: State,
+        event_buffer: typing.Optional = None,
+    ) -> None:
         """Calculate spring forces between horizontal pairs of cells and apply
         to State velocity."""
         # how far apart are horizontal pairs of cells?

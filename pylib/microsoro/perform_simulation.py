@@ -4,6 +4,7 @@ from iterpop import iterpop as ip
 
 from .components import HaltAfterElapsedTime
 from .conditioners import ApplyTranslate
+from .events import EventBuffer
 from .get_default_update_regimen import get_default_update_regimen
 
 from .State import State
@@ -82,9 +83,10 @@ def perform_simulation(
 
     # perform simulation, looping until a component returns non-None
     def do_run() -> typing.Iterable:
+        event_buffer = EventBuffer()
         while True:
             for component in update_regimen_components:
-                res = component(state)
+                res = component(state, event_buffer)
                 if res is not None:
                     yield res
                     return

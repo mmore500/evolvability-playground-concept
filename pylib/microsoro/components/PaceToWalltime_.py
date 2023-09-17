@@ -49,7 +49,11 @@ class PaceToWalltime:
         self._allow_catchup = allow_catchup
         self._until_time = None
 
-    def __call__(self: "RecordVideoPyglet", __: State) -> None:
+    def __call__(
+        self: "RecordVideoPyglet",
+        state: State,
+        event_buffer: typing.Optional = None,
+    ) -> None:
         """If necessary, delay simulation to maintain realtime pace."""
         if self._until_time is None:
             self._until_time = datetime.datetime.now()

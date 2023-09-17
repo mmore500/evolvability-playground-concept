@@ -45,7 +45,11 @@ class ShowAnimationPyglet:
             width=frame_width, height=frame_height, visible=True
         )
 
-    def __call__(self: "ShowAnimationPyglet", state: State) -> None:
+    def __call__(
+        self: "ShowAnimationPyglet",
+        state: State,
+        event_buffer: typing.Optional = None,
+    ) -> None:
         """Draw an animation frame."""
         # draw frames at most 20fps ---
         # this way, not every frame has to be drawn

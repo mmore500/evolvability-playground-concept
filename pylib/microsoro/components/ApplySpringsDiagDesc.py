@@ -21,7 +21,11 @@ class ApplySpringsDiagDesc:
             params = Params()
         self._params = params
 
-    def __call__(self: "ApplySpringsDiagDesc", state: State) -> None:
+    def __call__(
+        self: "ApplySpringsDiagDesc",
+        state: State,
+        event_buffer: typing.Optional = None,
+    ) -> None:
         """Calculate spring forces between pairs of cells along descending
         diagonals and apply to State velocity."""
         # how far apart are pairs of cells along descending diagonals?

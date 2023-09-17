@@ -16,5 +16,9 @@ class ApplyIncrementElapsedTime:
             params = Params()
         self._params = params
 
-    def __call__(self: "ApplyIncrementElapsedTime", state: State) -> None:
+    def __call__(
+        self: "ApplyIncrementElapsedTime",
+        state: State,
+        event_buffer: typing.Optional = None,
+    ) -> None:
         state.t += self._params.dt

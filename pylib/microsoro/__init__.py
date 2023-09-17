@@ -1,5 +1,6 @@
 from . import components
 from . import conditioners
+from . import events
 from .draw_ipycanvas import draw_ipycanvas
 from .draw_pyglet_ import draw_pyglet
 from .get_default_update_regimen import get_default_update_regimen
@@ -14,6 +15,7 @@ __all__ = [
     "conditioners",
     "draw_ipycanvas",
     "draw_pyglet",
+    "events",
     "get_default_update_regimen",
     "Params",
     "perform_simulation",

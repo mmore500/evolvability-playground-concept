@@ -147,7 +147,11 @@ class ShowAnimationPygletAsync:
         logging.debug("ShowAnimationPygletAsync joining render worker")
         self._render_worker.join()
 
-    def __call__(self: "ShowAnimationPygletAsync", state: State) -> None:
+    def __call__(
+        self: "ShowAnimationPygletAsync",
+        state: State,
+        event_buffer: typing.Optional = None,
+    ) -> None:
         """Add a frame to the render queue."""
         # put frames on the render queue no more often than 20fps
         if self._next_frame_walltime < datetime.now():

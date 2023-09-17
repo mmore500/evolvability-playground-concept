@@ -17,7 +17,11 @@ class ApplyVelocity:
             params = Params()
         self._params = params
 
-    def __call__(self: "ApplyVelocity", state: State) -> None:
+    def __call__(
+        self: "ApplyVelocity",
+        state: State,
+        event_buffer: typing.Optional = None,
+    ) -> None:
         params = self._params
         state.px += state.vx * params.dt
         state.py += state.vy * params.dt

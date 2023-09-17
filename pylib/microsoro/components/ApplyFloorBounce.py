@@ -1,3 +1,5 @@
+import typing
+
 import numpy as np
 
 from ..State import State
@@ -41,6 +43,7 @@ class ApplyFloorBounce:
     def __call__(
         self: "ApplyFloorBounce",
         state: State,
+        event_buffer: typing.Optional = None,
     ) -> None:
         """If any tresspass past floor boundaries has occurred, correct cell
         positions (i.e., retroactively) and reflect cell velocities off

@@ -16,6 +16,10 @@ class ApplyGravity:
             params = Params()
         self._params = params
 
-    def __call__(self: "ApplyGravity", state: State) -> None:
+    def __call__(
+        self: "ApplyGravity",
+        state: State,
+        event_buffer: typing.Optional = None,
+    ) -> None:
         params = self._params
         state.vy -= params.g * params.dt

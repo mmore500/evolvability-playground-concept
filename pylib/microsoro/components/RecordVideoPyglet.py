@@ -85,7 +85,11 @@ class RecordVideoPyglet:
         )
         self._worker.write_frame(data)
 
-    def __call__(self: "RecordVideoPyglet", state: State) -> None:
+    def __call__(
+        self: "RecordVideoPyglet",
+        state: State,
+        event_buffer: typing.Optional = None,
+    ) -> None:
         """Render frame if scheduled under fps and time dilation settings."""
         time_dilation = self._style.time_dilation
         simtime_since_last_frame = state.t - self._last_frame_simtime

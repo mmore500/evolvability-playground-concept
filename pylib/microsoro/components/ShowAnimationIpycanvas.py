@@ -51,7 +51,11 @@ class ShowAnimationIpycanvas:
 
         self._next_frame_walltime = datetime.now()
 
-    def __call__(self: "ShowAnimationIpycanvas", state: State) -> None:
+    def __call__(
+        self: "ShowAnimationIpycanvas",
+        state: State,
+        event_buffer: typing.Optional = None,
+    ) -> None:
         """Draw an animation frame."""
         # draw frames at most 20fps ---
         # this way, not every frame has to be drawn

@@ -1,10 +1,17 @@
 import copy
+import typing
 
 import pytest
 import numpy as np
 
 from pylib.microsoro import conditioners, State
 from pylib.microsoro.components import ApplyFloorBounce
+from pylib.microsoro.events import EventBuffer
+
+
+@pytest.fixture(params=[EventBuffer(), None])
+def event_buffer(request: pytest.FixtureRequest):
+    return request.param
 
 
 def test_init():
@@ -20,7 +27,7 @@ def test_init():
     assert ftor._intercept == kwargs["b"]
 
 
-def test_no_cells_below_floor():
+def test_no_cells_below_floor(event_buffer: typing.Optional[EventBuffer]):
     ftor = ApplyFloorBounce()
     state = State()
 
@@ -28,21 +35,23 @@ def test_no_cells_below_floor():
     conditioners.ApplyPropel(dvy=-1.0)(state)
     prestate = copy.deepcopy(state)
 
-    res = ftor(state)
+    res = ftor(state, event_buffer)
     assert res is None
     assert State.same_position_as(state, prestate)
     assert State.same_velocity_as(state, prestate)
 
 
 @pytest.mark.parametrize("elasticity", [0.5, 1.0, 1.5])
-def test_some_cells_below_flat_floor(elasticity: float):
+def test_some_cells_below_flat_floor(
+    elasticity: float, event_buffer: typing.Optional[EventBuffer]
+):
     state = State()
     conditioners.ApplyTranslate(dpy=-state.py.min() - 1e-7)(state)
     conditioners.ApplyPropel(dvy=-1.0)(state)
     prestate = copy.deepcopy(state)
 
     ftor = ApplyFloorBounce(e=elasticity)
-    res = ftor(state)
+    res = ftor(state, event_buffer)
     assert res is None
 
     assert np.all(state.py[0, :] >= 0.0)
@@ -55,7 +64,9 @@ def test_some_cells_below_flat_floor(elasticity: float):
 
 
 @pytest.mark.parametrize("elasticity", [0.5, 1.0, 1.5])
-def test_some_cells_below_sloped_floor1(elasticity: float):
+def test_some_cells_below_sloped_floor1(
+    elasticity: float, event_buffer: typing.Optional[EventBuffer]
+):
     state = State()
     conditioners.ApplyTranslate(  # move lower left cell below floor
         dpx=-state.vx.min() - 1e-7, dpy=-state.vy.min() - 1e-7
@@ -66,7 +77,7 @@ def test_some_cells_below_sloped_floor1(elasticity: float):
 
     # 45 degrees sloped floor
     ftor = ApplyFloorBounce(m=-1.0, b=0.0, e=elasticity)
-    res = ftor(state)
+    res = ftor(state, event_buffer)
     assert res is None
 
     # Expecting velocities to reflect after bounce
@@ -80,7 +91,9 @@ def test_some_cells_below_sloped_floor1(elasticity: float):
 
 
 @pytest.mark.parametrize("elasticity", [0.5, 1.0, 1.5])
-def test_some_cells_below_sloped_floor2(elasticity: float):
+def test_some_cells_below_sloped_floor2(
+    elasticity: float, event_buffer: typing.Optional[EventBuffer]
+):
     state = State()
     conditioners.ApplyTranslate(  # move lower left cell below floor
         dpx=-state.vx.min() - 1e-7, dpy=-state.vy.min() - 1e-7
@@ -91,7 +104,7 @@ def test_some_cells_below_sloped_floor2(elasticity: float):
 
     # 45 degrees sloped floor
     ftor = ApplyFloorBounce(m=-1.0, b=0.0, e=elasticity)
-    res = ftor(state)
+    res = ftor(state, event_buffer)
     assert res is None
 
     # Expecting velocities to reflect after bounce
@@ -105,7 +118,9 @@ def test_some_cells_below_sloped_floor2(elasticity: float):
 
 
 @pytest.mark.parametrize("elasticity", [0.5, 1.0, 1.5])
-def test_slanted_trajectory_flat_floor(elasticity: float):
+def test_slanted_trajectory_flat_floor(
+    elasticity: float, event_buffer: typing.Optional[EventBuffer]
+):
     state = State()
 
     conditioners.ApplyRotate(theta_degrees=-45.0)(state)
@@ -118,7 +133,7 @@ def test_slanted_trajectory_flat_floor(elasticity: float):
     prestate = copy.deepcopy(state)
 
     ftor = ApplyFloorBounce(m=0.0, b=0.0, e=elasticity)
-    res = ftor(state)
+    res = ftor(state, event_buffer)
     assert res is None
 
     # calc the expected velocities after the bounce

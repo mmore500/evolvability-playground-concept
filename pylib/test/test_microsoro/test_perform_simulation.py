@@ -8,6 +8,7 @@ from pylib.microsoro.components import (
     ApplyVelocity,
     HaltAfterElapsedTime,
 )
+from pylib.microsoro.events import EventBuffer
 
 
 def test_perform_simulation_setup():
@@ -105,3 +106,39 @@ def test_perform_simulation_halt(target_duration: float):
     )
     assert target_duration <= state.t <= target_duration + Params().dt
     assert not State.same_position_as(state, State())
+
+
+def test_event_buffer_functionality():
+    events = ["event1", "event2", 1]
+
+    def event_enqueue_component(
+        state: State, event_buffer: EventBuffer
+    ) -> None:
+        for event in events:
+            event_buffer.enqueue(event)
+
+    def event_consume_component(
+        state: State, event_buffer: EventBuffer
+    ) -> None:
+        assert event_buffer._buffer == events + events
+        event_buffer.consume(str, lambda e: None)
+
+    def event_reset_component(state: State, event_buffer: EventBuffer) -> None:
+        assert event_buffer._buffer == [1, 1]
+        event_buffer.clear()
+
+    state = perform_simulation(
+        setup_regimen_conditioners=[],
+        update_regimen_components=[
+            event_enqueue_component,
+            event_enqueue_component,
+            event_consume_component,
+            event_reset_component,
+            ApplyIncrementElapsedTime(),
+            HaltAfterElapsedTime(1.0),
+        ],
+    )
+
+    # No simulation components should be changing cell states
+    assert State.same_position_as(state, State())
+    assert State.same_velocity_as(state, State())

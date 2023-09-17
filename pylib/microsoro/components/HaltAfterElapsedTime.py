@@ -18,5 +18,6 @@ class HaltAfterElapsedTime:
     def __call__(
         self: "HaltAfterElapsedTime",
         state: State,
+        event_buffer: typing.Optional = None,
     ) -> typing.Optional[State]:
         return state if state.t > self._target_duration else None
