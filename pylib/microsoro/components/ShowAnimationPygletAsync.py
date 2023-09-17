@@ -9,7 +9,7 @@ import pyglet as pyg
 from pyglet.window import Window as pyg_Window
 
 from ...auxlib import HaltToken
-from ..draw_pyglet_ import draw_pyglet
+from ..draw_pyglet_State_ import draw_pyglet_State
 from ..State import State
 from ..Style import Style
 
@@ -92,7 +92,7 @@ class _ShowAnimationPygletRenderJob(mp_Process):
                 logging.debug(
                     "_ShowAnimationPygletRenderJob drawing to window"
                 )
-                batch, __ = draw_pyglet(state, self._style)
+                batch, __ = draw_pyglet_State(state, self._style)
                 self._window.switch_to()
                 self._window.clear()
                 batch.draw()

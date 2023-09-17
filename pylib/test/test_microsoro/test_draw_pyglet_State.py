@@ -4,11 +4,11 @@ import os
 import pyglet as pyg
 from unittest.mock import patch, Mock
 
-from pylib.microsoro import draw_pyglet, State, Style
+from pylib.microsoro import draw_pyglet_State, State, Style
 from pylib.microsoro.conditioners import ApplyTranslate
 
 
-def test_draw_pyglet_mock():
+def test_draw_pyglet_State_mock():
 
     # Mocking the State and Style classes
     state = State(
@@ -28,10 +28,12 @@ def test_draw_pyglet_mock():
     )
 
     # Mocking pyglet's Circle constructor
-    with patch("pylib.microsoro.draw_pyglet_.pyg_Circle") as MockCircle, patch(
-        "pylib.microsoro.draw_pyglet_.pyg_Rectangle"
+    with patch(
+        "pylib.microsoro.draw_pyglet_State_.pyg_Circle"
+    ) as MockCircle, patch(
+        "pylib.microsoro.draw_pyglet_State_.pyg_Rectangle"
     ) as MockRectangle:
-        batch, __ = draw_pyglet(state, style)
+        batch, __ = draw_pyglet_State(state, style)
 
     # Check that pyg_Rectangle is called with expected parameters
     MockRectangle.assert_any_call(
@@ -66,7 +68,7 @@ def test_draw_pyglet_mock():
     )
 
 
-def test_draw_pyglet_image():
+def test_draw_pyglet_State_image():
 
     state = State(height=1, width=3)
     ApplyTranslate(dpx=1, dpy=4)(state)
@@ -86,9 +88,9 @@ def test_draw_pyglet_image():
         visible=False,
     )
 
-    batch, __ = draw_pyglet(state, style)
+    batch, __ = draw_pyglet_State(state, style)
 
-    outpath = "/tmp/test_draw_pyglet.png"
+    outpath = "/tmp/test_draw_pyglet_State.png"
     with contextlib.suppress(FileNotFoundError):
         os.remove(outpath)
 
@@ -97,4 +99,4 @@ def test_draw_pyglet_image():
     batch.draw()
     pyg.image.get_buffer_manager().get_color_buffer().save(outpath)
 
-    print(f"saved test_draw_pyglet render to file {outpath}")
+    print(f"saved test_draw_pyglet_State render to file {outpath}")

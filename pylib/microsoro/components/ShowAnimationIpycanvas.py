@@ -9,7 +9,7 @@ from ipycanvas import hold_canvas as ipy_hold_canvas
 from IPython.display import display as IPy_display
 
 from ...auxlib import decorate_with_context
-from ..draw_ipycanvas import draw_ipycanvas
+from ..draw_ipycanvas_State import draw_ipycanvas_State
 from ..events import EventBuffer, RenderFloorEvent
 from ..DrawIpycanvasFloor import DrawIpycanvasFloor
 from ..State import State
@@ -62,7 +62,7 @@ class ShowAnimationIpycanvas:
         event_buffer: typing.Optional[EventBuffer],
     ) -> None:
         # self._canvas.clear()
-        draw_ipycanvas(state, self._canvas, self._style)
+        draw_ipycanvas_State(state, self._canvas, self._style)
         if event_buffer is not None:
             event_buffer.consume(
                 RenderFloorEvent,

@@ -9,7 +9,7 @@ from .State import State
 from .Style import Style
 
 
-def draw_pyglet(
+def draw_pyglet_State(
     state: State,
     style: typing.Optional[Style] = None,
 ) -> pyg_Batch:

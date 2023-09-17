@@ -7,7 +7,7 @@ import pause
 import pyglet as pyg
 from pyglet.window import Window as pyg_Window
 
-from ..draw_pyglet_ import draw_pyglet
+from ..draw_pyglet_State_ import draw_pyglet_State
 from ..DrawPygletFloor import DrawPygletFloor
 from ..events import EventBuffer, RenderFloorEvent
 from ..State import State
@@ -61,7 +61,7 @@ class ShowAnimationPyglet:
                 seconds=0.05
             )
             batch_packets = []
-            batch_packets.append(draw_pyglet(state, self._style))
+            batch_packets.append(draw_pyglet_State(state, self._style))
             if event_buffer is not None:
                 batch_packets.extend(
                     event_buffer.consume(
