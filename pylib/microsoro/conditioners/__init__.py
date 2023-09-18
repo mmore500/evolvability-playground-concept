@@ -1,3 +1,4 @@
+from .ApplyDeflect import ApplyDeflect
 from .ApplyPropel import ApplyPropel
 from .ApplyRotate import ApplyRotate
 from .ApplySpin import ApplySpin
@@ -7,6 +8,7 @@ from .ApplyTranslate import ApplyTranslate
 
 
 __all__ = [
+    "ApplyDeflect",
     "ApplyPropel",
     "ApplyRotate",
     "ApplySpin",
