@@ -39,7 +39,7 @@ class ApplyFloorBounce:
         """
         if e < 0:
             raise ValueError(
-                f"ApplyPlaneBounce elasticity {e=} must be non-negative."
+                f"ApplyFloorBounce elasticity {e=} must be non-negative."
             )
         self._elasticity = e
         self._intercept = b
