@@ -10,7 +10,6 @@ class Params:
     g: float  # gravitational constant
     k: float  # spring constant
     m: float  # cell mass
-    s: float  # floor slope
 
     def __init__(
         self: "Params",
@@ -20,7 +19,6 @@ class Params:
         g: float = 10.0,
         k: float = 10000.0,
         m: float = 1.0,
-        s: float = 0.0,
     ) -> None:
         assert 0 <= b
         self.b = b
