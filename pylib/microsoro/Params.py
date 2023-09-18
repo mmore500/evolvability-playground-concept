@@ -15,10 +15,10 @@ class Params:
     def __init__(
         self: "Params",
         *,
-        b: float = 10,
+        b: float = 1.0,
         dt: float = 0.001,
         g: float = 10.0,
-        k: float = 1000.0,
+        k: float = 10000.0,
         m: float = 1.0,
         s: float = 0.0,
     ) -> None:
