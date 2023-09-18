@@ -9,11 +9,9 @@ from ipycanvas import hold_canvas as ipy_hold_canvas
 from IPython.display import display as IPy_display
 
 from ....auxlib import decorate_with_context
-from ...draw_ipycanvas_State import draw_ipycanvas_State
 from ...events import EventBuffer, RenderFloorEvent
-from ...DrawIpycanvasFloor import DrawIpycanvasFloor
 from ...State import State
-from ...Style import Style
+from ...viz import draw_ipycanvas_State, DrawIpycanvasFloor, Style
 
 
 class ShowAnimationIpycanvas:

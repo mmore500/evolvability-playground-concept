@@ -3,7 +3,7 @@ import typing
 from pyglet.graphics import Batch as pyg_Batch
 from pyglet.shapes import Polygon as pyg_Polygon
 
-from .events import RenderFloorEvent
+from ..events import RenderFloorEvent
 from .Style import Style
 
 

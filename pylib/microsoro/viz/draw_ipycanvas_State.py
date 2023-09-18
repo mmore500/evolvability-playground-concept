@@ -4,13 +4,12 @@ from ipycanvas import Canvas as ipy_Canvas
 from ipycanvas import hold_canvas as ipy_hold_canvas
 import numpy as np
 
-from ..auxlib import (
+from ...auxlib import (
     decorate_with_context,
     resample_color_palette,
     rgb_reformat_float_to_char,
 )
-
-from .State import State
+from ..State import State
 from .Style import Style
 
 

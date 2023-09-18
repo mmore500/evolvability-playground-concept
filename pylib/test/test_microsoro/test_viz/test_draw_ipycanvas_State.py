@@ -1,12 +1,13 @@
 import ipycanvas
 
-from pylib import microsoro
+from pylib.microsoro import State
+from pylib.microsoro.viz import draw_ipycanvas_State
 
 
 # stub test
 def test_draw_ipycanvas_State():
-    state = microsoro.State()
-    canvas = microsoro.draw_ipycanvas_State(state)
+    state = State()
+    canvas = draw_ipycanvas_State(state)
 
     # doesn't actually do anything outside jupyter notebook context
     def save_to_file(*args, **kwargs):

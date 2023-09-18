@@ -5,7 +5,7 @@ import pause
 
 from ...Params import Params
 from ...State import State
-from ...Style import Style
+from ...viz import Style
 
 
 class PaceToWalltime:

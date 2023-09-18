@@ -4,8 +4,8 @@ from pyglet.shapes import Circle as pyg_Circle
 from pyglet.shapes import Rectangle as pyg_Rectangle
 from pyglet.graphics import Batch as pyg_Batch
 
-from ..auxlib import resample_color_palette, rgb_reformat_float_to_char
-from .State import State
+from ...auxlib import resample_color_palette, rgb_reformat_float_to_char
+from ..State import State
 from .Style import Style
 
 

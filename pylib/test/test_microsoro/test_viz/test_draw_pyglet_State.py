@@ -4,8 +4,9 @@ import os
 import pyglet as pyg
 from unittest.mock import patch, Mock
 
-from pylib.microsoro import draw_pyglet_State, State, Style
+from pylib.microsoro import State, Style
 from pylib.microsoro.conditioners import ApplyTranslate
+from pylib.microsoro.viz import draw_pyglet_State
 
 
 def test_draw_pyglet_State_mock():
@@ -29,9 +30,9 @@ def test_draw_pyglet_State_mock():
 
     # Mocking pyglet's Circle constructor
     with patch(
-        "pylib.microsoro.draw_pyglet_State_.pyg_Circle"
+        "pylib.microsoro.viz.draw_pyglet_State_.pyg_Circle"
     ) as MockCircle, patch(
-        "pylib.microsoro.draw_pyglet_State_.pyg_Rectangle"
+        "pylib.microsoro.viz.draw_pyglet_State_.pyg_Rectangle"
     ) as MockRectangle:
         batch, __ = draw_pyglet_State(state, style)
 
