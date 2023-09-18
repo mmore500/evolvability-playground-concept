@@ -79,6 +79,7 @@ def perform_simulation(
     # perform setup using conditioner regimen
     for conditioner in setup_regimen_conditioners:
         conditioner(state)
+        assert state.validate(), conditioner
 
     # perform simulation, looping until a component returns non-None
     def do_run() -> typing.Iterable:
@@ -86,6 +87,7 @@ def perform_simulation(
         while True:
             for component in update_regimen_components:
                 res = component(state, event_buffer)
+                assert state.validate(), component
                 if res is not None:
                     yield res
                     return
