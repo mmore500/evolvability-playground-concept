@@ -26,12 +26,13 @@ def test_event_buffer_clear():
 
 
 @pytest.mark.parametrize(
-    "events, event_type, skip_duplicates, expected_remaining, expected_ncalls",
+    "events, event_type, skip_duplicates, expected_remaining, "
+    "expected_ncalls, expected_handled",
     [
-        (["a", 1, "b", 2], str, False, [1, 2], 2),
-        (["a", "b", 2], int, False, ["a", "b"], 1),
-        (["a", "a", 1, 2], str, True, [1, 2], 1),
-        (["a", "a", 1, 2], int, True, ["a", "a"], 2),
+        (["a", 1, "b", 2], str, False, [1, 2], 2, ["a", "b"]),
+        (["a", "b", 2], int, False, ["a", "b"], 1, [2]),
+        (["a", "a", 1, 2], str, True, [1, 2], 1, ["a"]),
+        (["a", "a", 1, 2], int, True, ["a", "a"], 2, [1, 2]),
     ],
 )
 def test_event_buffer_consume(
@@ -40,6 +41,7 @@ def test_event_buffer_consume(
     skip_duplicates: bool,
     expected_remaining: typing.List,
     expected_ncalls: int,
+    expected_handled: typing.List,
 ):
     """Test that events of a specified type can be consumed."""
     eb = EventBuffer()
@@ -48,11 +50,13 @@ def test_event_buffer_consume(
 
     call_counter = 0
 
-    def handler(e):
+    def handler(e: event_type) -> event_type:
         nonlocal call_counter
         call_counter += 1
+        return e
 
-    eb.consume(event_type, handler, skip_duplicates)
+    res = eb.consume(event_type, handler, skip_duplicates)
+    assert res == expected_handled
     assert eb._buffer == expected_remaining
     assert expected_ncalls == call_counter
 
@@ -77,6 +81,8 @@ def test_event_buffer_consume_function_called():
 
     def handler(e: str) -> None:
         collected.append(e)
+        return e
 
-    eb.consume(str, handler)
+    res = eb.consume(str, handler)
     assert collected == ["test_event"]
+    assert res == ["test_event"]
