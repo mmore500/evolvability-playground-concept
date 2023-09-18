@@ -32,6 +32,11 @@ class RenderFloorEvent:
             The simulation-space y bounds of viewing window, in ascending order.
         scale: float
             Scale-up factor between simulation space and render space.
+        invert_y: bool, default True
+            Should render space origin fall in upper corner of viewing window?
+
+            If set to False, render space origin will fall in lower corner of
+            viewing window.
 
         Returns
         -------
