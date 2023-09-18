@@ -64,8 +64,12 @@ class DrawIpycanvasFloor:
             scale=self._style.scale,
         )
 
-        self._canvas.fill_style = "gray"
-        self._canvas.stroke_style = "gray"
+        hue = {
+            "floor": "rgba(127,127,127,1.0)",
+            "viscous layer": "rgba(127,127,255,0.3)",
+        }[event.flavor]
+        self._canvas.fill_style = hue
+        self._canvas.stroke_style = hue
         self._canvas.fill_polygon(polygon_points)
         self._canvas.fill_rect(2, 2, 2, 2)
 

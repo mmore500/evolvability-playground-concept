@@ -10,10 +10,13 @@ class RenderFloorEvent:
     --------
     ApplyFloorBounce
         Originates event.
+    ApplyViscousLayer
+        Originates event.
     """
 
     m: float  # slope
     b: float  # intercept
+    flavor: typing.Literal["floor", "viscous layer"] = "floor"  # default value
 
     def get_underfloor_polygon(
         self: "RenderFloorEvent",

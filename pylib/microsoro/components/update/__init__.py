@@ -8,6 +8,7 @@ from .ApplySpringsDiagAsc import ApplySpringsDiagAsc
 from .ApplySpringsDiagDesc import ApplySpringsDiagDesc
 from .ApplySpringsRow import ApplySpringsRow
 from .ApplyVelocity import ApplyVelocity
+from .ApplyViscousLayer import ApplyViscousLayer
 
 
 __all__ = [
@@ -21,4 +22,5 @@ __all__ = [
     "ApplySpringsDiagDesc",
     "ApplySpringsRow",
     "ApplyVelocity",
+    "ApplyViscousLayer",
 ]

@@ -56,7 +56,7 @@ class ApplyFloorBounce:
         m = self._slope
         b = self._intercept
         if event_buffer is not None:
-            event_buffer.enqueue(RenderFloorEvent(m=m, b=b))
+            event_buffer.enqueue(RenderFloorEvent(m=m, b=b, flavor="floor"))
 
         # Get the floor y-values for all x-positions
         y_floor = m * state.px + b

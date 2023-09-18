@@ -57,11 +57,15 @@ class DrawPygletFloor:
             scale=self._style.scale,
             invert_y=False,
         )
+        color = {
+            "floor": (127, 127, 127),
+            "viscous layer": (127, 127, 255, 127),
+        }[event.flavor]
         batch_handles.append(
             pyg_Polygon(
                 *polygon_points,
                 batch=batch,
-                color=(127, 127, 127),
+                color=color,
             ),
         )
 
