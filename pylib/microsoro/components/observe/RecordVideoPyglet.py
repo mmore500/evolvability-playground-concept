@@ -3,13 +3,13 @@ import typing
 import pyglet as pyg
 from pyglet.window import Window as pyg_Window
 
-from ...auxlib import ffmpegVideoRenderWorker
-from ..draw_pyglet_State_ import draw_pyglet_State
-from ..DrawPygletFloor import DrawPygletFloor
-from ..events import EventBuffer, RenderFloorEvent
-from ..Params import Params
-from ..State import State
-from ..Style import Style
+from ....auxlib import ffmpegVideoRenderWorker
+from ...draw_pyglet_State_ import draw_pyglet_State
+from ...DrawPygletFloor import DrawPygletFloor
+from ...events import EventBuffer, RenderFloorEvent
+from ...Params import Params
+from ...State import State
+from ...Style import Style
 
 
 class RecordVideoPyglet:

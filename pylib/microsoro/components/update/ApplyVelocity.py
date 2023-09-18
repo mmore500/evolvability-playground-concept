@@ -1,15 +1,16 @@
 import typing
 
-from ..State import State
-from ..Params import Params
+from ...State import State
+from ...Params import Params
 
 
-class ApplyGravity:
+class ApplyVelocity:
+    """Advance position one simulation step under state velocities."""
 
     _params: Params
 
     def __init__(
-        self: "ApplyGravity",
+        self: "ApplyVelocity",
         params: typing.Optional[Params] = None,
     ) -> None:
         if params is None:
@@ -17,9 +18,10 @@ class ApplyGravity:
         self._params = params
 
     def __call__(
-        self: "ApplyGravity",
+        self: "ApplyVelocity",
         state: State,
         event_buffer: typing.Optional = None,
     ) -> None:
         params = self._params
-        state.vy -= params.g * params.dt
+        state.px += state.vx * params.dt
+        state.py += state.vy * params.dt

@@ -53,7 +53,7 @@ def test_call_first_time(
     functor = PaceToWalltime(params_dt_1sec)
 
     with patch(
-        "pylib.microsoro.components.PaceToWalltime_.pause.until",
+        "pylib.microsoro.components.utility.PaceToWalltime_.pause.until",
     ) as mocked_pause:
         onesec = datetime.timedelta(seconds=1.0)
         # note that time is frozen
@@ -75,7 +75,7 @@ def test_call_not_first_time_without_catchup(
     functor._until_time = datetime.datetime(2023, 2, 2)
 
     with patch(
-        "pylib.microsoro.components.PaceToWalltime_.pause.until",
+        "pylib.microsoro.components.utility.PaceToWalltime_.pause.until",
     ) as mocked_pause:
         onesec = datetime.timedelta(seconds=1.0)
         # note that time is frozen
@@ -98,7 +98,7 @@ def test_call_not_first_time_with_catchup(
     functor._until_time = datetime.datetime(2023, 2, 2)
 
     with patch(
-        "pylib.microsoro.components.PaceToWalltime_.pause.until",
+        "pylib.microsoro.components.utility.PaceToWalltime_.pause.until",
     ) as mocked_pause:
         onesec = datetime.timedelta(seconds=1.0)
         expected_until_time = datetime.datetime(2023, 2, 2) + onesec

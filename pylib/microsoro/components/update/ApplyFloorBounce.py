@@ -2,8 +2,8 @@ import typing
 
 import numpy as np
 
-from ..State import State
-from ..events import EventBuffer, RenderFloorEvent
+from ...State import State
+from ...events import EventBuffer, RenderFloorEvent
 
 
 class ApplyFloorBounce:

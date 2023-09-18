@@ -7,11 +7,11 @@ import pause
 import pyglet as pyg
 from pyglet.window import Window as pyg_Window
 
-from ..draw_pyglet_State_ import draw_pyglet_State
-from ..DrawPygletFloor import DrawPygletFloor
-from ..events import EventBuffer, RenderFloorEvent
-from ..State import State
-from ..Style import Style
+from ...draw_pyglet_State_ import draw_pyglet_State
+from ...DrawPygletFloor import DrawPygletFloor
+from ...events import EventBuffer, RenderFloorEvent
+from ...State import State
+from ...Style import Style
 
 
 class ShowAnimationPyglet:

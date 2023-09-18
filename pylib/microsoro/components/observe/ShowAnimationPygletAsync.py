@@ -8,10 +8,10 @@ import pause
 import pyglet as pyg
 from pyglet.window import Window as pyg_Window
 
-from ...auxlib import HaltToken
-from ..draw_pyglet_State_ import draw_pyglet_State
-from ..State import State
-from ..Style import Style
+from ....auxlib import HaltToken
+from ...draw_pyglet_State_ import draw_pyglet_State
+from ...State import State
+from ...Style import Style
 
 
 def _calculate_scheduled_walltime(
