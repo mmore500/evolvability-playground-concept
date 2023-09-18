@@ -86,3 +86,35 @@ def test_event_buffer_consume_function_called():
     res = eb.consume(str, handler)
     assert collected == ["test_event"]
     assert res == ["test_event"]
+
+
+@pytest.mark.parametrize(
+    "events1, events2, expected_result",
+    [
+        (["a", 1, "b"], ["a", 1, "b"], True),
+        (["a", 1, "b"], ["a", "b", 1], False),
+        (["a", "b", 2], ["a", "b", 2, "c"], False),
+        (["a", "a", 2], ["a", "a", 2], True),
+        (["a", "a", "c"], ["a", "a", "d"], False),
+    ],
+)
+def test_event_buffer_consume(
+    events1: typing.List,
+    events2: typing.List,
+    expected_result: bool,
+):
+    """Test == operator."""
+    eb1 = EventBuffer()
+    for event in events1:
+        eb1.enqueue(event)
+
+    eb2 = EventBuffer()
+    for event in events2:
+        eb2.enqueue(event)
+
+    assert (eb1 == eb2) == expected_result
+
+    eb1.clear()
+    eb2.consume(int, lambda e: None)
+    eb2.consume(str, lambda e: None)
+    assert eb1 == eb2

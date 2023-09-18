@@ -13,6 +13,10 @@ class EventBuffer:
         """Initialize buffer."""
         self._buffer = list()
 
+    def __eq__(self: "EventBuffer", other: "EventBuffer") -> bool:
+        """Test equality."""
+        return type(self) == type(other) and self.__dict__ == other.__dict__
+
     def clear(self: "EventBuffer") -> None:
         """Clear all events from the buffer."""
         self._buffer = list()
