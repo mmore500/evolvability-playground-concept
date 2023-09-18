@@ -2,12 +2,11 @@ import typing
 
 from iterpop import iterpop as ip
 
-from .components import HaltAfterElapsedTime
-from .conditioners import ApplyTranslate
-from .events import EventBuffer
+from ..components import HaltAfterElapsedTime
+from ..conditioners import ApplyTranslate
+from ..events import EventBuffer
+from ..State import State
 from .get_default_update_regimen import get_default_update_regimen
-
-from .State import State
 
 
 def perform_simulation(

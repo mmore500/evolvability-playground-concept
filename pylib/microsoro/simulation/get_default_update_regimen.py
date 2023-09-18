@@ -1,7 +1,7 @@
 import typing
 
-from .Params import Params
-from . import components
+from ..Params import Params
+from .. import components
 
 
 def get_default_update_regimen(
