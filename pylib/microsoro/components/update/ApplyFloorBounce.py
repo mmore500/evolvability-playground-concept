@@ -19,8 +19,8 @@ class ApplyFloorBounce:
 
         Parameters:
         ----------
-        e : float, optional
-            Elasticity coefficient of the bounce, by default 1.0.
+        e : float, default 1.0
+            Elasticity coefficient of the bounce.
 
             Specifies proportion of kinetic energy retained after collision.
         m : float, default 0.0
