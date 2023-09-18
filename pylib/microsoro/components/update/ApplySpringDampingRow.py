@@ -49,7 +49,8 @@ class ApplySpringDampingRow:
         )
 
         # net forces: negative is repulsion, positive is attraction
-        b = self._params.b  # damping constant
+        # damping constant, clipped to prevent any overshoot
+        b = np.minimum(self._params.b, 1 / self._params.dt)
         f = b * row_relvels
 
         # decompose force into horizontal and vertical components
