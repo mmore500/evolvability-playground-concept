@@ -1,7 +1,7 @@
 import numpy as np
 import typing
 
-from ..State import State
+from ...State import State
 
 
 class ApplyStretch:

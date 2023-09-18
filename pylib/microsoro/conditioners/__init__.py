@@ -1,18 +1,6 @@
-from .ApplyDeflect import ApplyDeflect
-from .ApplyPropel import ApplyPropel
-from .ApplyRotate import ApplyRotate
-from .ApplySpin import ApplySpin
-from .ApplyStretch import ApplyStretch
-from .ApplyTorsion import ApplyTorsion
-from .ApplyTranslate import ApplyTranslate
+from . import position
+from . import velocity
+from .position import *
+from .velocity import *
 
-
-__all__ = [
-    "ApplyDeflect",
-    "ApplyPropel",
-    "ApplyRotate",
-    "ApplySpin",
-    "ApplyStretch",
-    "ApplyTorsion",
-    "ApplyTranslate",
-]
+__all__ = position.__all__ + velocity.__all__

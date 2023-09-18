@@ -1,6 +1,6 @@
 import numpy as np
 
-from ..State import State
+from ...State import State
 
 
 class ApplySpin:
