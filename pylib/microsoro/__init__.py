@@ -1,3 +1,4 @@
+from . import defaults
 from . import components
 from . import conditioners
 from . import events
@@ -10,6 +11,7 @@ from .viz import Style
 
 
 __all__ = [
+    "defaults",
     "components",
     "conditioners",
     "events",
