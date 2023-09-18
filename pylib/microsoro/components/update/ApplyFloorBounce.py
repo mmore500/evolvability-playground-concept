@@ -9,6 +9,10 @@ from ...events import EventBuffer, RenderFloorEvent
 class ApplyFloorBounce:
     """Bounce cells off a sloped floor."""
 
+    _elasticity: float
+    _intercept: float
+    _slope: float
+
     def __init__(
         self: "ApplyFloorBounce",
         e: float = 1.0,
