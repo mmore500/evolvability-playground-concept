@@ -34,6 +34,16 @@ class State:
     def ncells(self: "State") -> int:
         return self.px.size
 
+    def validate(self: "State") -> bool:
+        return (
+            not np.any(np.isnan(self.px))
+            and not np.any(np.isnan(self.py))
+            and not np.any(np.isnan(self.vx))
+            and not np.any(np.isnan(self.vy))
+            and not np.isnan(self.t)
+            and self.t >= 0
+        )
+
     def same_position_as(self: "State", other: "State") -> bool:
         return np.allclose(self.px, other.px, equal_nan=True) and np.allclose(
             self.py, other.py, equal_nan=True
