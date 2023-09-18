@@ -35,6 +35,8 @@ def get_default_update_regimen(
         components.ApplySpringsRow(params),
         components.ApplySpringsDiagAsc(params),
         components.ApplySpringsDiagDesc(params),
+        components.ApplySpringDampingCol(params),
+        components.ApplySpringDampingRow(params),
         components.ApplyVelocity(params),
         components.ApplyFloorBounce(),
         components.ApplyIncrementElapsedTime(params),
