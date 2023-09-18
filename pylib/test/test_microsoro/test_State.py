@@ -31,6 +31,38 @@ def test_init():
     assert state.t == 0
 
 
+def test_eq():
+    assert State() == State()
+    state = State()
+    assert state == state
+    assert State(height=8, width=10) == State(height=8, width=10)
+    assert State(height=12, width=10) == State(height=12, width=10)
+    assert State(height=8, width=10) != State(height=8, width=9)
+    assert State(height=1, width=9) != State(height=8, width=9)
+    assert State(height=1, width=3) != State(height=8, width=9)
+    assert State(height=1, width=13) != State(height=8, width=9)
+
+    for attr in ["px", "py", "vx", "vy"]:
+        state = State()
+        getattr(state, attr)[0, 0] = 4.2e9
+        assert state == state
+        assert State() != state
+        assert state != State()
+
+    for attr in ["px", "py", "vx", "vy"]:
+        state = State()
+        getattr(state, attr).fill(4.2e9)
+        assert state == state
+        assert state != State()
+        assert State() != state
+
+    state = State()
+    state.t = 32.0
+    assert state == state
+    assert state != State()
+    assert State() != state
+
+
 @pytest.mark.parametrize("height", range(1, 10))
 @pytest.mark.parametrize("width", range(1, 10))
 def test_ncells(height: int, width: int):

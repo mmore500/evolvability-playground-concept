@@ -30,6 +30,16 @@ class State:
 
         self.t = 0.0
 
+    def __eq__(self: "State", other: "State") -> bool:
+        return (
+            (type(self) == type(other))
+            and np.array_equal(self.px, other.px, equal_nan=True)
+            and np.array_equal(self.py, other.py, equal_nan=True)
+            and np.array_equal(self.vx, other.vx, equal_nan=True)
+            and np.array_equal(self.vy, other.vy, equal_nan=True)
+            and (self.t == other.t)
+        )
+
     @property
     def ncells(self: "State") -> int:
         return self.px.size
