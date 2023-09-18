@@ -29,6 +29,7 @@ def get_default_update_regimen(
         params = Params()
 
     return [
+        components.ClearEventBuffer(),  # 1st (not last) so handle events after
         components.ApplyGravity(params),
         components.ApplySpringsCol(params),
         components.ApplySpringsRow(params),
