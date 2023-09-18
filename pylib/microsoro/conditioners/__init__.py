@@ -7,7 +7,7 @@ from .ApplyTranslate import ApplyTranslate
 
 
 __all__ = [
-    "ApplyPropele",
+    "ApplyPropel",
     "ApplyRotate",
     "ApplySpin",
     "ApplyStretch",
