@@ -44,7 +44,7 @@ class ApplySpringDampingCol:
         normed_col_relvels_vert = np.divide(
             col_relvels_vert,
             col_relvels,
-            out=np.zeros_like(col_relvels_horiz),
+            out=np.zeros_like(col_relvels_vert),
             where=divide_mask,
         )
 
