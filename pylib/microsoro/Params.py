@@ -2,6 +2,8 @@ import typing
 
 import numpy as np
 
+from . import defaults
+
 
 class Params:
 
@@ -14,25 +16,42 @@ class Params:
     def __init__(
         self: "Params",
         *,
-        b: float = 1.0,
-        dt: float = 0.001,
-        g: float = 10.0,
-        k: float = 10000.0,
-        m: float = 1.0,
+        b: typing.Optional[float] = None,
+        dt: typing.Optional[float] = None,
+        g: typing.Optional[float] = None,
+        k: typing.Optional[float] = None,
+        m: typing.Optional[float] = None,
     ) -> None:
-        assert 0 <= b
+        if b is None:
+            b = defaults.b
+        if not np.clip(b, *defaults.b_lim) == b:
+            raise ValueError(f"value {b=} not within limits {defaults.b_lim}")
         self.b = b
 
-        assert dt > 0
+        if dt is None:
+            dt = defaults.dt
+        if not np.clip(dt, *defaults.dt_lim) == dt:
+            raise ValueError(
+                f"value {dt=} not within limits {defaults.dt_lim}"
+            )
         self.dt = dt
 
-        assert g > 0
+        if g is None:
+            g = defaults.g
+        if not np.clip(g, *defaults.g_lim) == g:
+            raise ValueError(f"value {g=} not within limits {defaults.g_lim}")
         self.g = g
 
-        assert k > 0
+        if k is None:
+            k = defaults.k
+        if not np.clip(k, *defaults.k_lim) == k:
+            raise ValueError(f"value {k=} not within limits {defaults.k_lim}")
         self.k = k
 
-        assert m > 0
+        if m is None:
+            m = defaults.m
+        if not np.clip(m, *defaults.dt_lim) == m:
+            raise ValueError(f"value {m=} not within limits {defaults.m_lim}")
         self.m = m
 
     def __eq__(self: "Params", other: "Params") -> bool:

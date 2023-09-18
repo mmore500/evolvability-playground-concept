@@ -9,9 +9,11 @@ b_lim: typing.Tuple[float, float] = (0.0, 1e2)
 
 # simulation timestep
 dt: float = 1e-3
+dt_lim: typing.Tuple[float, float] = (sys.float_info.min, sys.float_info.max)
 
 # gravitational constant
 g: float = 1e1
+g_lim: typing.Tuple[float, float] = (0, sys.float_info.max)
 
 # spring stiffness
 k: float = 1e4

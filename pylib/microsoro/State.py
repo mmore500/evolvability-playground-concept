@@ -1,4 +1,8 @@
+import typing
+
 import numpy as np
+
+from . import defaults
 
 
 class State:
@@ -17,7 +21,25 @@ class State:
     # elapsed time
     t: float
 
-    def __init__(self: "State", height: int = 8, width: int = 8) -> None:
+    def __init__(
+        self: "State",
+        height: typing.Optional[int] = None,
+        width: typing.Optional[int] = None,
+    ) -> None:
+        if height is None:
+            height = defaults.nrow
+        if not np.clip(height, *defaults.nrow_lim) == height:
+            raise ValueError(
+                f"value {height=} not within limits {defaults.nrow_lim}",
+            )
+
+        if width is None:
+            width = defaults.ncol
+        if not np.clip(width, *defaults.ncol_lim) == width:
+            raise ValueError(
+                f"value {width=} not within limits {defaults.ncol_lim}",
+            )
+
         self.px = np.tile(np.linspace(0, float(width - 1), width), (height, 1))
         self.py = np.tile(
             np.linspace(0, float(height - 1), height), (width, 1)

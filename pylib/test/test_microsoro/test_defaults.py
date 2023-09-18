@@ -8,11 +8,15 @@ def test_b():
 
 
 def test_dt():
-    assert defaults.dt > 0.0
+    dt1, dt2 = defaults.dt_lim
+    assert dt1 <= dt2
+    assert dt1 <= defaults.dt <= dt2
 
 
 def test_g():
-    assert defaults.g >= 0.0
+    g1, g2 = defaults.g_lim
+    assert g1 <= g2
+    assert g1 <= defaults.g <= g2
 
 
 def test_k():
