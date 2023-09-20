@@ -52,7 +52,7 @@ class Structure:
     la: np.ndarray  # spring lengths, ascending diagonals
     ld: np.ndarray  # spring lengths, descending diagonals
 
-    m: typing.Optional[np.ndarray]  # masses
+    m: np.ndarray  # masses
 
     @property
     def height(self: "Structure") -> int:
