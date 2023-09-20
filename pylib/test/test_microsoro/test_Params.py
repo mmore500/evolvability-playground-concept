@@ -72,3 +72,16 @@ def test_l_diag():
 
     params = Params(l=0.0)
     assert params.l_diag == math.sqrt(2 * params.l**2)
+
+
+def test_l_lim_diag():
+    params = Params()
+    for i in range(0, 1):
+        l = params.l_lim[i]
+        assert params.l_lim_diag[i] == math.sqrt(2 * l**2)
+
+        params = Params(l=2.0)
+        assert params.l_lim_diag[i] == math.sqrt(2 * l**2)
+
+        params = Params(l=0.0)
+        assert params.l_lim_diag[i] == math.sqrt(2 * l**2)

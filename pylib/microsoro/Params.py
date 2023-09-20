@@ -102,3 +102,7 @@ class Params:
     @property
     def l_diag(self: "Params") -> float:
         return np.sqrt(2 * self.l**2)
+
+    @property
+    def l_lim_diag(self: "Params") -> float:
+        return tuple(map(lambda x: np.sqrt(2 * x**2), self.l_lim))
