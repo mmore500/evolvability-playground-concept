@@ -160,6 +160,25 @@ class Structure:
         if not self.validate(params):
             raise ValueError
 
+    def __eq__(self: "Structure", other: "Structure") -> bool:
+        """Test equality."""
+        return (
+            np.array_equal(self.bc, other.bc)
+            and np.array_equal(self.br, other.br)
+            and np.array_equal(self.ba, other.ba)
+            and np.array_equal(self.bd, other.bd)
+            and np.array_equal(self.kc, other.kc)
+            and np.array_equal(self.kr, other.kr)
+            and np.array_equal(self.ka, other.ka)
+            and np.array_equal(self.kd, other.kd)
+            and np.array_equal(self.lc, other.lc)
+            and np.array_equal(self.lr, other.lr)
+            and np.array_equal(self.la, other.la)
+            and np.array_equal(self.ld, other.ld)
+            and np.array_equal(self.m, other.m)
+        )
+
+
     @staticmethod
     def make_random(
         height: typing.Optional[int] = None,

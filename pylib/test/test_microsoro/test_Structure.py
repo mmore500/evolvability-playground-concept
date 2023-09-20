@@ -31,6 +31,26 @@ def test_structure_init_invalid_values():
         Structure(width=defaults.ncol_lim[0] - 1)
 
 
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"b": 42.0},
+        {"k": defaults.k_lim[0] + 24.0},
+        {"l": 0.42},
+        {"m": 0.42},
+    ],
+)
+def test_eq(kwargs: typing.Dict):
+    params = Params(**kwargs)
+    custom_structure = Structure(params=params)
+
+    assert custom_structure != Structure()
+    assert Structure(params=params) != Structure()
+    assert custom_structure == custom_structure
+    assert custom_structure == Structure(params=params)
+    assert Structure() == Structure()
+
+
 def test_structure_properties():
     # Given a structure instance
     s = Structure(height=10, width=15)
