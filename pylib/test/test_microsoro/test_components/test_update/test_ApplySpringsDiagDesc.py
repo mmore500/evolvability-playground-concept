@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from pylib.auxlib import all_rows_equivalent
-from pylib.microsoro import State, Params
+from pylib.microsoro import State, Structure, Params
 from pylib.microsoro.components import ApplySpringsDiagDesc
 from pylib.microsoro.conditioners import (
     ApplyRotate,
@@ -190,7 +190,10 @@ def test_param_k(
         conditioner(state)
         params = Params()
         params.k = k
-        res = ApplySpringsDiagDesc(params=params)(state, event_buffer)
+        params.k_lim = (0, 11)
+        res = ApplySpringsDiagDesc(
+            structure=Structure(params=params),
+        )(state, event_buffer)
         assert res is None
 
         speeds = np.sqrt(state.vx**2 + state.vy**2)

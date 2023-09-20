@@ -3,6 +3,7 @@ import typing
 import numpy as np
 
 from ...State import State
+from ...Structure import Structure
 from ...Params import Params
 
 
@@ -11,15 +12,20 @@ class ApplySpringsDiagAsc:
     diagonals."""
 
     _params: Params
+    _structure: Structure
 
     def __init__(
         self: "ApplySpringsDiagAsc",
         params: typing.Optional[Params] = None,
+        structure: typing.Optional[Structure] = None,
     ) -> None:
         """Initialize functor."""
         if params is None:
             params = Params()
         self._params = params
+        if structure is None:
+            structure = Structure(params=params)
+        self._structure = structure
 
     def __call__(
         self: "ApplySpringsDiagAsc",
@@ -38,8 +44,8 @@ class ApplySpringsDiagAsc:
         normed_diag_dists_vert = diag_dists_vert / diag_dists
 
         # net forces: negative is repulsion, positive is attraction
-        l_naught = np.sqrt(2)  # natural length of springs, on diagonal
-        f = self._params.k * (diag_dists - l_naught)
+        l_naught = self._structure.la  # natural len of springs, on diagonal
+        f = self._structure.ka * (diag_dists - l_naught)
 
         # decompose force into horizontal and vertical components
         fx = f * normed_diag_dists_horiz
@@ -53,6 +59,7 @@ class ApplySpringsDiagAsc:
         ax = np.zeros_like(state.vx)
         ax[:-1, :-1] -= fx[:, :]  # up-right facing forces
         ax[1:, 1:] += fx[:, :]  # down-left facing forces
+        ax /= self._structure.m
         # apply acceleration to state
         state.vx += ax * self._params.dt
 
@@ -60,5 +67,6 @@ class ApplySpringsDiagAsc:
         ay = np.zeros_like(state.vy)
         ay[:-1, :-1] -= fy[:, :]  # up-right facing forces
         ay[1:, 1:] += fy[:, :]  # down-left facing forces
+        ay /= self._structure.m
         # apply acceleration to state
         state.vy += ay * self._params.dt

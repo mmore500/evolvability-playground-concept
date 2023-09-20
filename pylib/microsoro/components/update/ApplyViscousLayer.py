@@ -4,6 +4,7 @@ import numpy as np
 
 from ...events import EventBuffer, RenderFloorEvent
 from ...State import State
+from ...Structure import Structure
 from ...Params import Params
 
 
@@ -14,6 +15,7 @@ class ApplyViscousLayer:
     _intercept: float
     _slope: float
     _params: Params
+    _structure: Structure
 
     def __init__(
         self: "ApplyViscousLayer",
@@ -21,6 +23,7 @@ class ApplyViscousLayer:
         m: float = 0.0,
         b: float = 0.0,
         params: typing.Optional[Params] = None,
+        structure: typing.Optional[Structure] = None,
     ) -> None:
         """Initialize functor.
 
@@ -50,6 +53,9 @@ class ApplyViscousLayer:
         if params is None:
             params = Params()
         self._params = params
+        if structure is None:
+            structure = Structure(params=params)
+        self._structure = structure
 
     def __call__(
         self: "ApplyViscousLayer",
@@ -77,8 +83,14 @@ class ApplyViscousLayer:
         dt = self._params.dt
         # damping constant, clipped to prevent any overshoot
         mu = np.minimum(self._mu, 1 / dt)
-        dvx = -state.vx[below_floor_mask] * mu * dt
-        dvy = -state.vy[below_floor_mask] * mu * dt
+        fx = -state.vx[below_floor_mask] * mu
+        fy = -state.vy[below_floor_mask] * mu
+
+        ax = fx / self._structure.m[below_floor_mask]
+        ay = fy / self._structure.m[below_floor_mask]
+
+        dvx = ax * dt
+        dvy = ay * dt
 
         state.vx[below_floor_mask] += dvx
         state.vy[below_floor_mask] += dvy

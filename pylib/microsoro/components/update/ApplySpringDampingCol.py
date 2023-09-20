@@ -3,6 +3,7 @@ import typing
 import numpy as np
 
 from ...State import State
+from ...Structure import Structure
 from ...Params import Params
 
 
@@ -10,15 +11,20 @@ class ApplySpringDampingCol:
     """Simulate damping action of springs between vertical pairs of cells."""
 
     _params: Params
+    _structure: Structure
 
     def __init__(
         self: "ApplySpringDampingCol",
         params: typing.Optional[Params] = None,
+        structure: typing.Optional[Structure] = None,
     ) -> None:
         """Initialize functor."""
         if params is None:
             params = Params()
         self._params = params
+        if structure is None:
+            structure = Structure(params=params)
+        self._structure = structure
 
     def __call__(
         self: "ApplySpringDampingCol",
@@ -50,7 +56,7 @@ class ApplySpringDampingCol:
 
         # net forces: negative is repulsion, positive is attraction
         # damping constant, clipped to prevent any overshoot
-        b = np.minimum(self._params.b, 1 / self._params.dt)
+        b = np.minimum(self._structure.bc, 1 / self._params.dt)
         f = b * col_relvels
 
         # decompose force into horizontal and vertical components
@@ -65,6 +71,7 @@ class ApplySpringDampingCol:
         ax = np.zeros_like(state.vx)
         ax[:-1, :] += fx[:, :]  # up-facing forces
         ax[1:, :] -= fx[:, :]  # down-facing forces
+        ax /= self._structure.m
         # apply acceleration to state
         state.vx += ax * self._params.dt
 
@@ -72,5 +79,6 @@ class ApplySpringDampingCol:
         ay = np.zeros_like(state.vy)
         ay[:-1, :] += fy[:, :]  # up-facing forces
         ay[1:, :] -= fy[:, :]  # down-facing forces
+        ay /= self._structure.m
         # apply acceleration to state
         state.vy += ay * self._params.dt

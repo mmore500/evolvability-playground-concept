@@ -7,6 +7,7 @@ from . import viz
 from .Params import Params
 from .simulation import get_default_update_regimen, perform_simulation
 from .State import State
+from .Structure import Structure
 from .viz import Style
 
 
@@ -19,6 +20,7 @@ __all__ = [
     "Params",
     "perform_simulation",
     "State",
+    "Structure",
     "Style",
     "viz",
 ]

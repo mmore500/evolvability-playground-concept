@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 
 from pylib.auxlib import all_rows_equivalent
-from pylib.microsoro import State, Params
+from pylib.microsoro import State, Structure, Params
 from pylib.microsoro.components import ApplySpringDampingRow
 from pylib.microsoro.conditioners import (
     ApplyDeflect,
@@ -157,6 +157,40 @@ def test_param_b(
         params = Params()
         params.b = b
         res = ApplySpringDampingRow(params=params)(state, event_buffer)
+        assert res is None
+
+        speeds = np.sqrt(state.vx**2 + state.vy**2)
+        sum_speeds.append(np.sum(speeds))
+
+    # shouldn't all be equivalent
+    assert not np.allclose(sum_speeds, sum_speeds[0])
+
+    # should be in increasing order as b is added
+    assert hstrat_aux.is_strictly_decreasing(sum_speeds)
+
+
+@pytest.mark.parametrize(
+    "conditioner",
+    [
+        ApplyStretch(mx=1.5, my=2.0),
+        ApplyTorsion(),
+    ],
+)
+def test_param_Structure(
+    conditioner: typing.Callable,
+    event_buffer: typing.Optional[EventBuffer],
+):
+    sum_speeds = []
+    for b in range(10):
+        state = State()
+        conditioner(state)
+        state.vx = state.px
+        state.vy = state.py
+        params = Params()
+        params.b = b
+        res = ApplySpringDampingRow(
+            structure=Structure(params=params),
+        )(state, event_buffer)
         assert res is None
 
         speeds = np.sqrt(state.vx**2 + state.vy**2)

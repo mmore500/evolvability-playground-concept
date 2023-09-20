@@ -4,7 +4,7 @@ import typing
 import pytest
 import numpy as np
 
-from pylib.microsoro import conditioners, State
+from pylib.microsoro import conditioners, State, Structure
 from pylib.microsoro.components import ApplyFloorBounce
 from pylib.microsoro.events import EventBuffer
 

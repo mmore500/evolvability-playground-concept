@@ -176,7 +176,10 @@ def test_param_k(
         conditioner(state)
         params = Params()
         params.k = k
-        res = ApplySpringsCol(params=params)(state, event_buffer)
+        params.k_lim = (0, 11)
+        res = ApplySpringsCol(
+            structure=Structure(params),
+        )(state, event_buffer)
         assert res is None
 
         speeds = np.sqrt(state.vx**2 + state.vy**2)

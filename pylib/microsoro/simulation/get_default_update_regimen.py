@@ -1,11 +1,13 @@
 import typing
 
 from ..Params import Params
+from ..Structure import Structure
 from .. import components
 
 
 def get_default_update_regimen(
     params: typing.Optional[Params] = None,
+    structure: typing.Optional[Structure] = None,
 ) -> typing.List[typing.Callable]:
     """Lists core simulation components as ordered, callable objects.
 
@@ -27,16 +29,18 @@ def get_default_update_regimen(
     """
     if params is None:
         params = Params()
+    if structure is None:
+        structure = Structure(params=params)
 
     return [
         components.ClearEventBuffer(),  # 1st (not last) so handle events after
         components.ApplyGravity(params),
-        components.ApplySpringsCol(params),
-        components.ApplySpringsRow(params),
-        components.ApplySpringsDiagAsc(params),
-        components.ApplySpringsDiagDesc(params),
-        components.ApplySpringDampingCol(params),
-        components.ApplySpringDampingRow(params),
+        components.ApplySpringsCol(params, structure),
+        components.ApplySpringsRow(params, structure),
+        components.ApplySpringsDiagAsc(params, structure),
+        components.ApplySpringsDiagDesc(params, structure),
+        components.ApplySpringDampingCol(params, structure),
+        components.ApplySpringDampingRow(params, structure),
         components.ApplyVelocity(params),
         components.ApplyFloorBounce(),
         components.ApplyIncrementElapsedTime(params),
