@@ -35,7 +35,7 @@ def l_lim_diag() -> typing.Tuple[float, float]:
 
 # mass
 m: float = 1.0
-m_lim: typing.Tuple[float, float] = (0.0, 1e2)
+m_lim: typing.Tuple[float, float] = (1e-1, 1e1)
 
 # cell matrix width
 ncol: int = 8
