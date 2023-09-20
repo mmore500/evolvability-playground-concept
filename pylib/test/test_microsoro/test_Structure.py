@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+import typing
 
 from pylib.microsoro import defaults, Structure, Params
 
@@ -162,3 +163,113 @@ def test_structure_with_m():
 
     # Check if m was correctly set
     assert np.all(structure.m == np.mean(params.m_lim))
+
+
+def test_make_from_bytes_dimensions() -> "Structure":
+    # Given specific values
+    s = Structure.make_from_bytes(height=10, width=15)
+
+    # Assert the height and width are set correctly
+    assert s.height == 10
+    assert s.width == 15
+
+
+def test_make_from_bytes_with_params():
+    params = Params(
+        b=42.0,
+        k=defaults.k_lim[0] + 24.0,
+        l=0.42,
+        m=2.4,
+    )
+    structure = Structure(params=params)
+
+    # Check if the default values are set correctly based on params
+    assert np.all(structure.bc == params.b)
+    assert np.all(structure.br == params.b)
+    assert np.all(structure.ba == params.b)
+    assert np.all(structure.bd == params.b)
+
+    assert np.all(structure.kc == params.k)
+    assert np.all(structure.kr == params.k)
+    assert np.all(structure.ka == params.k)
+    assert np.all(structure.kd == params.k)
+
+    assert np.all(structure.lc == params.l)
+    assert np.all(structure.lr == params.l)
+    assert np.all(structure.la == params.l_diag)
+    assert np.all(structure.ld == params.l_diag)
+
+    assert np.all(structure.m == params.m)
+
+
+def test_make_from_bytes_b():
+    structure = Structure(
+        b=np.array([[0.0] * 3] * 3),
+        height=4,
+    )
+
+    # Check if the default values are set correctly based on params
+    target_value = np.min(defaults.b_lim)
+    assert np.all(structure.bc == target_value)
+    assert np.all(structure.br == target_value)
+    assert np.all(structure.ba == target_value)
+    assert np.all(structure.bd == target_value)
+
+    assert structure.validate()
+
+    assert structure.height == 4
+    assert structure.width == defaults.ncol
+
+
+def test_make_from_bytes_k():
+    structure = Structure(
+        k=np.array([[0.0] * 3] * 3),
+        height=4,
+    )
+
+    # Check if the default values are set correctly based on params
+    target_value = np.min(defaults.k_lim)
+    assert np.all(structure.kc == target_value)
+    assert np.all(structure.kr == target_value)
+    assert np.all(structure.ka == target_value)
+    assert np.all(structure.kd == target_value)
+
+    assert structure.validate()
+
+    assert structure.height == 4
+    assert structure.width == defaults.ncol
+
+
+def test_make_from_bytes_l():
+    structure = Structure(
+        l=np.array([[0.0] * 3] * 3),
+        height=4,
+    )
+
+    # Check if the default values are set correctly based on params
+    target_value = np.min(defaults.l_lim)
+    assert np.all(structure.lc == target_value)
+    assert np.all(structure.lr == target_value)
+    assert np.all(structure.la == target_value)
+    assert np.all(structure.ld == target_value)
+
+    assert structure.validate()
+
+    assert structure.height == 4
+    assert structure.width == defaults.ncol
+
+
+def test_make_from_bytes_m():
+    structure = Structure(
+        m=np.array([[0.0] * 3] * 3),
+        height=4,
+    )
+
+    # Check if the default values are set correctly based on params
+    target_value = np.min(defaults.m_lim)
+    assert np.all(structure.m == target_value)
+
+    assert structure.validate()
+
+    assert structure.height == 4
+    assert structure.width == defaults.ncol

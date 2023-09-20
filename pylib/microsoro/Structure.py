@@ -293,13 +293,13 @@ class Structure:
         ValueError
             If `b`, `k`, `l`, or `m` contain values not between 0 and 255.
         """
-        if np.any(np.clip(b, 0, 255) != b):
+        if b is not None and np.any(np.clip(b, 0, 255) != b):
             raise ValueError(f"{b=} must have values between 0 and 255")
-        if np.any(np.clip(k, 0, 255) != k):
+        if k is not None and np.any(np.clip(k, 0, 255) != k):
             raise ValueError(f"{k=} must have values between 0 and 255")
-        if np.any(np.clip(l, 0, 255) != l):
+        if l is not None and np.any(np.clip(l, 0, 255) != l):
             raise ValueError(f"{l=} must have values between 0 and 255")
-        if np.any(np.clip(m, 0, 255) != m):
+        if m is not None and np.any(np.clip(m, 0, 255) != m):
             raise ValueError(f"{m=} must have values between 0 and 255")
         normalize_byte = lambda x: x / 255.0
         return Structure(
