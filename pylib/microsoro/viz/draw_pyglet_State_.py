@@ -54,10 +54,12 @@ def draw_pyglet_State(
         palette = resample_color_palette(palette, state.ncells)
 
     for x, y, color in zip(state.px.flat, state.py.flat, palette):
+        x1, x2 = style.xlim
+        y1, y2 = style.ylim
         batch_handles.append(
             pyg_Circle(
-                x * style.scale,
-                y * style.scale,
+                (x - x1) * style.scale,
+                (y - y1) * style.scale,
                 style.cell_radius * style.scale,
                 batch=batch,
                 color=rgb_reformat_float_to_char(color),

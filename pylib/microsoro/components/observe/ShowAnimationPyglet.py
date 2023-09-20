@@ -68,7 +68,6 @@ class ShowAnimationPyglet:
                         skip_duplicates=True,
                     ),
                 )
-                print(batch_packets)
 
             self._window.switch_to()
             self._window.clear()
