@@ -178,7 +178,6 @@ class Structure:
             and np.array_equal(self.m, other.m)
         )
 
-
     @staticmethod
     def make_random(
         height: typing.Optional[int] = None,

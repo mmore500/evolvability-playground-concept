@@ -72,5 +72,4 @@ class DrawPygletFloor:
         # prevent batched shapes from going out of scope
         # see https://stackoverflow.com/q/68109538/17332200
         # note: adding attribute to batch causes opengl crash
-
         return batch, batch_handles
