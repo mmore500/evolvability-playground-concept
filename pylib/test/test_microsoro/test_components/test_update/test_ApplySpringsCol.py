@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from pylib.auxlib import all_cols_equivalent
-from pylib.microsoro import State, Params
+from pylib.microsoro import State, Structure, Params
 from pylib.microsoro.components import ApplySpringsCol
 from pylib.microsoro.conditioners import (
     ApplyRotate,
@@ -178,7 +178,7 @@ def test_param_k(
         params.k = k
         params.k_lim = (0, 11)
         res = ApplySpringsCol(
-            structure=Structure(params),
+            structure=Structure(params=params),
         )(state, event_buffer)
         assert res is None
 
