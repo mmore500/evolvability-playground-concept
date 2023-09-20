@@ -40,8 +40,8 @@ def draw_pyglet_State(
 
     batch_handles.append(
         pyg_Rectangle(
-            x=style.xlim[0] * style.scale,
-            y=style.ylim[0] * style.scale,
+            x=0,
+            y=0,
             width=style.xlim_length * style.scale,
             height=style.ylim_length * style.scale,
             batch=batch,
