@@ -362,7 +362,7 @@ class Structure:
                 "Structure stiffness constant value validation failed.",
             )
 
-        natural_length_values_ok = (  # spring lengths
+        natural_length_values_ok: bool = (  # spring lengths
             np.all(np.clip(self.lc, *params.l_lim) == self.lc)
             and np.all(np.clip(self.lr, *params.l_lim) == self.lr)
             and np.all(np.clip(self.la, *params.l_lim_diag) == self.la)
@@ -371,11 +371,11 @@ class Structure:
         if not natural_length_values_ok:
             warnings.warn("Structure natural length value validation failed.")
 
-        mass_values_ok = np.all(np.clip(self.m, *params.m_lim) == self.m)
+        mass_values_ok: bool = np.all(np.clip(self.m, *params.m_lim) == self.m)
         if not mass_values_ok:
             warnings.warn("Structure mass value validation failed.")
 
-        values_ok = (
+        values_ok: bool = (
             damping_constant_values_ok
             and stiffness_constant_values_ok
             and natural_length_values_ok
