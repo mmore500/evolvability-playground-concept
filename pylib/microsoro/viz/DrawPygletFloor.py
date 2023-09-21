@@ -55,7 +55,6 @@ class DrawPygletFloor:
             xlim=self._style.xlim,
             ylim=self._style.ylim,
             scale=self._style.scale,
-            invert_y=False,
         )
         color = {
             "floor": (127, 127, 127),

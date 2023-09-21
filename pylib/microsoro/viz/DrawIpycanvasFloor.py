@@ -58,11 +58,16 @@ class DrawIpycanvasFloor:
         canvas
             ipycanvas Canvas object with floor illustration.
         """
+        sty = self._style
         polygon_points = event.get_underfloor_polygon(
-            xlim=self._style.xlim,
-            ylim=self._style.ylim,
-            scale=self._style.scale,
+            xlim=sty.xlim,
+            ylim=sty.ylim,
+            scale=sty.scale,
         )
+        # origin is in upper left corner on HTML canvas
+        inverted_polygon_points = [
+            (x, sty.invert_y_value_renderspace(y)) for x, y in polygon_points
+        ]
 
         hue = {
             "floor": "rgba(127,127,127,1.0)",
@@ -70,7 +75,7 @@ class DrawIpycanvasFloor:
         }[event.flavor]
         self._canvas.fill_style = hue
         self._canvas.stroke_style = hue
-        self._canvas.fill_polygon(polygon_points)
+        self._canvas.fill_polygon(inverted_polygon_points)
         self._canvas.fill_rect(2, 2, 2, 2)
 
         return self._canvas

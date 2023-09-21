@@ -23,7 +23,6 @@ class RenderFloorEvent:
         xlim: typing.Tuple[float, float],
         ylim: typing.Tuple[float, float],
         scale: float,
-        invert_y: bool = True,
     ) -> typing.List[typing.Tuple[float, float]]:
         """Get points to render Floor as a polygon within a viewing window.
 
@@ -35,11 +34,6 @@ class RenderFloorEvent:
             The simulation-space y bounds of viewing window, in ascending order.
         scale: float
             Scale-up factor between simulation space and render space.
-        invert_y: bool, default True
-            Should render space origin fall in upper corner of viewing window?
-
-            If set to False, render space origin will fall in lower corner of
-            viewing window.
 
         Returns
         -------
@@ -94,10 +88,5 @@ class RenderFloorEvent:
                 (width * scale, 0),
             )
         assert len(polygon_points) in (3, 4)
-
-        if invert_y:
-            polygon_points = [
-                (x, height * scale - y) for x, y in polygon_points
-            ]
 
         return polygon_points
