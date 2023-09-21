@@ -41,9 +41,9 @@ class ApplyFloorBounce:
             raise ValueError(
                 f"ApplyFloorBounce elasticity {e=} must be non-negative."
             )
-        self._elasticity = e
-        self._intercept = b
-        self._slope = m
+        self._elasticity = float(e)
+        self._intercept = float(b)
+        self._slope = float(m)
 
     def __call__(
         self: "ApplyFloorBounce",

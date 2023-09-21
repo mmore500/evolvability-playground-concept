@@ -47,9 +47,9 @@ class ApplyViscousLayer:
             raise ValueError(
                 f"ApplyViscousLayer friction {mu=} must be non-negative."
             )
-        self._mu = mu
-        self._intercept = b
-        self._slope = m
+        self._mu = float(mu)
+        self._intercept = float(b)
+        self._slope = float(m)
         if params is None:
             params = Params()
         self._params = params

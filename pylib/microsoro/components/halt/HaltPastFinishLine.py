@@ -48,8 +48,8 @@ class HaltPastFinishLine:
             terminate when cells go below the finish line (with respect to the
             dependent axis), use `np.less`.
         """
-        self._m = m
-        self._b = b
+        self._m = float(m)
+        self._b = float(b)
 
         if independent_axis not in ("horizontal", "vertical"):
             raise ValueError(

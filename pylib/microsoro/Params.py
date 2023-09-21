@@ -38,63 +38,63 @@ class Params:
     ) -> None:
         if b_lim is None:
             b_lim = defaults.b_lim
-        self.b_lim = b_lim
+        self.b_lim = tuple(map(float, b_lim))
 
         if b is None:
             b = defaults.b
         if not np.clip(b, *b_lim) == b:
             raise ValueError(f"value {b=} not within limits {b_lim}")
-        self.b = b
+        self.b = float(b)
 
         if dt_lim is None:
             dt_lim = defaults.dt_lim
-        self.dt_lim = dt_lim
+        self.dt_lim = tuple(map(float, dt_lim))
 
         if dt is None:
             dt = defaults.dt
         if not np.clip(dt, *dt_lim) == dt:
             raise ValueError(f"value {dt=} not within limits {dt_lim}")
-        self.dt = dt
+        self.dt = float(dt)
 
         if g_lim is None:
             g_lim = defaults.g_lim
-        self.g_lim = g_lim
+        self.g_lim = tuple(map(float, g_lim))
 
         if g is None:
             g = defaults.g
         if not np.clip(g, *g_lim) == g:
             raise ValueError(f"value {g=} not within limits {g_lim}")
-        self.g = g
+        self.g = float(g)
 
         if k_lim is None:
             k_lim = defaults.k_lim
-        self.k_lim = k_lim
+        self.k_lim = tuple(map(float, k_lim))
 
         if k is None:
             k = defaults.k
         if not np.clip(k, *k_lim) == k:
             raise ValueError(f"value {k=} not within limits {k_lim}")
-        self.k = k
+        self.k = float(k)
 
         if l_lim is None:
             l_lim = defaults.l_lim
-        self.l_lim = l_lim
+        self.l_lim = tuple(map(float, l_lim))
 
         if l is None:
             l = defaults.l
         if not np.clip(l, *l_lim) == l:
             raise ValueError(f"value {l=} not within limits {l_lim}")
-        self.l = l
+        self.l = float(l)
 
         if m_lim is None:
             m_lim = defaults.m_lim
-        self.m_lim = m_lim
+        self.m_lim = tuple(map(float, m_lim))
 
         if m is None:
             m = defaults.m
         if not np.clip(m, *m_lim) == m:
             raise ValueError(f"value {m=} not within limits {m_lim}")
-        self.m = m
+        self.m = float(m)
 
     def __eq__(self: "Params", other: "Params") -> bool:
         return type(self) == type(other) and self.__dict__ == other.__dict__
