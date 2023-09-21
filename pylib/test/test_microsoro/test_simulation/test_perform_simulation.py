@@ -19,6 +19,7 @@ def test_perform_simulation_setup():
             HaltAfterElapsedTime(1.0),
         ],
     )
+    assert state is not None
 
 
 def test_perform_simulation_custom_setup():
