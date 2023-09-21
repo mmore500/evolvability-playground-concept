@@ -2,6 +2,7 @@ import typing
 
 import numpy as np
 
+from ...events import EventBuffer, RenderThresholdEvent
 from ...State import State
 from ...Params import Params
 
@@ -85,6 +86,16 @@ class HaltPastFinishLine:
 
         independent_axis = self._independent_axis
         comparator, m, b = self._comparator, self._m, self._b
+
+        if event_buffer is not None:
+            event_buffer.enqueue(
+                RenderThresholdEvent(
+                    m=m,
+                    b=b,
+                    independent_axis=independent_axis,
+                    flavor="finish",
+                ),
+            )
 
         independent_positions, dependent_positions = {
             "vertical": (state.py, state.px),

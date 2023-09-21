@@ -4,10 +4,15 @@ import pyglet as pyg
 from pyglet.window import Window as pyg_Window
 
 from ....auxlib import ffmpegVideoRenderWorker
-from ...events import EventBuffer, RenderFloorEvent
+from ...events import EventBuffer, RenderFloorEvent, RenderThresholdEvent
 from ...Params import Params
 from ...State import State
-from ...viz import draw_pyglet_State, DrawPygletFloor, Style
+from ...viz import (
+    draw_pyglet_State,
+    DrawPygletFloor,
+    DrawPygletThreshold,
+    Style,
+)
 
 
 class RecordVideoPyglet:
@@ -79,6 +84,11 @@ class RecordVideoPyglet:
                 event_buffer.consume(
                     RenderFloorEvent,
                     DrawPygletFloor(style=self._style),
+                    skip_duplicates=True,
+                )
+                + event_buffer.consume(
+                    RenderThresholdEvent,
+                    DrawPygletThreshold(style=self._style),
                     skip_duplicates=True,
                 ),
             )

@@ -9,9 +9,14 @@ from ipycanvas import hold_canvas as ipy_hold_canvas
 from IPython.display import display as IPy_display
 
 from ....auxlib import decorate_with_context
-from ...events import EventBuffer, RenderFloorEvent
+from ...events import EventBuffer, RenderFloorEvent, RenderThresholdEvent
 from ...State import State
-from ...viz import draw_ipycanvas_State, DrawIpycanvasFloor, Style
+from ...viz import (
+    draw_ipycanvas_State,
+    DrawIpycanvasFloor,
+    DrawIpycanvasThreshold,
+    Style,
+)
 
 
 class ShowAnimationIpycanvas:
@@ -67,6 +72,11 @@ class ShowAnimationIpycanvas:
                 DrawIpycanvasFloor(canvas=self._canvas, style=self._style),
                 skip_duplicates=True,
             )
+            event_buffer.consume(
+                RenderThresholdEvent,
+                DrawIpycanvasThreshold(canvas=self._canvas, style=self._style),
+                skip_duplicates=True,
+            ),
 
     def __call__(
         self: "ShowAnimationIpycanvas",
