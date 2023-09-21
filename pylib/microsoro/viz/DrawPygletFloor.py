@@ -61,13 +61,14 @@ class DrawPygletFloor:
             "floor": (127, 127, 127),
             "viscous layer": (127, 127, 255, 127),
         }[event.flavor]
-        batch_handles.append(
-            pyg_Polygon(
-                *polygon_points,
-                batch=batch,
-                color=color,
-            ),
-        )
+        if polygon_points:  # pyglet crashes with zero polygon points
+            batch_handles.append(
+                pyg_Polygon(
+                    *polygon_points,
+                    batch=batch,
+                    color=color,
+                ),
+            )
 
         # prevent batched shapes from going out of scope
         # see https://stackoverflow.com/q/68109538/17332200
