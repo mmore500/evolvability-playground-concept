@@ -148,3 +148,6 @@ class Style:
     @property
     def ylim_length(self: "Style") -> float:
         return self.ylim[1] - self.ylim[0]
+
+    def invert_y_value_renderspace(self: "Style", y: float) -> float:
+        return self.ylim_length * self.scale - y

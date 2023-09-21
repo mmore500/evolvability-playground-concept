@@ -91,3 +91,20 @@ def test_invalid_ylim():
         Style(xlim=[0.0])
         Style(xlim=[0.0, 0.0, 0.0])
         Style(xlim=[50.0, -0.5])
+
+
+def test_invert_y_value_renderspace():
+    sty = Style(ylim=(5, 30), scale=1)
+    assert sty.invert_y_value_renderspace(24) == 1.0
+
+    sty = Style(ylim=(5, 20), scale=1)
+    assert sty.invert_y_value_renderspace(24) == -9.0
+
+    sty = Style(ylim=(5, 30), scale=2)
+    assert sty.invert_y_value_renderspace(24) == 26.0
+
+    sty = Style(ylim=(0, 30), scale=2)
+    assert sty.invert_y_value_renderspace(24) == 36.0
+
+    sty = Style(ylim=(-32, -30), scale=2)
+    assert sty.invert_y_value_renderspace(24) == -20.0
