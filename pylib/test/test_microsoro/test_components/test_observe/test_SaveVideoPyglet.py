@@ -10,7 +10,7 @@ from pylib.microsoro.components import (
     ApplyFloorBounce,
     ApplyIncrementElapsedTime,
     ApplyVelocity,
-    RecordVideoPyglet,
+    SaveVideoPyglet,
 )
 from pylib.microsoro.events import EventBuffer
 
@@ -21,8 +21,8 @@ def event_buffer(request: pytest.FixtureRequest):
 
 
 @pytest.mark.heavy
-def test_RecordVideoPyglet(event_buffer: typing.Optional[EventBuffer]):
-    outpath = f"/tmp/test_RecordVideoPyglet{int(event_buffer is None)}.mp4"
+def test_SaveVideoPyglet(event_buffer: typing.Optional[EventBuffer]):
+    outpath = f"/tmp/test_SaveVideoPyglet{int(event_buffer is None)}.mp4"
     with contextlib.suppress(FileNotFoundError):
         os.remove(outpath)
 
@@ -30,7 +30,7 @@ def test_RecordVideoPyglet(event_buffer: typing.Optional[EventBuffer]):
     ApplySpin(omega_degrees=90.0)(state)
     ApplyPropel(dvx=0.5, dvy=1.0)(state)
 
-    record_video_component = RecordVideoPyglet(outpath)
+    record_video_component = SaveVideoPyglet(outpath)
     apply_velocity_component = ApplyVelocity()
     apply_increment_elapsed_time_component = ApplyIncrementElapsedTime()
     apply_floor_bounce_component = ApplyFloorBounce(b=1.0)
@@ -43,4 +43,4 @@ def test_RecordVideoPyglet(event_buffer: typing.Optional[EventBuffer]):
         res = record_video_component(state, event_buffer)
         assert res is None
 
-    print(f"saved test_RecordVideoPyglet render to file {outpath}")
+    print(f"saved test_SaveVideoPyglet render to file {outpath}")

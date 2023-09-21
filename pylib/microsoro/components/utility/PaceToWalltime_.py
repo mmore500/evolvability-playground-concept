@@ -17,7 +17,7 @@ class PaceToWalltime:
     _until_time: typing.Optional[datetime.datetime]
 
     def __init__(
-        self: "RecordVideoPyglet",
+        self: "SaveVideoPyglet",
         params: typing.Optional[Params] = None,
         style: typing.Optional[Style] = None,
         allow_catchup: bool = False,
@@ -50,7 +50,7 @@ class PaceToWalltime:
         self._until_time = None
 
     def __call__(
-        self: "RecordVideoPyglet",
+        self: "SaveVideoPyglet",
         state: State,
         event_buffer: typing.Optional = None,
     ) -> None:

@@ -15,7 +15,7 @@ from ...viz import (
 )
 
 
-class RecordVideoPyglet:
+class SaveVideoPyglet:
     """Simulation component that observes simulation state and collates still
     frames from across timesteps into a video animation."""
 
@@ -27,7 +27,7 @@ class RecordVideoPyglet:
     _seconds_per_frame: float
 
     def __init__(
-        self: "RecordVideoPyglet",
+        self: "SaveVideoPyglet",
         output_path: str,
         fps: float = 20,
         style: typing.Optional[Style] = None,
@@ -72,7 +72,7 @@ class RecordVideoPyglet:
         self._seconds_per_frame = 1.0 / fps
 
     def _render_frame(
-        self: "RecordVideoPyglet",
+        self: "SaveVideoPyglet",
         state: State,
         event_buffer: typing.Optional[EventBuffer],
     ) -> None:
@@ -99,7 +99,7 @@ class RecordVideoPyglet:
             batch.draw()
         self._write_frame()
 
-    def _write_frame(self: "RecordVideoPyglet") -> None:
+    def _write_frame(self: "SaveVideoPyglet") -> None:
         data = (
             pyg.image.get_buffer_manager()
             .get_color_buffer()
@@ -109,7 +109,7 @@ class RecordVideoPyglet:
         self._worker.write_frame(data)
 
     def __call__(
-        self: "RecordVideoPyglet",
+        self: "SaveVideoPyglet",
         state: State,
         event_buffer: typing.Optional[EventBuffer] = None,
     ) -> None:
