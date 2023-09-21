@@ -1,11 +1,12 @@
 import pytest
 
-from pylib.microsoro import Params, perform_simulation, State
+from pylib.microsoro import defaults, Params, perform_simulation, State
 from pylib.microsoro.conditioners import ApplyPropel, ApplySpin
 from pylib.microsoro.components import (
     ApplyGravity,
     ApplyIncrementElapsedTime,
     ApplyVelocity,
+    EvaluateDuration,
     HaltAfterElapsedTime,
 )
 from pylib.microsoro.events import EventBuffer
@@ -142,3 +143,14 @@ def test_event_buffer_functionality():
     # No simulation components should be changing cell states
     assert State.same_position_as(state, State())
     assert State.same_velocity_as(state, State())
+
+
+def test_perform_simulation_evaluation():
+    evaluation = perform_simulation(
+        update_regimen_components=[
+            ApplyIncrementElapsedTime(),
+            EvaluateDuration(halting_component=HaltAfterElapsedTime(1.0)),
+        ],
+    )
+
+    assert 1.0 <= evaluation <= 1.0 + defaults.dt
