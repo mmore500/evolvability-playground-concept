@@ -15,10 +15,10 @@ def event_buffer(request: pytest.FixtureRequest):
 def test_HaltAfterElapsedTime(event_buffer: typing.Optional[EventBuffer]):
 
     state = State()
-    HaltAfterElapsedTime(15.0)(state, event_buffer) is None
+    assert HaltAfterElapsedTime(15.0)(state, event_buffer) is None
 
     state.t = 14.5
-    HaltAfterElapsedTime(15.0)(state, event_buffer) is state
+    assert HaltAfterElapsedTime(15.0)(state, event_buffer) is None
 
     state.t = 16.5
-    HaltAfterElapsedTime(15.0)(state, event_buffer) is state
+    assert HaltAfterElapsedTime(15.0)(state, event_buffer) is state
