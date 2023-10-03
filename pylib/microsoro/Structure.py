@@ -484,8 +484,109 @@ class Structure:
         target_values = cellwise_norms * (ub - lb) + lb
         self.lc = (target_values[:-1, :] + target_values[1:, :]) / 2
         self.lr = (target_values[:, :-1] + target_values[:, 1:]) / 2
-        self.la = (target_values[:-1, :-1] + target_values[1:, 1:]) / 2
-        self.ld = (target_values[1:, :-1] + target_values[:-1, :1]) / 2
+
+        # setting up cross-spring lengths,
+        # set up as diagonal lengths of cyclic (area maximizing) quadrilateral
+        #
+        # D-----d-----A
+        # |\        / |
+        # | \      /  |
+        # |  q    p   |
+        # |    \ /    |
+        # c     X     a
+        # |   /   \   |
+        # |  /     \  |
+        # | /       \ |
+        # |/         \|
+        # C-----b-----B
+        #
+        # unlike ascii representation,
+        # note that general quadrilateral case will not have parallelism,
+        # congruency, etc.
+
+        a = self.lc[:, 1:]  # AB, right columns
+        b = self.lr[1:, :]  # BC, bottom rows
+        c = self.lc[:, :-1]  # CD, left columns
+        d = self.lr[:-1, :]  # DA, top rows
+
+        assert all(np.all(x >= 0) for x in (a, b, c, d))
+
+        # if any one side is more than half the perimeter?
+        # then the other sides won't be able "to connect"
+        # and we need to shrink it to sum of other sides
+        perimeter = a + b + c + d
+        largest_side = np.maximum.reduce([a, b, c, d])
+        sum_other_sides = perimeter - largest_side
+
+        a = np.minimum.reduce([a, sum_other_sides])
+        b = np.minimum.reduce([b, sum_other_sides])
+        c = np.minimum.reduce([c, sum_other_sides])
+        d = np.minimum.reduce([d, sum_other_sides])
+
+        # according to wikipedia, for a cyclic (area maximizing) quadrilateral,
+        # https://en.wikipedia.org/wiki/Cyclic_quadrilateral
+        #
+        # for p = AC (ascending) and q = BD (descending)
+        #
+        # p={\sqrt {\frac {(ac+bd)(ad+bc)}{ab+cd}}}
+        # q={\sqrt {\frac {(ac+bd)(ab+cd)}{ad+bc}}}
+        #
+        # translates to
+        p_numer = (a * c + b * d) * (a * d + b * c)
+        p_denom = a * b + c * d
+        p_ratio = np.divide(  # divide by zero -> zero
+            p_numer,
+            p_denom,
+            out=np.zeros_like(p_numer),
+            where=p_denom != 0,
+        )
+        p = np.sqrt(p_ratio)
+
+        q_numer = (a * c + b * d) * (a * b + c * d)
+        q_denom = a * d + b * c
+        q_ratio = np.divide(  # divide by zero -> zero
+            q_numer,
+            q_denom,
+            out=np.zeros_like(q_numer),
+            where=q_denom != 0,
+        )
+        q = np.sqrt(q_ratio)
+
+        # check ptolmeys theorem
+        assert np.allclose(p * q, a * c + b * d)
+
+        # check bounds on indivividual diagonals
+        # note that can't use single side as lower bound due to obtuse cases
+        assert np.allclose(
+            p,
+            np.clip(
+                p,
+                np.maximum(  # lower bound
+                    # from Inequalities proposed in "Crux Mathematicorum"
+                    # via wikipedia
+                    2 * np.sqrt(a * c + b * d) - q,
+                    0,  # ensure non-negative lower bound
+                ),
+                np.minimum.reduce([a + b, c + d]),  # upper bound
+            ),
+        )
+        assert np.allclose(
+            q,
+            np.clip(
+                q,
+                np.maximum(  # lower bound
+                    # from Inequalities proposed in "Crux Mathematicorum"
+                    # via wikipedia
+                    2 * np.sqrt(a * c + b * d) - p,
+                    0,  # ensure non-negative lower bound
+                ),
+                np.minimum.reduce([b + c, d + a]),  # upper bound
+            ),
+        )
+
+        # assign diagonal spring lengths
+        self.la = p
+        self.ld = q
 
     # masses
     def set_m_to_norms(

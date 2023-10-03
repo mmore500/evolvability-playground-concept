@@ -151,8 +151,8 @@ def test_structure_with_l():
     # Check if l was correctly set
     assert np.all(structure.lc == np.mean(params.l_lim))
     assert np.all(structure.lr == np.mean(params.l_lim))
-    assert np.all(structure.la == np.mean(params.l_lim))
-    assert np.all(structure.ld == np.mean(params.l_lim))
+    assert np.all(structure.la >= np.mean(params.l_lim))  # diagonals should
+    assert np.all(structure.ld >= np.mean(params.l_lim))  # be longer
 
 
 def test_structure_with_m():
