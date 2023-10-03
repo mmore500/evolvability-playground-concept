@@ -68,24 +68,39 @@ class ApplyFloorBounce:
         if not np.any(below_floor_mask):
             return
 
-        # Estimate the time elapsed since intersection with floor
-        time_past_floor = (
-            state.py[below_floor_mask] - y_floor[below_floor_mask]
-        ) / state.vy[below_floor_mask]
-        # some time_past_floor may be negative
-        # due to descretization issues when more than one floor used
-
-        # Reset the position of the cells to the floor
-        state.py[below_floor_mask] -= (
-            time_past_floor * state.vy[below_floor_mask]
-        )
-        state.px[below_floor_mask] -= (
-            time_past_floor * state.vx[below_floor_mask]
-        )
-
         # Determine the normalized normal vector to the slope
-        normal = np.array([self._slope, -1])
+        normal = np.array([-m, 1])
         normal /= np.linalg.norm(normal)
+        assert np.isclose(
+            np.dot(normal, np.array([1, m])), 0
+        )  # should be perpendicular to slope
+
+        # rough calculation of max ppenetration past surface
+        # independently along x and y axes (may overestimate
+        tolerance_factor = 1e-12  # should this be configurabe?
+
+        # update state position to correct penetration
+        # for now, just shift entire state
+        # (for simulation robustness to low precision)
+        #
+        # another option be just move offending cells
+        # and then perform corrections so that the pre-existing less-than and
+        # greater-than relationships between successive rows are maintained
+        # i.e., any slippage of one layer past the other is corrected
+        y_penetration = y_floor[below_floor_mask] - state.py[below_floor_mask]
+        state.py += np.max(y_penetration) + tolerance_factor
+
+        # y = mx + b
+        # so y / m - b / m = x
+        if m:
+            x_floor = (state.py[below_floor_mask] - b) / m
+            x_penetration = x_floor - state.px[below_floor_mask]
+            # update state x positions to correct any penetration
+            # shifts all x positions, see note above for y penetration
+            state.px += np.sign(m) * np.max(x_penetration) + tolerance_factor
+
+        # Check that all cells now above the floor
+        assert not np.any(state.py < m * state.px + b)
 
         # Compute dot product of incoming velocity with normal for cells below
         # the floor
@@ -101,18 +116,10 @@ class ApplyFloorBounce:
         # Make robust: correct sign to ensure upwards bounce
         # (needed due to interactions between intersecting floors)
         # reflection_x = reflection_x * np.sign(reflection_y)
-        # ^^^ logically, x component would be reersed when reversing velocity,
+        # ^^^ logically, x component would be reversed when reversing velocity,
         # but this causes a bad feedback loop with other floors
         reflection_y = np.abs(reflection_y)
 
         # Update velocities, applying velocity loss to imperfect elasticity
         state.vx[below_floor_mask] = reflection_x * self._elasticity
         state.vy[below_floor_mask] = reflection_y * self._elasticity
-
-        # Correct the position of the cells due to post-bounce motion
-        state.py[below_floor_mask] += (
-            state.vy[below_floor_mask] * time_past_floor
-        )
-        state.px[below_floor_mask] += (
-            state.vx[below_floor_mask] * time_past_floor
-        )
