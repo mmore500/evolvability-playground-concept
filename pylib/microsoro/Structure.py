@@ -301,7 +301,7 @@ class Structure:
         if m is not None and np.any(np.clip(m, 0, 255) != m):
             raise ValueError(f"{m=} must have values between 0 and 255")
         normalize_byte = lambda x: x / 255.0
-        return Structure(
+        res = Structure(
             height=height,
             width=width,
             params=params,
@@ -310,6 +310,8 @@ class Structure:
             l=opyt.apply_if(l, normalize_byte),
             m=opyt.apply_if(m, normalize_byte),
         )
+        assert res.validate()
+        return res
 
     def validate(
         self: "Structure",
