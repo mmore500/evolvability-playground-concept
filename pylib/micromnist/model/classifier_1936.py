@@ -74,18 +74,7 @@ def compiled() -> keras_Model:
     return model
 
 
-# TODO: add persistent caching?
-@reproducible_context()
-def trained(num_epochs: int = 5) -> keras_Model:
-    model = compiled()
-
-    # must pretrain model to prevent nan loss
-    print(f"conditioning model")
-    ((x_train, y_train), _test, __) = load_mnist()
-    if num_epochs == 0:  # for testing
-        x_train, y_train = x_train[:100], y_train[:100]
-    model.fit(x_train, y_train, epochs=2, batch_size=32)
-
+def train(model: keras_Model, num_epochs: int = 5):
     print(f"training model")
 
     for epoch in range(max(num_epochs, 1)):
@@ -102,6 +91,23 @@ def trained(num_epochs: int = 5) -> keras_Model:
         model.fit(
             x_train_,
             y_train_,
-            epochs=num_epochs,
+            epochs=1,
             batch_size=32,
         )
+
+
+# TODO: add persistent caching?
+@reproducible_context()
+def trained(num_epochs: int = 5) -> keras_Model:
+    model = compiled()
+
+    # must pretrain model to prevent nan loss
+    print(f"conditioning model")
+    ((x_train, y_train), _test, __) = load_mnist()
+    if num_epochs == 0:  # for testing
+        x_train, y_train = x_train[:100], y_train[:100]
+    model.fit(x_train, y_train, epochs=2, batch_size=32)
+
+    train(model, num_epochs=num_epochs)
+
+    return model
