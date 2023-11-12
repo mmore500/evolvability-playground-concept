@@ -100,7 +100,3 @@ def survey_sampled_images_with_predictions(
     draw_sampled_images_with_predictions(
         model, pessimized_images, suptitle="pessimized true"
     )
-
-    from matplotlib import pyplot as plt
-
-    plt.show()
