@@ -4,10 +4,13 @@ is_sorted==0.0.2
 ipycanvas==0.13.1
 IPython==7.31.1
 iterpop==0.4.1
+keras==2.14.0
 matplotlib==3.6.2
 numpy==1.25.2
 pandas==1.5.3
+pip-tools==7.3.0
 pytest==7.2.2
 pyglet==2.0.9
 seaborn==0.12.2
+tensorflow==2.14.0
 tqdm==4.64.1

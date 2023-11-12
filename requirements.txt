@@ -4,12 +4,20 @@
 #
 #    pip-compile requirements.in
 #
-alifedata-phyloinformatics-convert==0.14.1
+absl-py==2.0.0
+    # via
+    #   tensorboard
+    #   tensorflow
+alifedata-phyloinformatics-convert==0.14.2
     # via hstrat
-anytree==2.9.0
+annotated-types==0.6.0
+    # via pydantic
+anytree==2.12.0
     # via
     #   alifedata-phyloinformatics-convert
     #   hstrat
+astunparse==1.6.3
+    # via tensorflow
 attrs==23.1.0
     # via pytest
 backcall==0.2.0
@@ -18,21 +26,30 @@ biopython==1.81
     # via
     #   alifedata-phyloinformatics-convert
     #   hstrat
-bitarray==2.8.1
+bitarray==2.8.3
     # via
     #   bitstring
     #   hstrat
 bitstring==4.1.2
     # via hstrat
+build==1.0.3
+    # via pip-tools
+cachetools==5.3.2
+    # via google-auth
+certifi==2023.7.22
+    # via requests
+charset-normalizer==3.3.2
+    # via requests
 click==8.1.7
     # via
     #   alifedata-phyloinformatics-convert
     #   keyname
-comm==0.1.4
+    #   pip-tools
+comm==0.2.0
     # via ipywidgets
-contourpy==1.1.0
+contourpy==1.2.0
     # via matplotlib
-cycler==0.11.0
+cycler==0.12.1
     # via matplotlib
 dataclasses==0.6
     # via lyncs-utils
@@ -52,14 +69,34 @@ ete3==3.1.3
     # via alifedata-phyloinformatics-convert
 exceptiongroup==1.1.3
     # via pytest
-fonttools==4.42.1
+flatbuffers==23.5.26
+    # via tensorflow
+fonttools==4.44.0
     # via matplotlib
-gitdb==4.0.10
+gast==0.5.4
+    # via tensorflow
+gitdb==4.0.11
     # via gitpython
-gitpython==3.1.36
+gitpython==3.1.40
     # via lyncs-setuptools
+google-auth==2.23.4
+    # via
+    #   google-auth-oauthlib
+    #   tensorboard
+google-auth-oauthlib==1.0.0
+    # via tensorboard
+google-pasta==0.2.0
+    # via tensorflow
+grpcio==1.59.2
+    # via
+    #   tensorboard
+    #   tensorflow
+h5py==3.10.0
+    # via tensorflow
 hstrat==1.8.2
     # via -r requirements.in
+idna==3.4
+    # via requests
 iniconfig==2.0.0
     # via pytest
 interval-search==0.5.2
@@ -79,20 +116,30 @@ iterpop==0.4.1
     #   -r requirements.in
     #   alifedata-phyloinformatics-convert
     #   hstrat
-jedi==0.19.0
+jedi==0.19.1
     # via ipython
 jupyterlab-widgets==3.0.9
     # via ipywidgets
+keras==2.14.0
+    # via
+    #   -r requirements.in
+    #   tensorflow
 keyname==0.5.3
     # via hstrat
 kiwisolver==1.4.5
     # via matplotlib
-lru-dict==1.2.0
+libclang==16.0.6
+    # via tensorflow
+lru-dict==1.3.0
     # via hstrat
 lyncs-setuptools==0.3.1
     # via lyncs-utils
 lyncs-utils==0.4.5
     # via alifedata-phyloinformatics-convert
+markdown==3.5.1
+    # via tensorboard
+markupsafe==2.1.3
+    # via werkzeug
 matplotlib==3.6.2
     # via
     #   -r requirements.in
@@ -100,6 +147,8 @@ matplotlib==3.6.2
     #   seaborn
 matplotlib-inline==0.1.6
     # via ipython
+ml-dtypes==0.2.0
+    # via tensorflow
 mmh3==4.0.1
     # via hstrat
 more-itertools==10.1.0
@@ -108,13 +157,13 @@ more-itertools==10.1.0
     #   keyname
 mpmath==1.3.0
     # via hstrat
-multimethod==1.9.1
+multimethod==1.10
     # via pandera
 mypy-extensions==1.0.0
     # via typing-inspect
 nanto==0.1.1
     # via alifedata-phyloinformatics-convert
-networkx==3.1
+networkx==3.2.1
     # via
     #   alifedata-phyloinformatics-convert
     #   hstrat
@@ -125,25 +174,36 @@ numpy==1.25.2
     #   biopython
     #   contourpy
     #   deap
+    #   h5py
     #   hstrat
     #   ipycanvas
     #   matplotlib
+    #   ml-dtypes
+    #   opt-einsum
     #   pandas
     #   pandera
     #   seaborn
+    #   tensorboard
+    #   tensorflow
+oauthlib==3.2.2
+    # via requests-oauthlib
+opt-einsum==3.3.0
+    # via tensorflow
 opytional==0.1.0
     # via
     #   alifedata-phyloinformatics-convert
     #   hstrat
 ordered-set==4.1.0
     # via hstrat
-packaging==23.1
+packaging==23.2
     # via
+    #   build
     #   hstrat
     #   lyncs-setuptools
     #   matplotlib
     #   pandera
     #   pytest
+    #   tensorflow
 pandas==1.5.3
     # via
     #   -r requirements.in
@@ -151,7 +211,7 @@ pandas==1.5.3
     #   hstrat
     #   pandera
     #   seaborn
-pandera==0.16.1
+pandera==0.17.2
     # via hstrat
 parso==0.8.3
     # via jedi
@@ -159,28 +219,44 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pillow==10.0.0
+pillow==9.5.0
     # via
     #   ipycanvas
     #   matplotlib
+pip-tools==7.3.0
+    # via -r requirements.in
 pluggy==1.3.0
     # via pytest
 prettytable==3.9.0
     # via hstrat
-prompt-toolkit==3.0.39
+prompt-toolkit==3.0.40
     # via ipython
+protobuf==3.20.3
+    # via
+    #   tensorboard
+    #   tensorflow
 ptyprocess==0.7.0
     # via pexpect
 py==1.11.0
     # via retry
-pydantic==1.10.12
+pyasn1==0.5.0
+    # via
+    #   pyasn1-modules
+    #   rsa
+pyasn1-modules==0.3.0
+    # via google-auth
+pydantic==2.4.2
     # via pandera
+pydantic-core==2.10.1
+    # via pydantic
 pyglet==2.0.9
     # via -r requirements.in
 pygments==2.16.1
     # via ipython
 pyparsing==3.1.1
     # via matplotlib
+pyproject-hooks==1.0.0
+    # via build
 pytest==7.2.2
     # via -r requirements.in
 python-dateutil==2.8.2
@@ -191,8 +267,16 @@ python-slugify==8.0.1
     # via hstrat
 pytz==2023.3.post1
     # via pandas
+requests==2.31.0
+    # via
+    #   requests-oauthlib
+    #   tensorboard
+requests-oauthlib==1.3.1
+    # via google-auth-oauthlib
 retry==0.9.2
     # via keyname
+rsa==4.9
+    # via google-auth
 safe-assert==0.4.0
     # via hstrat
 seaborn==0.12.2
@@ -202,22 +286,42 @@ seaborn==0.12.2
 six==1.16.0
     # via
     #   anytree
+    #   astunparse
+    #   google-pasta
     #   python-dateutil
-smmap==5.0.0
+    #   tensorboard
+    #   tensorflow
+smmap==5.0.1
     # via gitdb
 sortedcontainers==2.4.0
     # via
     #   alifedata-phyloinformatics-convert
     #   hstrat
+tensorboard==2.14.1
+    # via tensorflow
+tensorboard-data-server==0.7.2
+    # via tensorboard
+tensorflow==2.14.0
+    # via -r requirements.in
+tensorflow-estimator==2.14.0
+    # via tensorflow
+tensorflow-io-gcs-filesystem==0.34.0
+    # via tensorflow
+termcolor==2.3.0
+    # via tensorflow
 text-unidecode==1.3
     # via python-slugify
 tomli==2.0.1
-    # via pytest
+    # via
+    #   build
+    #   pip-tools
+    #   pyproject-hooks
+    #   pytest
 tqdm==4.64.1
     # via
     #   -r requirements.in
     #   hstrat
-traitlets==5.10.0
+traitlets==5.13.0
     # via
     #   comm
     #   ipython
@@ -225,24 +329,35 @@ traitlets==5.10.0
     #   matplotlib-inline
 typeguard==4.1.5
     # via pandera
-typing-extensions==4.7.1
+typing-extensions==4.8.0
     # via
     #   hstrat
     #   pydantic
+    #   pydantic-core
+    #   tensorflow
     #   typeguard
     #   typing-inspect
 typing-inspect==0.9.0
     # via pandera
-wcwidth==0.2.6
+urllib3==2.0.7
+    # via requests
+wcwidth==0.2.9
     # via
     #   prettytable
     #   prompt-toolkit
+werkzeug==3.0.1
+    # via tensorboard
+wheel==0.41.3
+    # via
+    #   astunparse
+    #   pip-tools
 widgetsnbextension==4.0.9
     # via ipywidgets
-wrapt==1.15.0
+wrapt==1.14.1
     # via
     #   deprecated
     #   pandera
+    #   tensorflow
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
