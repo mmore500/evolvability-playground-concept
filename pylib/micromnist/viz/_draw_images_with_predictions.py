@@ -28,7 +28,7 @@ def draw_images_with_predictions(
         A list of prediction data, where each element corresponds to the
         predictions for the image at the same index in the images list.
     """
-    plt.figure(figsize=(3 * len(images), 3 * len(images)))
+    plt.figure(figsize=(3 * len(images), 5))
     if suptitle is not None:
         plt.suptitle(suptitle)
 
