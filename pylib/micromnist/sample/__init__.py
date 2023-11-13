@@ -6,6 +6,9 @@ from ._sample_images_upscale import sample_images_upscale, SampleImagesUpscale
 from ._sample_images_value_distribution_mnist import (
     sample_images_value_distribution_mnist,
 )
+from ._sample_images_value_distribution_mnist8020 import (
+    sample_images_value_distribution_mnist8020,
+)
 from ._sample_images_value_distribution_unif import (
     sample_images_value_distribution_unif,
 )
@@ -19,5 +22,6 @@ __all__ = [
     "sample_images_upscale",
     "SampleImagesUpscale",
     "sample_images_value_distribution_mnist",
+    "sample_images_value_distribution_mnist8020",
     "sample_images_value_distribution_unif",
 ]

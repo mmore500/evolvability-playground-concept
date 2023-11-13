@@ -11,6 +11,7 @@ from ..sample import (
     sample_images_junk_medley,
     SampleImagesUpscale,
     sample_images_value_distribution_mnist,
+    sample_images_value_distribution_mnist8020,
     sample_images_value_distribution_unif,
 )
 from ..search import optimize_naive
@@ -28,7 +29,14 @@ def survey_sampled_images_with_predictions(
 
     print("junk images")
     draw_sampled_images_with_predictions(
-        model, sample_images_junk_medley(10), suptitle="sampled junk"
+        model, sample_images_junk_medley(10), suptitle="sampled junk medley"
+    )
+
+    print("mnist8020 images")
+    draw_sampled_images_with_predictions(
+        model,
+        sample_images_value_distribution_mnist8020(10),
+        suptitle="sampled junk mnist8020",
     )
 
     for __ in range(num_search_replicates):

@@ -23,6 +23,10 @@ def get_mnist_value_distribution() -> typing.Tuple[np.ndarray, np.ndarray]:
 
     # Get the distribution of pixel values
     pixel_values, counts = np.unique(x, return_counts=True)
-    pixel_distribution = counts / counts.sum()
 
-    return (pixel_values, pixel_distribution)
+    sorted_indices = np.argsort(pixel_values)
+    sorted_pixel_values = pixel_values[sorted_indices]
+    sorted_counts = counts[sorted_indices]
+    sorted_pixel_distribution = sorted_counts / np.sum(sorted_counts)
+
+    return (sorted_pixel_values, sorted_pixel_distribution)

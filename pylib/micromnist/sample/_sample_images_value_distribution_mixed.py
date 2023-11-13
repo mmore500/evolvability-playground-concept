@@ -4,6 +4,9 @@ from ...auxlib import iter_chunk_sizes
 from ._sample_images_value_distribution_mnist import (
     sample_images_value_distribution_mnist,
 )
+from ._sample_images_value_distribution_mnist8020 import (
+    sample_images_value_distribution_mnist8020,
+)
 from ._sample_images_value_distribution_unif import (
     sample_images_value_distribution_unif,
 )
@@ -15,6 +18,7 @@ def sample_images_value_distribution_mixed(
 ) -> np.ndarray:
     samplers = (
         sample_images_value_distribution_mnist,
+        sample_images_value_distribution_mnist8020,
         sample_images_value_distribution_unif,
     )
     return np.concatenate(
