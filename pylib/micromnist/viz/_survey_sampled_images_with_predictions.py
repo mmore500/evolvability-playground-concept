@@ -4,9 +4,10 @@ from tensorflow.keras.models import Model as keras_Model
 from ._draw_sampled_images_with_predictions import (
     draw_sampled_images_with_predictions,
 )
-
+from ..model import denoiser_69008
 from ..sample import (
     get_default_sample_dim_suite,
+    sample_images_denoise,
     sample_images_true,
     sample_images_junk_medley,
     SampleImagesUpscale,
@@ -37,6 +38,15 @@ def survey_sampled_images_with_predictions(
         model,
         sample_images_value_distribution_mnist8020(10),
         suptitle="sampled junk mnist8020",
+    )
+
+    print("denoised images")
+    draw_sampled_images_with_predictions(
+        model,
+        sample_images_denoise(
+            denoiser_69008.compiled(), 10  # fast dummy, don't train
+        ),
+        suptitle="denoised junk",
     )
 
     for __ in range(num_search_replicates):
