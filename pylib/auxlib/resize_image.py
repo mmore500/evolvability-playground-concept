@@ -8,7 +8,7 @@ def resize_image(
     new_size: typing.Union[typing.Tuple[int, int], int] = (28, 28),
     method: typing.Literal[
         "bilinear", "nearest", "bicubic", "lanczos3", "lanczos5"
-    ] = "lanczos3",
+    ] = "default",
 ) -> np.ndarray:
     if isinstance(new_size, int):
         new_size = (new_size, new_size)

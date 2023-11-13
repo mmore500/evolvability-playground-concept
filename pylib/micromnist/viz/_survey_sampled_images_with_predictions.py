@@ -60,7 +60,7 @@ def survey_sampled_images_with_predictions(
                     sample_strategy=SampleImagesUpscale(
                         sample_dim=sample_dim,
                         sample_strategy=sample_images_value_distribution_mnist,
-                        upsize_strategy="lanczos3",
+                        upsize_strategy="default",
                     ),
                     n_steps=num_search_steps,
                 )[0]
@@ -72,7 +72,7 @@ def survey_sampled_images_with_predictions(
                     sample_strategy=SampleImagesUpscale(
                         sample_dim=sample_dim,
                         sample_strategy=sample_images_value_distribution_unif,
-                        upsize_strategy="lanczos3",
+                        upsize_strategy="default",
                     ),
                     n_steps=num_search_steps,
                 )[0]

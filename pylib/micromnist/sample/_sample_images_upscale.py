@@ -15,7 +15,7 @@ def sample_images_upscale(
     n: int = 10000,
     upsize_strategy: typing.Literal[
         "bilinear", "nearest", "bicubic", "lanczos3", "lanczos5"
-    ] = "lanczos3",
+    ] = "default",
 ) -> np.ndarray:
     sample_values = sample_strategy(n, sample_dim)
     return resize_image(sample_values, 28, upsize_strategy)
@@ -27,7 +27,7 @@ class SampleImagesUpscale:
     sample_strategy: typing.Callable = sample_images_value_distribution_unif
     upsize_strategy: typing.Literal[
         "bilinear", "nearest", "bicubic", "lanczos3", "lanczos5"
-    ] = "lanczos3"
+    ] = "default"
 
     def __call__(self: "SampleImageUpscale", n: int = 10000) -> np.ndarray:
         return sample_images_upscale(

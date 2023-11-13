@@ -16,7 +16,7 @@ def sample_images_junk_medley(
     sample_strategy: typing.Callable = sample_images_value_distribution_mixed,
     upsize_strategy: typing.Literal[
         "bilinear", "nearest", "bicubic", "lanczos3", "lanczos5"
-    ] = "lanczos3",
+    ] = "default",
 ) -> np.ndarray:
     num_subsamples = len(sample_dim_suite)
     chunk_sizes = iter_chunk_sizes(n, num_subsamples)
