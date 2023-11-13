@@ -91,9 +91,8 @@ def optimize_genetic_algorithm(
     ]
 
     # Evolutionary loop
-    for _ in progress_apply(
-        range((n_steps + population_size - 1) // population_size)
-    ):
+    num_generations = (n_steps + population_size - 1) // population_size
+    for gen in progress_apply(range(num_generations)):
         sample_pool = sample_strategy(n=population_size)
 
         # Evaluate the entire population
@@ -117,10 +116,10 @@ def optimize_genetic_algorithm(
                 toolbox.mutate(child1)
                 toolbox.mutate(child2)
 
-    # Select the best individual index
-    best_index = deap_tools.selBest(deap_population, 1)[0][0]
-    best_image = real_population[best_index]
-    best_prediction = model.predict(np.array([best_image]))[0]
-    best_confidence = np.max(best_prediction)
+        # Select the best individual index
+        best_index = deap_tools.selBest(deap_population, 1)[0][0]
+        best_image = real_population[best_index]
+        best_prediction = model.predict(np.array([best_image]))[0]
+        best_confidence = np.max(best_prediction)
 
-    return best_image, best_prediction, best_confidence
+        yield gen, best_image, best_prediction, best_confidence
