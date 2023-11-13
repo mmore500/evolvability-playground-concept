@@ -22,6 +22,7 @@ def resize_image(
     # Mapping of string literals to TensorFlow resize methods
     method_mapping = {
         "bilinear": tf.image.ResizeMethod.BILINEAR,
+        "default": tf.image.ResizeMethod.BILINEAR,
         "nearest": tf.image.ResizeMethod.NEAREST_NEIGHBOR,
         "bicubic": tf.image.ResizeMethod.BICUBIC,
         "lanczos3": tf.image.ResizeMethod.LANCZOS3,
