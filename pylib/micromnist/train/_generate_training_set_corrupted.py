@@ -16,7 +16,7 @@ def generate_training_set_corrupted(
     # reshape to (28, 28, 1) and normalize input images
     image_size = x_train.shape[1]
     x_train = np.reshape(x_train, [-1, image_size, image_size, 1])
-    x_train = x_train.astype("float32") / 255
+    x_train = x_train.astype("float32")
 
     # generate corrupted MNIST images by adding noise with normal dist
     # centered at 0.5 and std=0.5

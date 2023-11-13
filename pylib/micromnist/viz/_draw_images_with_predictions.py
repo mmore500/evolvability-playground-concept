@@ -40,6 +40,8 @@ def draw_images_with_predictions(
             "The number of images, predictions, and titels must be the same.",
         )
 
+    images = np.clip(images, 0.0, 1.0)
+
     for subplot, image, prediction, title in zip(
         it.count(1), images, predictions, subtitles
     ):
