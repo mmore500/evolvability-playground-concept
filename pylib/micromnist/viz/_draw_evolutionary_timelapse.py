@@ -20,7 +20,6 @@ def draw_evolutionary_timelapse(
     ):
         selected_timepoints.append(chunk[-1])
 
-    print(timepoints)
     generations, images, predictions, _confidences = zip(*selected_timepoints)
     draw_images_with_predictions(
         images, predictions, subtitles=[*map(str, generations)]
