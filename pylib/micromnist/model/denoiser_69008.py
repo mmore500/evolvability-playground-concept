@@ -127,13 +127,13 @@ def train(model: keras_Model, num_epochs: int = 10) -> None:
         model.fit(
             x_train_noisy,
             x_train,
-            epochs=num_epochs,
+            epochs=1,
             batch_size=32,
         )
 
 
 @reproducible_context()
-def trained(num_epochs: int = 5) -> keras_Model:
+def trained(num_epochs: int = 10) -> keras_Model:
     model = compiled()
     train(model, num_epochs)
     return model
