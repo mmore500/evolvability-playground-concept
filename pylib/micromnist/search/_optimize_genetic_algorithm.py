@@ -69,7 +69,7 @@ def optimize_genetic_algorithm(
     # Mutation function
     def mutate(index):
         # crossover with a randomly generated individual
-        _cxTwoPointCopy(sample_strategy().flat, real_population[index[0]].flat)
+        _cxTwoPointCopy(sample_pool[index].flat, real_population[index[0]].flat)
         return (index,)
 
     # DEAP setup
@@ -94,6 +94,8 @@ def optimize_genetic_algorithm(
     for _ in progress_apply(
         range((n_steps + population_size - 1) // population_size)
     ):
+        sample_pool = sample_strategy(n=population_size)
+
         # Evaluate the entire population
         fitnesses = evaluate(deap_population)
         for ind, fit in zip(deap_population, fitnesses):
