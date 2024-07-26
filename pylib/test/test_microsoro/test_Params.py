@@ -43,13 +43,13 @@ def test_eq():
     params = Params()
     assert params == Params()
 
-    params.g *= 2.0
+    params = params.update(g=params.g * 2.0)
     assert params == params
     assert params == copy.copy(params)
     assert not params == Params()
 
     params_ = copy.deepcopy(params)
-    params.k += 0.7
+    params = params.update(k=7000.0)
     assert params == params
     assert params == copy.copy(params)
     assert params == copy.deepcopy(params)

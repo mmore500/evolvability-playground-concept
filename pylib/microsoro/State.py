@@ -1,11 +1,12 @@
 import typing
 
 import numpy as np
+import zodiax as zdx
 
 from . import defaults
 
 
-class State:
+class State(zdx.Base):
 
     # position
     px: np.ndarray
@@ -23,6 +24,33 @@ class State:
 
     def __init__(
         self: "State",
+        *,
+        px: np.ndarray,
+        py: np.ndarray,
+        vx: np.ndarray,
+        vy: np.ndarray,
+        t: float,
+    ) -> None:
+        self.px = px
+        self.py = py
+        self.vx = vx
+        self.vy = vy
+        self.t = t
+
+    def update(
+        self: "State",
+        **kwargs,
+    ) -> None:
+        return State(
+            px=kwargs.get("px", self.px),
+            py=kwargs.get("py", self.py),
+            vx=kwargs.get("vx", self.vx),
+            vy=kwargs.get("vy", self.vy),
+            t=kwargs.get("t", self.t),
+        )
+
+    @staticmethod
+    def make_starting(
         height: typing.Optional[int] = None,
         width: typing.Optional[int] = None,
     ) -> None:
@@ -40,17 +68,13 @@ class State:
                 f"value {width=} not within limits {defaults.ncol_lim}",
             )
 
-        self.px = np.tile(np.linspace(0, float(width - 1), width), (height, 1))
-        self.py = np.tile(
-            np.linspace(0, float(height - 1), height), (width, 1)
-        ).T
-
-        self.vx = np.zeros((height, width))
-        self.vy = np.zeros((height, width))
-
-        # self.pe = np.zeros((height, width))
-
-        self.t = 0.0
+        return State(
+            px=np.tile(np.linspace(0, float(width - 1), width), (height, 1)),
+            py=np.tile(np.linspace(0, float(height - 1), height), (width, 1)).T,
+            vx=np.zeros((height, width)),
+            vy=np.zeros((height, width)),
+            t=0.0,
+        )
 
     def __eq__(self: "State", other: "State") -> bool:
         return (

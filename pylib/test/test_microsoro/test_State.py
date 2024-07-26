@@ -5,8 +5,8 @@ from pylib.microsoro import State
 
 
 def test_init():
-    State()  # test default params
-    state = State(height=8, width=10)
+    State.make_starting()  # test default params
+    state = State.make_starting(height=8, width=10)
     assert state.validate()
 
     assert isinstance(state.px, np.ndarray)
@@ -32,48 +32,60 @@ def test_init():
 
 
 def test_eq():
-    assert State() == State()
-    state = State()
+    assert State.make_starting() == State.make_starting()
+    state = State.make_starting()
     assert state == state
-    assert State(height=8, width=10) == State(height=8, width=10)
-    assert State(height=12, width=10) == State(height=12, width=10)
-    assert State(height=8, width=10) != State(height=8, width=9)
-    assert State(height=1, width=9) != State(height=8, width=9)
-    assert State(height=1, width=3) != State(height=8, width=9)
-    assert State(height=1, width=13) != State(height=8, width=9)
+    assert State.make_starting(height=8, width=10) == State.make_starting(
+        height=8, width=10
+    )
+    assert State.make_starting(height=12, width=10) == State.make_starting(
+        height=12, width=10
+    )
+    assert State.make_starting(height=8, width=10) != State.make_starting(
+        height=8, width=9
+    )
+    assert State.make_starting(height=1, width=9) != State.make_starting(
+        height=8, width=9
+    )
+    assert State.make_starting(height=1, width=3) != State.make_starting(
+        height=8, width=9
+    )
+    assert State.make_starting(height=1, width=13) != State.make_starting(
+        height=8, width=9
+    )
 
     for attr in ["px", "py", "vx", "vy"]:
-        state = State()
+        state = State.make_starting()
         getattr(state, attr)[0, 0] = 4.2e9
         assert state == state
-        assert State() != state
-        assert state != State()
+        assert State.make_starting() != state
+        assert state != State.make_starting()
 
     for attr in ["px", "py", "vx", "vy"]:
-        state = State()
+        state = State.make_starting()
         getattr(state, attr).fill(4.2e9)
         assert state == state
-        assert state != State()
-        assert State() != state
+        assert state != State.make_starting()
+        assert State.make_starting() != state
 
-    state = State()
-    state.t = 32.0
+    state = State.make_starting()
+    state = state.update(t=32.0)
     assert state == state
-    assert state != State()
-    assert State() != state
+    assert state != State.make_starting()
+    assert State.make_starting() != state
 
 
 @pytest.mark.parametrize("height", range(1, 10))
 @pytest.mark.parametrize("width", range(1, 10))
 def test_ncells(height: int, width: int):
-    state = State(height=height, width=width)
+    state = State.make_starting(height=height, width=width)
     assert state.ncells == height * width
 
 
 def test_same_position_as():
     # Create two state instances
-    s1 = State()
-    s2 = State()
+    s1 = State.make_starting()
+    s2 = State.make_starting()
 
     # Check if they have the same position
     assert s1.same_position_as(s2)
@@ -91,8 +103,8 @@ def test_same_position_as():
 
 def test_same_velocity_as():
     # Create two state instances
-    s1 = State()
-    s2 = State()
+    s1 = State.make_starting()
+    s2 = State.make_starting()
 
     # Check if they have the same velocity
     assert s1.same_velocity_as(s2)
@@ -109,25 +121,35 @@ def test_same_velocity_as():
 
 
 def test_validate_default_valid():
-    state = State()
+    state = State.make_starting()
     assert state.validate()
 
 
 @pytest.mark.parametrize("array_name", ["px", "py", "vx", "vy"])
 def test_validate_with_nans(array_name: str):
-    state = State()
+    state = State.make_starting()
     array = getattr(state, array_name)
     array[0, 0] = np.nan
     assert not state.validate()
 
 
 def test_validate_with_nan_time():
-    state = State()
-    state.t = np.nan
+    state = State(
+        px=np.zeros((1, 1)),
+        py=np.zeros((1, 1)),
+        vx=np.zeros((1, 1)),
+        vy=np.zeros((1, 1)),
+        t=np.nan,
+    )
     assert not state.validate()
 
 
 def test_validate_with_negative_time():
-    state = State()
-    state.t = -1
+    state = State(
+        px=np.zeros((1, 1)),
+        py=np.zeros((1, 1)),
+        vx=np.zeros((1, 1)),
+        vy=np.zeros((1, 1)),
+        t=-1,
+    )
     assert not state.validate()

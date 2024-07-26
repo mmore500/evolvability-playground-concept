@@ -4,12 +4,13 @@ import warnings
 import numpy as np
 import opytional as opyt
 from skimage import transform as skimg_transform
+import zodiax as zdx
 
 from . import defaults
 from .Params import Params
 
 
-class Structure:
+class Structure(zdx.Base):
     """Fixed configuration for cell and inter-cell structure.
 
     Attributes

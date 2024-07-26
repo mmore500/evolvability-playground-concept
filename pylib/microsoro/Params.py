@@ -1,11 +1,12 @@
 import typing
+import zodiax as zdx
 
 import numpy as np
 
 from . import defaults
 
 
-class Params:
+class Params(zdx.Base):
 
     b: float  # spring damping constant
     b_lim: typing.Tuple[float, float]
@@ -95,6 +96,25 @@ class Params:
         if not np.clip(m, *m_lim) == m:
             raise ValueError(f"value {m=} not within limits {m_lim}")
         self.m = float(m)
+
+    def update(
+        self: "Params",
+        **kwargs,
+    ) -> "Params":
+        return Params(
+            b=kwargs.get("b", self.b),
+            b_lim=kwargs.get("b_lim", self.b_lim),
+            dt=kwargs.get("dt", self.dt),
+            dt_lim=kwargs.get("dt_lim", self.dt_lim),
+            g=kwargs.get("g", self.g),
+            g_lim=kwargs.get("g_lim", self.g_lim),
+            k=kwargs.get("k", self.k),
+            k_lim=kwargs.get("k_lim", self.k_lim),
+            l=kwargs.get("l", self.l),
+            l_lim=kwargs.get("l_lim", self.l_lim),
+            m=kwargs.get("m", self.m),
+            m_lim=kwargs.get("m_lim", self.m_lim),
+        )
 
     def __eq__(self: "Params", other: "Params") -> bool:
         return type(self) == type(other) and self.__dict__ == other.__dict__

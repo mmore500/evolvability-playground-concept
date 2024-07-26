@@ -118,8 +118,8 @@ def test_structure_with_params():
 
 def test_structure_with_b():
     b = np.full((defaults.nrow, defaults.ncol), 0.5)
-    params = Params()
-    params.b_lim = (42.0, 88.0)
+    params = Params(b_lim=(0, 100))
+
     structure = Structure(b=b, params=params)
 
     # Check if b was correctly set
@@ -131,8 +131,7 @@ def test_structure_with_b():
 
 def test_structure_with_k():
     k = np.full((defaults.nrow, defaults.ncol), 0.5)
-    params = Params()
-    params.k_lim = (42.0, 88.0)
+    params = Params(k_lim=(0, 100000))
     structure = Structure(k=k, params=params)
 
     # Check if k was correctly set
@@ -144,8 +143,7 @@ def test_structure_with_k():
 
 def test_structure_with_l():
     l = np.full((defaults.nrow, defaults.ncol), 0.5)
-    params = Params()
-    params.l_lim = (42.0, 88.0)
+    params = Params(l_lim=(0, 8))
     structure = Structure(l=l, params=params)
 
     # Check if l was correctly set
@@ -157,8 +155,7 @@ def test_structure_with_l():
 
 def test_structure_with_m():
     m = np.full((defaults.nrow, defaults.ncol), 0.5)
-    params = Params()
-    params.m_lim = (42.0, 88.0)
+    params = Params(m_lim=(0.0, 8.0))
     structure = Structure(m=m, params=params)
 
     # Check if m was correctly set
